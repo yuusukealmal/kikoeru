@@ -30,4 +30,10 @@ class Request {
     return response.body;
   }
 
+  static Future<String> getWorkInfo([String id = "403038"]) async {
+    String url = "https://api.asmr-200.com/api/tracks/$id?v=1";
+
+    http.Response response = await http.get(Uri.parse(url));
+    return response.body;
+  }
 }

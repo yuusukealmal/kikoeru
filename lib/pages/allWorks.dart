@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kikoeru/api/RequestPage.dart';
 import 'package:kikoeru/class/workInfo.dart';
 import 'package:kikoeru/functions/PageBehavior.dart';
+import 'package:kikoeru/pages/Work.dart';
 
 class AllWorksPage extends StatefulWidget {
   const AllWorksPage({super.key});
@@ -141,7 +142,13 @@ class _AllWorksPageState extends State<AllWorksPage> with PageBehavior {
             itemCount: works.length,
             itemBuilder: (context, index) {
               final Work work = Work(work: works[index]);
-              return work.AllWorkCard();
+              return GestureDetector(
+                child: work.AllWorkCard(),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WorkPage(work: work)),
+                ),
+              );
             },
           ),
         ),
