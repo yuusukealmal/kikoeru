@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:kikoeru/api/Request.dart';
+import 'package:kikoeru/api/RequestPage.dart';
 import 'package:kikoeru/class/workInfo.dart';
 import 'package:kikoeru/functions/PageBehavior.dart';
 
