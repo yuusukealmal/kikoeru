@@ -136,7 +136,7 @@ class _AllWorksPageState extends State<AllWorksPage> with PageBehavior {
               crossAxisCount: 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
-              childAspectRatio: 0.6,
+              childAspectRatio: 0.7,
             ),
             itemCount: works.length,
             itemBuilder: (context, index) {

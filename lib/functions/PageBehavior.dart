@@ -5,7 +5,7 @@ mixin PageBehavior {
       pages = List.generate(totalPages, (index) => index + 1);
     } else {
       if (currentPage <= 4) {
-        pages = [1, 2, 3, 4, 5, -1, totalPages];
+        pages = [1, 2, 3, 4, -1, totalPages];
       } else if (currentPage >= totalPages - 3) {
         pages = [
           1,
