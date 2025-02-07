@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kikoeru/behavior/SharedPreferences.dart';
+import 'package:kikoeru/config/SharedPreferences.dart';
 
 class ThemeProvider with ChangeNotifier {
   ThemeMode? _themeMode;

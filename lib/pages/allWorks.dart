@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:kikoeru/api/Request.dart';
-import 'package:kikoeru/class/asmr.dart';
+import 'package:kikoeru/class/workInfo.dart';
+import 'package:kikoeru/functions/PageBehavior.dart';
 
 class AllWorksPage extends StatefulWidget {
   const AllWorksPage({super.key});
@@ -10,12 +11,26 @@ class AllWorksPage extends StatefulWidget {
   State<AllWorksPage> createState() => _AllWorksPageState();
 }
 
-class _AllWorksPageState extends State<AllWorksPage> {
+class _AllWorksPageState extends State<AllWorksPage> with PageBehavior {
   List<dynamic> works = [];
   int totalItems = 0;
   int currentPage = 1;
   final int itemsPerPage = 20;
   late int totalPages;
+
+  String order = "最新收錄";
+  final List<String> orders = [
+    "發售日期倒序",
+    "最新收錄",
+    "我的評價倒序",
+    "銷量倒序",
+    "價格倒序",
+    "評價倒序",
+    "評論數量倒序",
+    "RJ號倒敘",
+    "全年齡倒序",
+    "隨機"
+  ];
 
   @override
   void initState() {
@@ -24,14 +39,14 @@ class _AllWorksPageState extends State<AllWorksPage> {
   }
 
   Future<void> fetchAlLCurrentPage() async {
-    String resAll = await Request.getALlWorks(currentPage);
+    String resAll =
+        await Request.getALlWorks(currentPage, orders.indexOf(order));
     dynamic jsonData = jsonDecode(resAll);
 
     setState(() {
       totalItems = jsonData["pagination"]["totalCount"];
       totalPages = (totalItems / itemsPerPage).ceil();
       works = jsonData["works"];
-      debugPrint(works.length.toString());
     });
   }
 
@@ -41,38 +56,6 @@ class _AllWorksPageState extends State<AllWorksPage> {
       currentPage = page;
       fetchAlLCurrentPage();
     });
-  }
-
-  List<int> getPageNumbers() {
-    List<int> pages = [];
-    if (totalPages <= 7) {
-      pages = List.generate(totalPages, (index) => index + 1);
-    } else {
-      if (currentPage <= 4) {
-        pages = [1, 2, 3, 4, 5, -1, totalPages];
-      } else if (currentPage >= totalPages - 3) {
-        pages = [
-          1,
-          -1,
-          totalPages - 4,
-          totalPages - 3,
-          totalPages - 2,
-          totalPages - 1,
-          totalPages
-        ];
-      } else {
-        pages = [
-          1,
-          -1,
-          currentPage - 1,
-          currentPage,
-          currentPage + 1,
-          -1,
-          totalPages
-        ];
-      }
-    }
-    return pages;
   }
 
   @override
@@ -93,6 +76,57 @@ class _AllWorksPageState extends State<AllWorksPage> {
                 "全部作品 ($totalItems)",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
+              SizedBox(width: 12),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.grey,
+                    // width: 1,
+                  ),
+                  borderRadius: BorderRadius.circular(80),
+                ),
+                child: DropdownButton<String>(
+                  value: order,
+                  onChanged: (String? value) {
+                    setState(
+                      () {
+                        order = value!;
+                        changePage(1);
+                      },
+                    );
+                  },
+                  items: orders.map<DropdownMenuItem<String>>(
+                    (String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
+                              ?.copyWith(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 16,
+                                color: value == order
+                                    ? const Color.fromARGB(255, 46, 129, 211)
+                                    : Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.color,
+                              ),
+                        ),
+                      );
+                    },
+                  ).toList(),
+                  underline: Container(),
+                  icon: const Icon(Icons.arrow_drop_down),
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -106,31 +140,8 @@ class _AllWorksPageState extends State<AllWorksPage> {
             ),
             itemCount: works.length,
             itemBuilder: (context, index) {
-              final work = works[index];
-              return WorkCard(
-                id: work["id"],
-                imageUrl: work["mainCoverUrl"],
-                title: work["title"],
-                cvs: (work["vas"] != null && work["vas"].isNotEmpty)
-                    ? (work["vas"] as List)
-                        .map((va) => va["name"].toString())
-                        .toList()
-                    : [],
-                date: work["release"],
-                circle: work["name"],
-                tags: work["tags"]
-                    .map((tag) => tag["i18n"]["zh-cn"]["name"]
-                        .replaceAll(" ", "")) //.split("/")?[0]
-                    .toList(),
-                duration: work["duration"],
-                price: work["price"],
-                selled: work["dl_count"],
-                rating: work["rate_average_2dp"].toDouble(),
-                rateCount: work["rate_count"],
-                reviewCount: work["review_count"],
-                url: work["source_url"],
-                ageCategory: work["age_category_string"] ?? "",
-              );
+              final Work work = Work(work: works[index]);
+              return work.AllWorkCard();
             },
           ),
         ),
@@ -144,7 +155,7 @@ class _AllWorksPageState extends State<AllWorksPage> {
                 onPressed:
                     currentPage > 1 ? () => changePage(currentPage - 1) : null,
               ),
-              ...getPageNumbers().map(
+              ...getPageNumbers(currentPage, totalPages).map(
                 (page) {
                   if (page == -1) {
                     return const Padding(

@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:http/http.dart' as http;
 
 class Request {
@@ -7,16 +6,16 @@ class Request {
 
   static Future<String> getALlWorks(int index, [int order = 1]) async {
     List<String> orders = [
-      "release",
-      "create_date",
-      "rating",
-      "dl_count",
-      "price",
-      "rate_average_2dp",
-      "review_count",
-      "id",
-      "nsfw",
-      "random"
+      "release", //發售日期倒序
+      "create_date", //最新收錄
+      "rating", // 我的評價倒序
+      "dl_count", // 銷量倒序
+      "price", // 價格倒序
+      "rate_average_2dp", //評價倒序
+      "review_count", // 評論數量倒序
+      "id", //RJ號倒敘
+      "nsfw", // 全年齡倒序
+      "random" // 隨機
     ];
     String URL =
         "${_API}works?order=${orders[order]}&sort=desc&page=$index&subtitle=0";
