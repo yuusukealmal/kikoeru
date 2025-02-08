@@ -5,6 +5,7 @@ import 'package:kikoeru/class/workInfo.dart';
 import 'package:kikoeru/functions/getLeadintg.dart';
 import 'package:kikoeru/api/RequestPage.dart';
 import 'package:kikoeru/widget/WorkWidget/WorkWidget.dart';
+import 'package:kikoeru/widget/WorkWidget/openContent.dart';
 
 class WorkPage extends StatefulWidget {
   const WorkPage({super.key, required this.work});
@@ -15,7 +16,7 @@ class WorkPage extends StatefulWidget {
   State<WorkPage> createState() => _WorkPageState();
 }
 
-class _WorkPageState extends State<WorkPage> with WorkWidget {
+class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
   late Future<dynamic> _workInfoFuture;
   late AudioPlayer _audioPlayer;
   late ValueNotifier<bool> _isPlayingNotifier;
@@ -44,10 +45,11 @@ class _WorkPageState extends State<WorkPage> with WorkWidget {
   @override
   void dispose() {
     _audioPlayer.dispose();
-    if (_overlayEntry.mounted) {
-      _overlayEntry.remove();
-    }
-    _isPlayingNotifier.dispose();
+    // _audioPlayer.dispose();
+    // if (_overlayEntry.mounted) {
+    //   _overlayEntry.remove();
+    // }
+    // _isPlayingNotifier.dispose();
     super.dispose();
   }
 
@@ -84,9 +86,9 @@ class _WorkPageState extends State<WorkPage> with WorkWidget {
                           : Icon(Icons.play_arrow),
                       onPressed: () {
                         if (isPlaying) {
-                          pauseAudio(_audioPlayer);
+                          pauseAudio();
                         } else {
-                          resumeAudio(_audioPlayer);
+                          resumeAudio();
                         }
                       },
                     );
@@ -96,7 +98,7 @@ class _WorkPageState extends State<WorkPage> with WorkWidget {
                   icon: Icon(Icons.close),
                   onPressed: () {
                     _overlayEntry.remove();
-                    stopAudio(_audioPlayer);
+                    stopAudio();
                   },
                 ),
               ],
@@ -165,18 +167,7 @@ class _WorkPageState extends State<WorkPage> with WorkWidget {
                     physics: NeverScrollableScrollPhysics(),
                     separatorBuilder: (context, index) => const Divider(),
                     itemBuilder: (context, index) {
-                      return GestureDetector(
-                        child: ListTile(
-                          leading: getLeading(workInfo[index]["type"]),
-                          title: Text(workInfo[index]["title"]),
-                        ),
-                        onTap: () async {
-                          if (workInfo[index]["type"] == "audio") {
-                            await playAudio(workInfo[index]);
-                            Overlay.of(context).insert(_overlayEntry);
-                          }
-                        },
-                      );
+                      return _buildItem(workInfo[index]);
                     },
                   ),
                 SizedBox(height: 75)
@@ -205,25 +196,82 @@ class _WorkPageState extends State<WorkPage> with WorkWidget {
       _overlayEntry = _createOverlayEntry();
       Overlay.of(context).insert(_overlayEntry);
     } else {
-      _isPlayingNotifier.value == true
-          ? pauseAudio(_audioPlayer)
-          : resumeAudio(_audioPlayer);
+      _isPlayingNotifier.value == true ? pauseAudio() : resumeAudio();
     }
   }
 
-  Future<void> pauseAudio(AudioPlayer player) async {
-    await player.pause();
+  Future<void> pauseAudio() async {
+    await _audioPlayer.pause();
     _isPlayingNotifier.value = false;
   }
 
-  Future<void> resumeAudio(AudioPlayer player) async {
-    await player.resume();
+  Future<void> resumeAudio() async {
+    await _audioPlayer.resume();
     _isPlayingNotifier.value = true;
   }
 
-  Future<void> stopAudio(AudioPlayer player) async {
-    await player.stop();
+  Future<void> stopAudio() async {
+    await _audioPlayer.stop();
     _isPlayingNotifier.value = false;
     _overlayEntry.remove();
   }
+
+  Widget _buildItem(Map<String, dynamic> item) {
+    if (item["type"] == "folder") {
+      return ExpansionTile(
+        leading: getLeading(item["type"]),
+        title: Text(item["title"]),
+        children: item["children"].map<Widget>((child) {
+          return _buildItem(child);
+        }).toList(),
+      );
+    } else {
+      return ListTile(
+        leading: getLeading(item["type"]),
+        title: Text(item["title"]),
+        onTap: () {
+          switch (item["type"]) {
+            case "audio":
+              if (item["title"].endsWith(".mp3") ||
+                  item["title"].endsWith(".m4a") ||
+                  item["title"].endsWith(".wav")) {
+                playAudio(item);
+              }
+              break;
+            case "text":
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      openText(item["title"], item["mediaDownloadUrl"]),
+                ),
+              );
+              break;
+            case "image":
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      openImage(item["title"], item["mediaStreamUrl"]),
+                ),
+              );
+            case "other":
+              if (item["title"].endsWith(".pdf")) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        openPdf(item["title"], item["mediaStreamUrl"]),
+                  ),
+                );
+              }
+              break;
+          }
+        },
+      );
+    }
+  }
+
+  AudioPlayer get audioPlayer => _audioPlayer;
+  OverlayEntry get overlayEntry => _overlayEntry;
 }
