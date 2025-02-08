@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:kikoeru/api/RequestPage.dart';
 import 'package:kikoeru/class/workInfo.dart';
 import 'package:kikoeru/config/AudioProvider.dart';
 import 'package:kikoeru/functions/getLeadintg.dart';
-import 'package:kikoeru/api/RequestPage.dart';
 import 'package:kikoeru/widget/WorkWidget/WorkWidget.dart';
 import 'package:kikoeru/widget/WorkWidget/openContent.dart';
-import 'package:provider/provider.dart';
 
 class WorkPage extends StatefulWidget {
   const WorkPage({super.key, required this.work});
