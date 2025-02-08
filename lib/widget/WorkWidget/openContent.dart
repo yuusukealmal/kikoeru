@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -29,7 +30,17 @@ mixin openWorkContent {
       appBar: AppBar(title: Text(title)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(child: Image.network(url)),
+        child: GestureDetector(
+          child: Image.network(url),
+          onLongPress: () async {
+            Directory directory = Directory('/storage/emulated/0/Download');
+            File f = File("${directory.path}/$title.jpg");
+            await f
+                .writeAsBytes(await http.get(Uri.parse(url)).then((response) {
+              return response.bodyBytes;
+            }));
+          },
+        ),
       ),
     );
   }
