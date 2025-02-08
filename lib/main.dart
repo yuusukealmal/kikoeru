@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kikoeru/config/AudioProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:kikoeru/config/ThemeProvider.dart';
 import 'package:kikoeru/config/SharedPreferences.dart';
@@ -9,8 +10,11 @@ void main() async {
   await SharedPreferencesHelper.init();
 
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => AudioProvider()),
+      ],
       child: const MyApp(),
     ),
   );
