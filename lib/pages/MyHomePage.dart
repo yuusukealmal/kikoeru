@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:kikoeru/config/theme.dart';
+import 'package:kikoeru/config/ThemeProvider.dart';
 import 'package:kikoeru/pages/allWorks.dart';
 import 'package:kikoeru/pages/Popular.dart';
 import 'package:kikoeru/pages/Recommand.dart';
