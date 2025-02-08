@@ -73,59 +73,51 @@ class _AllWorksPageState extends State<AllWorksPage> with PageBehavior {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              Text(
-                "全部作品 ($totalItems)",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Expanded(
+                child: Text(
+                  "全部作品 ($totalItems)",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
               SizedBox(width: 12),
               Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
-                    // width: 1,
-                  ),
+                  border: Border.all(color: Colors.grey),
                   borderRadius: BorderRadius.circular(80),
                 ),
                 child: DropdownButton<String>(
+                  isDense: true,
                   value: order,
                   onChanged: (String? value) {
-                    setState(
-                      () {
-                        order = value!;
-                        changePage(1);
-                      },
-                    );
+                    setState(() {
+                      order = value!;
+                      changePage(1);
+                    });
                   },
-                  items: orders.map<DropdownMenuItem<String>>(
-                    (String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: value == order
-                                    ? const Color.fromARGB(255, 46, 129, 211)
-                                    : Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.color,
-                              ),
-                        ),
-                      );
-                    },
-                  ).toList(),
+                  items: orders.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              color: value == order
+                                  ? const Color.fromARGB(255, 46, 129, 211)
+                                  : Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium
+                                      ?.color,
+                            ),
+                      ),
+                    );
+                  }).toList(),
                   underline: Container(),
                   icon: const Icon(Icons.arrow_drop_down),
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ],
@@ -154,8 +146,11 @@ class _AllWorksPageState extends State<AllWorksPage> with PageBehavior {
         ),
         Padding(
           padding: const EdgeInsets.all(2.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.end,
+            spacing: 4,
+            runSpacing: 4,
             children: [
               IconButton(
                 icon: const Icon(Icons.chevron_left),
@@ -170,21 +165,19 @@ class _AllWorksPageState extends State<AllWorksPage> with PageBehavior {
                       child: Text("..."),
                     );
                   } else {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 3.0),
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: currentPage == page
-                              ? Colors.blue
-                              : Colors.grey[800],
-                        ),
-                        onPressed: () => changePage(page),
-                        child: Text(
-                          "$page",
-                          style: TextStyle(
-                              color: currentPage == page
-                                  ? Colors.white
-                                  : Colors.grey[300]),
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: currentPage == page
+                            ? Colors.blue
+                            : Colors.grey[800],
+                      ),
+                      onPressed: () => changePage(page),
+                      child: Text(
+                        "$page",
+                        style: TextStyle(
+                          color: currentPage == page
+                              ? Colors.white
+                              : Colors.grey[300],
                         ),
                       ),
                     );
