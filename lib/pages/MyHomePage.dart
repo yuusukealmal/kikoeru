@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:kikoeru/config/ThemeProvider.dart';
+import 'package:kikoeru/widget/drawer.dart';
 import 'package:kikoeru/pages/allWorks.dart';
 import 'package:kikoeru/pages/PopularWork.dart';
 import 'package:kikoeru/pages/RecommandWork.dart';
@@ -43,15 +44,19 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     }
   }
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawerEnableOpenDragGesture: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         leading: IconButton(
             onPressed: () async {
-              await SharedPreferencesHelper.delete();
+              _scaffoldKey.currentState?.openDrawer();
             },
             icon: const Icon(Icons.menu)),
         bottom: TabBar(
@@ -70,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
         ],
       ),
+      drawer: getSettingDrawer(context),
       body: TabBarView(
         controller: _tabController,
         children: [
