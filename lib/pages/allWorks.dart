@@ -17,6 +17,7 @@ class _AllWorksPageState extends State<AllWorksPage> {
   List<dynamic> works = [];
   int totalItems = 0;
   int currentPage = 1;
+  bool hasLanguage = false;
   final int itemsPerPage = 20;
   late int totalPages;
   final TextEditingController _textController = TextEditingController();
@@ -48,8 +49,8 @@ class _AllWorksPageState extends State<AllWorksPage> {
   }
 
   Future<void> fetchAlLCurrentPage() async {
-    String resAll =
-        await Request.getALlWorks(currentPage, orders.indexOf(order));
+    String resAll = await Request.getALlWorks(
+        currentPage, hasLanguage ? 1 : 0, orders.indexOf(order));
     dynamic jsonData = jsonDecode(resAll);
 
     setState(() {
@@ -83,7 +84,7 @@ class _AllWorksPageState extends State<AllWorksPage> {
               Expanded(
                 child: Text(
                   "全部作品 ($totalItems)",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -124,9 +125,21 @@ class _AllWorksPageState extends State<AllWorksPage> {
                   }).toList(),
                   underline: Container(),
                   icon: const Icon(Icons.arrow_drop_down),
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 14),
                 ),
               ),
+              Checkbox(
+                value: hasLanguage,
+                onChanged: (value) {
+                  setState(() {
+                    currentPage = 1;
+                    _textController.text = currentPage.toString();
+                    hasLanguage = value!;
+                    fetchAlLCurrentPage();
+                  });
+                },
+              ),
+              Text("帶字幕", style: TextStyle(fontSize: 14)),
             ],
           ),
         ),

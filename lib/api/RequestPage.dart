@@ -6,7 +6,8 @@ import 'package:kikoeru/config/SharedPreferences.dart';
 class Request {
   static final String _API = "https://api.asmr-200.com/api/";
 
-  static Future<String> getALlWorks(int index, [int order = 1]) async {
+  static Future<String> getALlWorks(int index, int subtitle,
+      [int order = 1]) async {
     List<String> orders = [
       "release", //發售日期倒序
       "create_date", //最新收錄
@@ -20,7 +21,7 @@ class Request {
       "random" // 隨機
     ];
     String URL =
-        "${_API}works?order=${orders[order]}&sort=desc&page=$index&subtitle=0";
+        "${_API}works?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle";
     if (order == 9) {
       int rand = Random().nextInt(100);
       URL =
@@ -32,13 +33,13 @@ class Request {
     return response.body;
   }
 
-  static Future<String> getPopularWorks(int index) async {
+  static Future<String> getPopularWorks(int index, int subtitle) async {
     String URL = "${_API}recommender/popular";
     Map<String, String> headers = {"Content-Type": "application/json"};
     Map<String, dynamic> data = {
       "keyword": " ",
       "page": index,
-      "subtitle": 0,
+      "subtitle": subtitle,
       "localSubtitledWorks": [],
       "withPlaylistStatus": []
     };
@@ -51,7 +52,7 @@ class Request {
     return response.body;
   }
 
-  static Future<String> getRecommandWorks(int index) async {
+  static Future<String> getRecommandWorks(int index, int subtitle) async {
     String URL = "${_API}recommender/recommend-for-user";
     Map<String, String> headers = {
       "Referer": 'https://www.asmr.one/',
@@ -64,7 +65,7 @@ class Request {
       "recommenderUuid":
           SharedPreferencesHelper.getString("USER.RECOMMENDER.UUID"),
       "page": index,
-      "subtitle": 0,
+      "subtitle": subtitle,
       "localSubtitledWorks": [],
       "withPlaylistStatus": []
     };

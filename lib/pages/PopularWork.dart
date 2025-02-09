@@ -17,6 +17,7 @@ class _PopularWorkPageState extends State<PopularWorkPage> {
   List<dynamic> works = [];
   int totalItems = 0;
   int currentPage = 1;
+  bool hasLanguage = false;
   final int itemsPerPage = 20;
   late int totalPages;
   final TextEditingController _textController = TextEditingController();
@@ -34,7 +35,8 @@ class _PopularWorkPageState extends State<PopularWorkPage> {
   }
 
   Future<void> fetchPopularCurrentPage() async {
-    String resPopular = await Request.getPopularWorks(currentPage);
+    String resPopular =
+        await Request.getPopularWorks(currentPage, hasLanguage ? 1 : 0);
     dynamic jsonData = jsonDecode(resPopular);
 
     setState(() {
@@ -72,6 +74,18 @@ class _PopularWorkPageState extends State<PopularWorkPage> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              Checkbox(
+                value: hasLanguage,
+                onChanged: (value) {
+                  setState(() {
+                    currentPage = 1;
+                    _textController.text = currentPage.toString();
+                    hasLanguage = value!;
+                    fetchPopularCurrentPage();
+                  });
+                },
+              ),
+              Text("帶字幕", style: TextStyle(fontSize: 18)),
             ],
           ),
         ),

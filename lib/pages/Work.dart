@@ -70,7 +70,7 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
                 WorkWidget.getTitleandCircle(widget.work),
                 WorkWidget.getRate(widget.work),
                 const SizedBox(height: 8),
-                WorkWidget.getSell(widget.work),
+                WorkWidget.getSell(widget.work, true),
                 const SizedBox(height: 8),
                 WorkWidget.getTag(widget.work),
                 const SizedBox(height: 8),

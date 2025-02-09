@@ -19,6 +19,7 @@ class _RecommandWorkPageState extends State<RecommandWorkPage> {
   List<dynamic> works = [];
   int totalItems = 0;
   int currentPage = 1;
+  bool hasLanguage = false;
   final int itemsPerPage = 20;
   late int totalPages;
   final TextEditingController _textController = TextEditingController();
@@ -45,7 +46,8 @@ class _RecommandWorkPageState extends State<RecommandWorkPage> {
   }
 
   Future<void> fetchRecommandCurrentPage() async {
-    String resRecommend = await Request.getRecommandWorks(currentPage);
+    String resRecommend =
+        await Request.getRecommandWorks(currentPage, hasLanguage ? 1 : 0);
     dynamic jsonData = jsonDecode(resRecommend);
 
     setState(() {
@@ -84,6 +86,18 @@ class _RecommandWorkPageState extends State<RecommandWorkPage> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                Checkbox(
+                  value: hasLanguage,
+                  onChanged: (value) {
+                    setState(() {
+                      currentPage = 1;
+                      _textController.text = currentPage.toString();
+                      hasLanguage = value!;
+                      fetchRecommandCurrentPage();
+                    });
+                  },
+                ),
+                Text("帶字幕", style: TextStyle(fontSize: 18)),
               ],
             ),
           ),

@@ -138,7 +138,7 @@ mixin WorkWidget {
     );
   }
 
-  static Widget getSell(Work work) {
+  static Widget getSell(Work work, [bool isDetail = false]) {
     return Wrap(
       spacing: 6,
       runSpacing: 6,
@@ -158,7 +158,8 @@ mixin WorkWidget {
           ),
         ),
         ...getAgeString(work.AgeCategory),
-        ...getTrans(work.Lang),
+        ...getSubtitle(work.HasSubTitle),
+        ...getMutiLang(work.OtherLang, isDetail),
       ],
     );
   }
