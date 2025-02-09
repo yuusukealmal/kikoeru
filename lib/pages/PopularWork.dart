@@ -5,38 +5,24 @@ import 'package:kikoeru/class/workInfo.dart';
 import 'package:kikoeru/functions/PageBehavior.dart';
 import 'package:kikoeru/pages/Work.dart';
 
-class AllWorksPage extends StatefulWidget {
-  const AllWorksPage({super.key});
+class PopularWorkPage extends StatefulWidget {
+  const PopularWorkPage({super.key});
 
   @override
-  State<AllWorksPage> createState() => _AllWorksPageState();
+  State<PopularWorkPage> createState() => _PopularWorkPageState();
 }
 
-class _AllWorksPageState extends State<AllWorksPage> with PageBehavior {
+class _PopularWorkPageState extends State<PopularWorkPage> with PageBehavior {
   List<dynamic> works = [];
   int totalItems = 0;
   int currentPage = 1;
   final int itemsPerPage = 20;
   late int totalPages;
 
-  String order = "最新收錄";
-  final List<String> orders = [
-    "發售日期倒序",
-    "最新收錄",
-    "我的評價倒序",
-    "銷量倒序",
-    "價格倒序",
-    "評價倒序",
-    "評論數量倒序",
-    "RJ號倒敘",
-    "全年齡倒序",
-    "隨機"
-  ];
-
   @override
   void initState() {
     super.initState();
-    fetchAlLCurrentPage();
+    fetchPopularCurrentPage();
   }
 
   @override
@@ -44,10 +30,9 @@ class _AllWorksPageState extends State<AllWorksPage> with PageBehavior {
     super.dispose();
   }
 
-  Future<void> fetchAlLCurrentPage() async {
-    String resAll =
-        await Request.getALlWorks(currentPage, orders.indexOf(order));
-    dynamic jsonData = jsonDecode(resAll);
+  Future<void> fetchPopularCurrentPage() async {
+    String resPopular = await Request.getPopularWorks(currentPage);
+    dynamic jsonData = jsonDecode(resPopular);
 
     setState(() {
       totalItems = jsonData["pagination"]["totalCount"];
@@ -60,7 +45,7 @@ class _AllWorksPageState extends State<AllWorksPage> with PageBehavior {
     if (page < 1 || page > totalPages) return;
     setState(() {
       currentPage = page;
-      fetchAlLCurrentPage();
+      fetchPopularCurrentPage();
     });
   }
 
@@ -83,46 +68,6 @@ class _AllWorksPageState extends State<AllWorksPage> with PageBehavior {
                   "全部作品 ($totalItems)",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              SizedBox(width: 12),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(80),
-                ),
-                child: DropdownButton<String>(
-                  isDense: true,
-                  value: order,
-                  onChanged: (String? value) {
-                    setState(() {
-                      order = value!;
-                      changePage(1);
-                    });
-                  },
-                  items: orders.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        value,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: value == order
-                                  ? const Color.fromARGB(255, 46, 129, 211)
-                                  : Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.color,
-                            ),
-                      ),
-                    );
-                  }).toList(),
-                  underline: Container(),
-                  icon: const Icon(Icons.arrow_drop_down),
-                  style: const TextStyle(fontSize: 16),
                 ),
               ),
             ],

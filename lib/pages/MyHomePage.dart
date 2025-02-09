@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:kikoeru/config/ThemeProvider.dart';
 import 'package:kikoeru/pages/allWorks.dart';
-import 'package:kikoeru/pages/Popular.dart';
+import 'package:kikoeru/pages/PopularWork.dart';
 import 'package:kikoeru/pages/Recommand.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         children: [
-          Popular(),
+          PopularWorkPage(),
           Recommand(),
           AllWorksPage(),
         ],

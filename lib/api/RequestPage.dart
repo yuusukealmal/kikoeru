@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class Request {
@@ -27,6 +28,23 @@ class Request {
 
     http.Response response = await http.get(Uri.parse(URL));
 
+    return response.body;
+  }
+
+  static Future<String> getPopularWorks(int index) async {
+    String URL = "${_API}recommender/popular";
+    Map<String, dynamic> data = {
+      "keyword": " ",
+      "page": index,
+      "subtitle": 0,
+      "localSubtitledWorks": [],
+      "withPlaylistStatus": []
+    };
+    final response = await http.post(
+      Uri.parse(URL),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(data),
+    );
     return response.body;
   }
 
