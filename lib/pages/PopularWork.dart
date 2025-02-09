@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:kikoeru/api/RequestPage.dart';
+import 'package:kikoeru/config/AudioProvider.dart';
 import 'package:kikoeru/class/workInfo.dart';
-import 'package:kikoeru/functions/PageBehavior.dart';
 import 'package:kikoeru/pages/Work.dart';
 
 class PopularWorkPage extends StatefulWidget {
@@ -12,16 +13,18 @@ class PopularWorkPage extends StatefulWidget {
   State<PopularWorkPage> createState() => _PopularWorkPageState();
 }
 
-class _PopularWorkPageState extends State<PopularWorkPage> with PageBehavior {
+class _PopularWorkPageState extends State<PopularWorkPage> {
   List<dynamic> works = [];
   int totalItems = 0;
   int currentPage = 1;
   final int itemsPerPage = 20;
   late int totalPages;
+  final TextEditingController _textController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _textController.text = currentPage.toString();
     fetchPopularCurrentPage();
   }
 
@@ -45,14 +48,13 @@ class _PopularWorkPageState extends State<PopularWorkPage> with PageBehavior {
     if (page < 1 || page > totalPages) return;
     setState(() {
       currentPage = page;
+      _textController.text = currentPage.toString();
       fetchPopularCurrentPage();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _textController = TextEditingController();
-
     if (works.isEmpty) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -76,7 +78,7 @@ class _PopularWorkPageState extends State<PopularWorkPage> with PageBehavior {
         Expanded(
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+              crossAxisCount: 1,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               childAspectRatio: 0.7,
@@ -107,61 +109,40 @@ class _PopularWorkPageState extends State<PopularWorkPage> with PageBehavior {
                 onPressed:
                     currentPage > 1 ? () => changePage(currentPage - 1) : null,
               ),
-              ...getPageNumbers(currentPage, totalPages).map(
-                (page) {
-                  if (page == -1) {
-                    return const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 2.0),
-                      child: Text("..."),
-                    );
-                  } else {
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: currentPage == page
-                            ? Colors.blue
-                            : Colors.grey[800],
-                      ),
-                      onPressed: () => changePage(page),
-                      child: Text(
-                        "$page",
-                        style: TextStyle(
-                          color: currentPage == page
-                              ? Colors.white
-                              : Colors.grey[300],
-                        ),
-                      ),
-                    );
-                  }
-                },
+              SizedBox(
+                width: 40,
+                child: TextField(
+                  controller: _textController,
+                  keyboardType: TextInputType.number,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, height: 1.2),
+                  decoration: InputDecoration(
+                    isDense: true,
+                    contentPadding: EdgeInsets.only(bottom: 5),
+                  ),
+                  onSubmitted: (value) {
+                    int? page = int.tryParse(value);
+                    FocusScope.of(context).unfocus();
+                    if (page != null && page >= 1 && page <= totalPages) {
+                      changePage(page);
+                    } else {
+                      _textController.text = currentPage.toString();
+                    }
+                  },
+                ),
               ),
+              Text(" / $totalPages", style: TextStyle(fontSize: 16)),
               IconButton(
                 icon: const Icon(Icons.chevron_right),
                 onPressed: currentPage < totalPages
                     ? () => changePage(currentPage + 1)
                     : null,
               ),
-              const SizedBox(width: 8),
-              Text("Go to"),
-              SizedBox(
-                width: 50,
-                child: TextField(
-                  controller: _textController,
-                  keyboardType: TextInputType.number,
-                  textAlign: TextAlign.center,
-                  onSubmitted: (value) {
-                    int? page = int.tryParse(value);
-                    FocusScope.of(context).unfocus();
-                    if (page != null && page >= 1 && page <= totalPages) {
-                      changePage(page);
-                    }
-                    _textController.clear();
-                  },
-                ),
-              ),
             ],
           ),
         ),
-        SizedBox(height: 75)
+        if (Provider.of<AudioProvider>(context).isOverlayShow)
+          SizedBox(height: 90)
       ],
     );
   }

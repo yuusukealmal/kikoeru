@@ -101,7 +101,7 @@ mixin WorkWidget {
         Text(
           "(${work.ReviewCount})",
           style: const TextStyle(
-            fontSize: 12,
+            fontSize: 14,
             // color: Color.fromARGB(255, 130, 130, 130),
           ),
         ),
@@ -112,7 +112,7 @@ mixin WorkWidget {
         ),
         Text(
           calcDuration(work.duration),
-          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
         Icon(
           Icons.open_in_new,
@@ -128,7 +128,7 @@ mixin WorkWidget {
           child: Text(
             "DLsite",
             style: const TextStyle(
-              fontSize: 12,
+              fontSize: 14,
               fontWeight: FontWeight.w400,
               color: Color.fromARGB(255, 32, 129, 206),
             ),
@@ -153,7 +153,7 @@ mixin WorkWidget {
         Text(
           "銷量: ${work.dlCount}",
           style: const TextStyle(
-            fontSize: 12,
+            fontSize: 14,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -195,7 +195,9 @@ mixin WorkWidget {
                 child: Text(
                   cv,
                   style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w400),
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w400),
                 ),
               ),
             )

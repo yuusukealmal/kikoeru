@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:marquee/marquee.dart';
 
 class AudioProvider extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
@@ -8,9 +9,11 @@ class AudioProvider extends ChangeNotifier {
   String? _currentAudioWorkTitle;
   String? _samCoverUrl;
   bool _isPlaying = false;
+  bool _isOverlayShow = false;
   OverlayEntry? _overlayEntry;
 
   bool get isPlaying => _isPlaying;
+  bool get isOverlayShow => _isOverlayShow;
   String? get currentAudioTitle => _currentAudioTitle;
   String? get currentAudioWorkTitle => _currentAudioWorkTitle;
 
@@ -34,13 +37,19 @@ class AudioProvider extends ChangeNotifier {
                   SizedBox(width: 8),
                   Expanded(
                     child: ListTile(
-                      title: Text(
-                        _currentAudioTitle ?? "正在播放",
-                        style: TextStyle(fontSize: 16),
+                      title: SizedBox(
+                        height: 20,
+                        child: Marquee(
+                          text: _currentAudioTitle ?? "正在播放",
+                          style: TextStyle(fontSize: 16),
+                        ),
                       ),
-                      subtitle: Text(
-                        _currentAudioWorkTitle ?? "正在播放",
-                        style: TextStyle(fontSize: 12),
+                      subtitle: SizedBox(
+                        height: 20,
+                        child: Marquee(
+                          text: _currentAudioWorkTitle ?? "正在播放",
+                          style: TextStyle(fontSize: 12),
+                        ),
                       ),
                     ),
                   ),
@@ -95,8 +104,11 @@ class AudioProvider extends ChangeNotifier {
   void _updateOverlay(BuildContext context) {
     if (_overlayEntry != null) {
       _overlayEntry!.remove();
+      _overlayEntry = null;
+      _isOverlayShow = false;
     }
     _overlayEntry = _createOverlayEntry(context);
+    _isOverlayShow = true;
     Overlay.of(context).insert(_overlayEntry!);
   }
 
@@ -120,11 +132,12 @@ class AudioProvider extends ChangeNotifier {
     _currentAudioUrl = null;
     _currentAudioTitle = null;
     _currentAudioWorkTitle = null;
-    notifyListeners();
     if (_overlayEntry != null) {
       _overlayEntry!.remove();
       _overlayEntry = null;
+      _isOverlayShow = false;
     }
+    notifyListeners();
   }
 
   void _updateOverlayIfNeeded() {

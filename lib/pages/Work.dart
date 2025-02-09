@@ -158,7 +158,7 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      openImage(item["title"], item["mediaStreamUrl"]),
+                      openImage(context, item["title"], item["mediaStreamUrl"]),
                 ),
               );
             case "other":

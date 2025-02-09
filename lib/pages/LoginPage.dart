@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kikoeru/config/SharedPreferences.dart';
 import 'package:kikoeru/api/RequestPage.dart';
+import 'package:kikoeru/config/SharedPreferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

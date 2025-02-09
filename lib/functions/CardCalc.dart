@@ -45,7 +45,7 @@ dynamic getAgeString(String ageCategory) {
           child: Text(
             "全年齡",
             style: const TextStyle(
-              fontSize: 10,
+              fontSize: 12,
               color: Color.fromARGB(255, 76, 175, 80),
             ),
           ),
@@ -65,7 +65,7 @@ dynamic getAgeString(String ageCategory) {
           child: Text(
             "R-15",
             style: const TextStyle(
-              fontSize: 10,
+              fontSize: 12,
               color: Color.fromARGB(255, 255, 152, 0),
             ),
           ),
@@ -113,7 +113,7 @@ Widget getTagWidget(String tag) {
     ),
     child: Text(
       tag,
-      style: const TextStyle(color: Colors.white, fontSize: 12),
+      style: const TextStyle(color: Colors.white, fontSize: 15),
     ),
   );
 }

@@ -25,7 +25,7 @@ mixin openWorkContent {
     );
   }
 
-  Widget openImage(String title, String url) {
+  Widget openImage(BuildContext context, String title, String url) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: Padding(
@@ -39,6 +39,8 @@ mixin openWorkContent {
                 .writeAsBytes(await http.get(Uri.parse(url)).then((response) {
               return response.bodyBytes;
             }));
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("已下載到${f.path}")));
           },
         ),
       ),
