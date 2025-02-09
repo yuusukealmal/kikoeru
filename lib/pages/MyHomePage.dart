@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kikoeru/config/SharedPreferences.dart';
 import 'package:provider/provider.dart';
 import 'package:kikoeru/config/ThemeProvider.dart';
 import 'package:kikoeru/pages/allWorks.dart';
 import 'package:kikoeru/pages/PopularWork.dart';
-import 'package:kikoeru/pages/Recommand.dart';
+import 'package:kikoeru/pages/RecommandWork.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -49,7 +50,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.menu)),
+        leading: IconButton(
+            onPressed: () async {
+              await SharedPreferencesHelper.delete();
+            },
+            icon: const Icon(Icons.menu)),
         bottom: TabBar(
           controller: _tabController,
           tabs: const [
@@ -70,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         controller: _tabController,
         children: [
           PopularWorkPage(),
-          Recommand(),
+          RecommandWorkPage(),
           AllWorksPage(),
         ],
       ),

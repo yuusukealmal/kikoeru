@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:kikoeru/config/SharedPreferences.dart';
 
 class Request {
   static final String _API = "https://api.asmr-200.com/api/";
@@ -33,6 +35,7 @@ class Request {
 
   static Future<String> getPopularWorks(int index) async {
     String URL = "${_API}recommender/popular";
+    Map<String, String> headers = {"Content-Type": "application/json"};
     Map<String, dynamic> data = {
       "keyword": " ",
       "page": index,
@@ -40,9 +43,35 @@ class Request {
       "localSubtitledWorks": [],
       "withPlaylistStatus": []
     };
+
+    http.Response response = await http.post(
+      Uri.parse(URL),
+      headers: headers,
+      body: jsonEncode(data),
+    );
+    return response.body;
+  }
+
+  static Future<String> getRecommandWorks(int index) async {
+    String URL = "${_API}recommender/recommend-for-user";
+    Map<String, String> headers = {
+      "Referer": 'https://www.asmr.one/',
+      "Content-Type": "application/json",
+      "User-Agent":
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
+    };
+    Map<String, dynamic> data = {
+      "keyword": " ",
+      "recommenderUuid":
+          SharedPreferencesHelper.getString("USER.RECOMMENDER.UUID"),
+      "page": index,
+      "subtitle": 0,
+      "localSubtitledWorks": [],
+      "withPlaylistStatus": []
+    };
     final response = await http.post(
       Uri.parse(URL),
-      headers: {"Content-Type": "application/json"},
+      headers: headers,
       body: jsonEncode(data),
     );
     return response.body;
@@ -53,5 +82,32 @@ class Request {
 
     http.Response response = await http.get(Uri.parse(url));
     return response.body;
+  }
+
+  static Future<bool> tryFetchToken(String account, String password) async {
+    Map<String, String> accountInfo = {"name": account, "password": password};
+    Map<String, String> headers = {
+      "Referer": 'https://www.asmr.one/',
+      "User-Agent":
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)',
+      "Content-Type": "application/json"
+    };
+    http.Response response = await http.post(
+      Uri.parse("https://api.asmr.one/api/auth/me"),
+      headers: headers,
+      body: jsonEncode(accountInfo),
+    );
+
+    dynamic jsonres = jsonDecode(response.body);
+    if (jsonres["user"]["loggedIn"]) {
+      await SharedPreferencesHelper.setString("USER.NAME", account);
+      await SharedPreferencesHelper.setString("USER.PASSWORD", password);
+      await SharedPreferencesHelper.setString(
+          "USER.RECOMMENDER.UUID", jsonres["user"]["recommenderUuid"]);
+      await SharedPreferencesHelper.setString("USER.TOKEN", jsonres["token"]);
+      return true;
+    } else {
+      return false;
+    }
   }
 }
