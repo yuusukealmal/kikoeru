@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kikoeru/pages/SearchPage.dart';
 import 'package:provider/provider.dart';
 import 'package:kikoeru/config/ThemeProvider.dart';
 import 'package:kikoeru/widget/DrawerWidget.dart';
@@ -49,12 +50,53 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _searchController = TextEditingController();
+
     return Scaffold(
       key: _scaffoldKey,
       drawerEnableOpenDragGesture: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Row(
+          children: [
+            Text(
+              widget.title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(width: 10),
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search...',
+                    prefixIcon: Icon(Icons.search,
+                        color: Theme.of(context).iconTheme.color),
+                    border: InputBorder.none,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                  ),
+                  onSubmitted: (value) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            SearchWorksPage(query: _searchController.text),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
         leading: IconButton(
             onPressed: () async {
               _scaffoldKey.currentState?.openDrawer();

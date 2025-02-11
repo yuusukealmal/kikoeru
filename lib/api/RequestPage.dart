@@ -10,6 +10,18 @@ class Request {
     "User-Agent":
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
   };
+  static List<String> orders = [
+    "release", //發售日期倒序
+    "create_date", //最新收錄
+    // "rating", // 我的評價倒序
+    "dl_count", // 銷量倒序
+    "price", // 價格倒序
+    "rate_average_2dp", //評價倒序
+    "review_count", // 評論數量倒序
+    "id", //RJ號倒敘
+    "nsfw", // 全年齡倒序
+    "random" // 隨機
+  ];
 
   static Future<String> _sendRequest(String url,
       {Map<String, String>? headers, String? body}) async {
@@ -21,19 +33,6 @@ class Request {
 
   static Future<String> getAllWorks(
       {int index = 1, int subtitle = 0, int order = 1}) async {
-    List<String> orders = [
-      "release", //發售日期倒序
-      "create_date", //最新收錄
-      // "rating", // 我的評價倒序
-      "dl_count", // 銷量倒序
-      "price", // 價格倒序
-      "rate_average_2dp", //評價倒序
-      "review_count", // 評論數量倒序
-      "id", //RJ號倒敘
-      "nsfw", // 全年齡倒序
-      "random" // 隨機
-    ];
-
     String URL =
         "${_API}works?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle";
     if (order == 9) {
@@ -81,6 +80,16 @@ class Request {
           "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
     };
     return await _sendRequest(URL, headers: headers);
+  }
+
+  static Future<String> getSearchWorks(
+      {String querys = " ",
+      int index = 1,
+      int subtitle = 0,
+      int order = 1}) async {
+    String URL =
+        "${_API}search/%20${querys.replaceAll(" ", "%20")}?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle&includeTranslationWorks=true";
+    return await _sendRequest(URL);
   }
 
   static Future<String> getWorkInfo({String id = "403038"}) async {

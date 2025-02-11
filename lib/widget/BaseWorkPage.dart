@@ -5,6 +5,7 @@ import 'package:kikoeru/class/workInfo.dart';
 import 'package:kikoeru/config/AudioProvider.dart';
 import 'package:kikoeru/pages/Work.dart';
 import 'package:kikoeru/pages/allWorks.dart';
+import 'package:kikoeru/pages/SearchPage.dart';
 
 abstract class BaseWorkPage extends StatefulWidget {
   final Future<String> Function(int page, bool hasLanguage, int order)
@@ -94,7 +95,8 @@ abstract class BaseWorkPageState<T extends BaseWorkPage> extends State<T> {
                 ),
               ),
               SizedBox(width: 12),
-              if (widget.runtimeType == AllWorksPage)
+              if (widget.runtimeType == AllWorksPage ||
+                  widget.runtimeType == SearchWorksPage)
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 4),

@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'package:kikoeru/api/RequestPage.dart';
+import 'package:kikoeru/widget/BaseWorkPage.dart';
+
+class SearchWorksPage extends BaseWorkPage {
+  SearchWorksPage({super.key, required this.query})
+      : super(
+          fetchWorks: (page, hasLanguage, order) => Request.getSearchWorks(
+              querys: query,
+              index: page,
+              subtitle: hasLanguage ? 1 : 0,
+              order: order),
+        );
+
+  final String query;
+
+  @override
+  State<SearchWorksPage> createState() => _SearchWorksPageState();
+}
+
+class _SearchWorksPageState extends BaseWorkPageState<SearchWorksPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.query),
+      ),
+      body: super.build(context),
+    );
+  }
+}
