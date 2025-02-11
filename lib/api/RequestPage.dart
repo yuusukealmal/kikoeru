@@ -77,6 +77,21 @@ class Request {
     return response.body;
   }
 
+  static Future<String> getFavoriteWorks(int index) async {
+    String URL = "${_API}review?order=updated_at&sort=desc&page=$index";
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Authorization":
+          "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
+    };
+
+    http.Response response = await http.get(
+      Uri.parse(URL),
+      headers: headers,
+    );
+    return response.body;
+  }
+
   static Future<String> getWorkInfo([String id = "403038"]) async {
     String url = "https://api.asmr-200.com/api/tracks/$id?v=1";
 

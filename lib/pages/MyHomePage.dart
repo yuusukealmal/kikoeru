@@ -4,6 +4,7 @@ import 'package:kikoeru/config/ThemeProvider.dart';
 import 'package:kikoeru/widget/drawer.dart';
 import 'package:kikoeru/pages/allWorks.dart';
 import 'package:kikoeru/pages/PopularWork.dart';
+import 'package:kikoeru/pages/FavoritePage.dart';
 import 'package:kikoeru/pages/RecommandWork.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -64,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           tabs: const [
             Tab(text: "🔥熱門作品"),
             Tab(text: "🌟 推薦作品"),
+            Tab(text: "❤ 我的收藏"),
             Tab(text: "All works"),
           ],
         ),
@@ -81,6 +83,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         children: [
           PopularWorkPage(),
           RecommandWorkPage(),
+          FavoriteWorkPage(),
           AllWorksPage(),
         ],
       ),
