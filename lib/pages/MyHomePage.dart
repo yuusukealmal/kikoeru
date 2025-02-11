@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:kikoeru/config/ThemeProvider.dart';
-import 'package:kikoeru/widget/drawer.dart';
+import 'package:kikoeru/widget/DrawerWidget.dart';
 import 'package:kikoeru/pages/allWorks.dart';
 import 'package:kikoeru/pages/PopularWork.dart';
 import 'package:kikoeru/pages/FavoritePage.dart';
@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
           ),
         ],
       ),
-      drawer: getSettingDrawer(context),
+      drawer: DrawerWidget(),
       body: TabBarView(
         controller: _tabController,
         children: [

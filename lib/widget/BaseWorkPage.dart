@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:kikoeru/pages/allWorks.dart';
 import 'package:provider/provider.dart';
 import 'package:kikoeru/class/workInfo.dart';
 import 'package:kikoeru/config/AudioProvider.dart';
 import 'package:kikoeru/pages/Work.dart';
+import 'package:kikoeru/pages/allWorks.dart';
 
 abstract class BaseWorkPage extends StatefulWidget {
   final Future<String> Function(int page, bool hasLanguage, int order)

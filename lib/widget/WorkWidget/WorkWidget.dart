@@ -74,7 +74,7 @@ mixin WorkWidget {
     );
   }
 
-  static Widget getRate(Work work) {
+  static Widget getRate(Work work, [bool isDetail = false]) {
     return Wrap(
       spacing: 6,
       runSpacing: 6,
@@ -111,7 +111,7 @@ mixin WorkWidget {
           // color: const Color.fromARGB(180, 255, 255, 255),
         ),
         Text(
-          calcDuration(work.duration),
+          calcDuration(work.duration, isDetail),
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
         Icon(

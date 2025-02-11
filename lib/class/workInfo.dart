@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kikoeru/widget/WorkWidget/getAllWorkCard.dart';
+import 'package:kikoeru/widget/WorkWidget/WorkCard.dart';
 
 class Work {
   Work({required this.work}) {
@@ -70,6 +70,6 @@ class Work {
   late final String mainCoverUrl;
 
   Widget AllWorkCard() {
-    return getAllWorkCard(this);
+    return WrokCard(work: this);
   }
 }

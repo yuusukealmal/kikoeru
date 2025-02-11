@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
-String calcDuration(int duration) {
-  int hr = duration ~/ 3600;
-  if (hr > 0) {
-    return "(${(duration / 3600).toStringAsFixed(1)})hr";
+String calcDuration(int duration, bool isDetail) {
+  if (isDetail) {
+    int hr = duration ~/ 3600;
+    int min = (duration % 3600) ~/ 60;
+    int sec = (duration % 3600) % 60;
+    return "($hr:$min:$sec)";
+  } else {
+    int hr = duration ~/ 3600;
+    if (hr > 0) {
+      return "(${(duration / 3600).toStringAsFixed(1)})hr";
+    }
+    int min = (duration % 3600) ~/ 60;
+    if (min > 0) {
+      return "(${min}min)";
+    }
+    return "(${duration}s)";
   }
-  int min = (duration % 3600) ~/ 60;
-  if (min > 0) {
-    return "(${min}min)";
-  }
-  return "(${duration}s)";
 }
 
 dynamic getStarRating(double rating) {
