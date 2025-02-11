@@ -21,7 +21,7 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
   late Future<dynamic> _workInfoFuture;
 
   Future<dynamic> _getInfo() async {
-    return await Request.getWorkInfo(widget.work.sourceID.split("RJ")[1]);
+    return await Request.getWorkInfo(id: widget.work.sourceID.split("RJ")[1]);
   }
 
   @override

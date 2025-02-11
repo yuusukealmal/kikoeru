@@ -5,13 +5,26 @@ import 'package:kikoeru/config/SharedPreferences.dart';
 
 class Request {
   static final String _API = "https://api.asmr-200.com/api/";
+  static final Map<String, String> _headers = {
+    "Content-Type": "application/json",
+    "User-Agent":
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
+  };
 
-  static Future<String> getALlWorks(int index, int subtitle,
-      [int order = 1]) async {
+  static Future<String> _sendRequest(String url,
+      {Map<String, String>? headers, String? body}) async {
+    http.Response response = await (body != null
+        ? http.post(Uri.parse(url), headers: headers, body: body)
+        : http.get(Uri.parse(url), headers: headers));
+    return response.body;
+  }
+
+  static Future<String> getAllWorks(
+      {int index = 1, int subtitle = 0, int order = 1}) async {
     List<String> orders = [
       "release", //發售日期倒序
       "create_date", //最新收錄
-      "rating", // 我的評價倒序
+      // "rating", // 我的評價倒序
       "dl_count", // 銷量倒序
       "price", // 價格倒序
       "rate_average_2dp", //評價倒序
@@ -20,22 +33,21 @@ class Request {
       "nsfw", // 全年齡倒序
       "random" // 隨機
     ];
+
     String URL =
         "${_API}works?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle";
     if (order == 9) {
       int rand = Random().nextInt(100);
       URL =
-          "https://api.asmr-200.com/api/works?order=random&sort=desc&page=$index&seed=$rand&subtitle=0";
+          "${_API}works?order=random&sort=desc&page=$index&seed=$rand&subtitle=0";
     }
 
-    http.Response response = await http.get(Uri.parse(URL));
-
-    return response.body;
+    return await _sendRequest(URL);
   }
 
-  static Future<String> getPopularWorks(int index, int subtitle) async {
+  static Future<String> getPopularWorks(
+      {int index = 1, int subtitle = 0}) async {
     String URL = "${_API}recommender/popular";
-    Map<String, String> headers = {"Content-Type": "application/json"};
     Map<String, dynamic> data = {
       "keyword": " ",
       "page": index,
@@ -43,23 +55,12 @@ class Request {
       "localSubtitledWorks": [],
       "withPlaylistStatus": []
     };
-
-    http.Response response = await http.post(
-      Uri.parse(URL),
-      headers: headers,
-      body: jsonEncode(data),
-    );
-    return response.body;
+    return await _sendRequest(URL, headers: _headers, body: jsonEncode(data));
   }
 
-  static Future<String> getRecommandWorks(int index, int subtitle) async {
+  static Future<String> getRecommendedWorks(
+      {int index = 1, int subtitle = 0}) async {
     String URL = "${_API}recommender/recommend-for-user";
-    Map<String, String> headers = {
-      "Referer": 'https://www.asmr.one/',
-      "Content-Type": "application/json",
-      "User-Agent":
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
-    };
     Map<String, dynamic> data = {
       "keyword": " ",
       "recommenderUuid":
@@ -69,51 +70,33 @@ class Request {
       "localSubtitledWorks": [],
       "withPlaylistStatus": []
     };
-    final response = await http.post(
-      Uri.parse(URL),
-      headers: headers,
-      body: jsonEncode(data),
-    );
-    return response.body;
+    return await _sendRequest(URL, headers: _headers, body: jsonEncode(data));
   }
 
-  static Future<String> getFavoriteWorks(int index) async {
+  static Future<String> getFavoriteWorks({int index = 1}) async {
     String URL = "${_API}review?order=updated_at&sort=desc&page=$index";
     Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization":
           "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
     };
-
-    http.Response response = await http.get(
-      Uri.parse(URL),
-      headers: headers,
-    );
-    return response.body;
+    return await _sendRequest(URL, headers: headers);
   }
 
-  static Future<String> getWorkInfo([String id = "403038"]) async {
-    String url = "https://api.asmr-200.com/api/tracks/$id?v=1";
-
-    http.Response response = await http.get(Uri.parse(url));
-    return response.body;
+  static Future<String> getWorkInfo({String id = "403038"}) async {
+    String url = "${_API}tracks/$id?v=1";
+    return await _sendRequest(url);
   }
 
-  static Future<bool> tryFetchToken(String account, String password) async {
+  static Future<bool> tryFetchToken(
+      {required String account, required String password}) async {
     Map<String, String> accountInfo = {"name": account, "password": password};
-    Map<String, String> headers = {
-      "Referer": 'https://www.asmr.one/',
-      "User-Agent":
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)',
-      "Content-Type": "application/json"
-    };
-    http.Response response = await http.post(
-      Uri.parse("https://api.asmr.one/api/auth/me"),
-      headers: headers,
-      body: jsonEncode(accountInfo),
-    );
+    String url = "https://api.asmr.one/api/auth/me";
 
-    dynamic jsonres = jsonDecode(response.body);
+    final response = await _sendRequest(url,
+        headers: _headers, body: jsonEncode(accountInfo));
+    dynamic jsonres = jsonDecode(response);
+
     if (jsonres["user"]["loggedIn"]) {
       await SharedPreferencesHelper.setString("USER.NAME", account);
       await SharedPreferencesHelper.setString("USER.PASSWORD", password);

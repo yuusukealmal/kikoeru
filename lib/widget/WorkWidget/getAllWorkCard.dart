@@ -4,7 +4,7 @@ import 'package:kikoeru/widget/WorkWidget/WorkWidget.dart';
 
 Widget getAllWorkCard(Work work) {
   return FractionallySizedBox(
-    widthFactor: 0.95,
+    widthFactor: 0.87,
     heightFactor: 0.95,
     child: Card(
       elevation: 5,

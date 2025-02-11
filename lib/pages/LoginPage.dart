@@ -29,7 +29,8 @@ class _LoginPageState extends State<LoginPage> {
       );
       return;
     } else {
-      bool success = await Request.tryFetchToken(account, password);
+      bool success =
+          await Request.tryFetchToken(account: account, password: password);
       if (success) {
         Navigator.of(context).pop();
       } else {

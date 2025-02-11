@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kikoeru/widget/getAllWorkCard.dart';
+import 'package:kikoeru/widget/WorkWidget/getAllWorkCard.dart';
 
 class Work {
   Work({required this.work}) {
