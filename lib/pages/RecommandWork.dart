@@ -105,8 +105,6 @@ class _RecommandWorkPageState extends State<RecommandWorkPage> {
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 1,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
                 childAspectRatio: 0.7,
               ),
               itemCount: works.length,
