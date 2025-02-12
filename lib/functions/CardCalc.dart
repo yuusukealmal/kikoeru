@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kikoeru/api/RequestPage.dart';
+import 'package:kikoeru/pages/SearchPage.dart';
 
 String calcDuration(int duration, bool isDetail) {
   if (isDetail) {
@@ -141,16 +143,29 @@ dynamic getMutiLang(List<dynamic> langs, [bool isDetail = false]) {
   }
 }
 
-Widget getTagWidget(String tag) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-    decoration: BoxDecoration(
-      color: Colors.grey.shade800,
-      borderRadius: BorderRadius.circular(12),
+Widget getTagWidget(BuildContext context, String tag) {
+  return GestureDetector(
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade800,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Text(
+        tag,
+        style: const TextStyle(color: Colors.white, fontSize: 15),
+      ),
     ),
-    child: Text(
-      tag,
-      style: const TextStyle(color: Colors.white, fontSize: 15),
-    ),
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => SearchWorksPage(
+            type: SearchType.Tag,
+            query: tag,
+          ),
+        ),
+      );
+    },
   );
 }

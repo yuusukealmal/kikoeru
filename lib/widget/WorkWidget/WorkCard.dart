@@ -12,7 +12,6 @@ class WrokCard extends StatefulWidget {
 }
 
 class _WrokCardState extends State<WrokCard> {
-
   @override
   void initState() {
     super.initState();
@@ -49,7 +48,7 @@ class _WrokCardState extends State<WrokCard> {
               ),
 
               // 作品資訊
-              WorkWidget.getTitleandCircle(work),
+              WorkWidget.getTitleandCircle(context, work),
 
               // 作品統計資訊
               WorkWidget.getRate(work),
@@ -60,12 +59,12 @@ class _WrokCardState extends State<WrokCard> {
               SizedBox(height: 8),
 
               // 標籤區塊
-              WorkWidget.getTag(work),
+              WorkWidget.getTag(context, work),
 
               SizedBox(height: 8),
 
               // cv 區塊
-              WorkWidget.getVas(work),
+              WorkWidget.getVas(context, work),
             ],
           ),
         ),

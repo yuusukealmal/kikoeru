@@ -67,14 +67,14 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
                     WorkWidget.getWorkReleaseDate(widget.work),
                   ],
                 ),
-                WorkWidget.getTitleandCircle(widget.work),
+                WorkWidget.getTitleandCircle(context, widget.work),
                 WorkWidget.getRate(widget.work, true),
                 const SizedBox(height: 8),
                 WorkWidget.getSell(widget.work, true),
                 const SizedBox(height: 8),
-                WorkWidget.getTag(widget.work),
+                WorkWidget.getTag(context, widget.work),
                 const SizedBox(height: 8),
-                WorkWidget.getVas(widget.work),
+                WorkWidget.getVas(context, widget.work),
                 const SizedBox(height: 8),
                 if (workInfo.toString().contains("error"))
                   Padding(

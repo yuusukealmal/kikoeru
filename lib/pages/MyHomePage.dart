@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kikoeru/pages/SearchPage.dart';
+import 'package:kikoeru/api/RequestPage.dart';
 import 'package:provider/provider.dart';
 import 'package:kikoeru/config/ThemeProvider.dart';
+import 'package:kikoeru/pages/DefaultPages.dart';
+import 'package:kikoeru/pages/SearchPage.dart';
 import 'package:kikoeru/widget/DrawerWidget.dart';
-import 'package:kikoeru/pages/allWorks.dart';
-import 'package:kikoeru/pages/PopularWork.dart';
-import 'package:kikoeru/pages/FavoritePage.dart';
-import 'package:kikoeru/pages/RecommandWork.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -87,8 +85,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            SearchWorksPage(query: _searchController.text),
+                        builder: (context) => SearchWorksPage(
+                            type: SearchType.STRING,
+                            query: _searchController.text),
                       ),
                     );
                   },

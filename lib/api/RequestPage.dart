@@ -1,7 +1,10 @@
 import 'dart:math';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kikoeru/config/SharedPreferences.dart';
+
+enum SearchType { STRING, VAS, Circle, Tag }
 
 class Request {
   static final String _API = "https://api.asmr-200.com/api/";
@@ -83,12 +86,25 @@ class Request {
   }
 
   static Future<String> getSearchWorks(
-      {String querys = " ",
+      {required SearchType type,
+      String querys = " ",
       int index = 1,
       int subtitle = 0,
       int order = 1}) async {
+    String params;
+    switch (type) {
+      case SearchType.STRING:
+        params = querys;
+      case SearchType.VAS:
+        params = "\$va:$querys\$";
+      case SearchType.Circle:
+        params = "\$circle:$querys\$";
+      case SearchType.Tag:
+        params = "\$tag:$querys\$";
+    }
     String URL =
-        "${_API}search/%20${querys.replaceAll(" ", "%20")}?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle&includeTranslationWorks=true";
+        "${_API}search/%20${params.replaceAll(" ", "%20")}?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle&includeTranslationWorks=true";
+    debugPrint(URL);
     return await _sendRequest(URL);
   }
 

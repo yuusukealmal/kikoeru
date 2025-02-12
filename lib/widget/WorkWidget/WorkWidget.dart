@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:kikoeru/api/RequestPage.dart';
 import 'package:kikoeru/class/workInfo.dart';
+import 'package:kikoeru/pages/SearchPage.dart';
 import 'package:kikoeru/functions/CardCalc.dart';
 
 mixin WorkWidget {
@@ -50,7 +52,7 @@ mixin WorkWidget {
     );
   }
 
-  static Widget getTitleandCircle(Work work) {
+  static Widget getTitleandCircle(BuildContext context, Work work) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -63,12 +65,25 @@ mixin WorkWidget {
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 6),
-          Text(
-            work.name,
-            style: const TextStyle(fontSize: 18, color: Colors.grey),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-          ),
+          GestureDetector(
+            child: Text(
+              work.name,
+              style: const TextStyle(fontSize: 18, color: Colors.grey),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SearchWorksPage(
+                    type: SearchType.Circle,
+                    query: work.name,
+                  ),
+                ),
+              );
+            },
+          )
         ],
       ),
     );
@@ -164,7 +179,7 @@ mixin WorkWidget {
     );
   }
 
-  static Widget getTag(Work work) {
+  static Widget getTag(BuildContext context, Work work) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Wrap(
@@ -172,13 +187,13 @@ mixin WorkWidget {
         runSpacing: 4,
         children: work.Tags.map((tag) => tag?["i18n"]["zh-cn"]["name"] ?? "")
             .where((tag) => tag.isNotEmpty)
-            .map((tag) => getTagWidget(tag))
+            .map((tag) => getTagWidget(context, tag))
             .toList(),
       ),
     );
   }
 
-  static Widget getVas(Work work) {
+  static Widget getVas(BuildContext context, Work work) {
     return Padding(
       padding: const EdgeInsets.only(left: 8, bottom: 8),
       child: Wrap(
@@ -187,19 +202,33 @@ mixin WorkWidget {
         children: work.Vas.map((va) => va["name"].toString())
             .toList()
             .map(
-              (cv) => Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 0, 150, 136),
-                  borderRadius: BorderRadius.circular(6),
+              (cv) => GestureDetector(
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 0, 150, 136),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    cv,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w400),
+                  ),
                 ),
-                child: Text(
-                  cv,
-                  style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w400),
-                ),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SearchWorksPage(
+                        type: SearchType.VAS,
+                        query: cv,
+                      ),
+                    ),
+                  );
+                },
               ),
             )
             .toList(),

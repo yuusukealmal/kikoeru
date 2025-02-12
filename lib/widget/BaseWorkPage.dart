@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:kikoeru/class/workInfo.dart';
 import 'package:kikoeru/config/AudioProvider.dart';
+import 'package:kikoeru/pages/DefaultPages.dart';
 import 'package:kikoeru/pages/Work.dart';
-import 'package:kikoeru/pages/allWorks.dart';
 import 'package:kikoeru/pages/SearchPage.dart';
 
 abstract class BaseWorkPage extends StatefulWidget {
