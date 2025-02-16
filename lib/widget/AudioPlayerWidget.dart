@@ -116,7 +116,15 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                             Icons.skip_previous,
                             size: 32,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (audioProvider.index! > 0) {
+                              audioProvider.stopAudio();
+                              audioProvider.playAudio(
+                                  context,
+                                  audioProvider
+                                      .audioList![audioProvider.index! - 1]);
+                            }
+                          },
                         ),
                         IconButton(
                           icon: Icon(
@@ -163,7 +171,16 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                             Icons.skip_next,
                             size: 32,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (audioProvider.index! <
+                                audioProvider.audioList!.length - 1) {
+                              audioProvider.stopAudio();
+                              audioProvider.playAudio(
+                                  context,
+                                  audioProvider
+                                      .audioList![audioProvider.index! + 1]);
+                            }
+                          },
                         ),
                       ],
                     ),

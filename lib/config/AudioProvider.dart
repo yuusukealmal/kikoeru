@@ -13,6 +13,8 @@ class AudioProvider extends ChangeNotifier {
   bool _isPlaying = false;
   bool _isOverlayShow = false;
   OverlayEntry? _overlayEntry;
+  List<Map<String, dynamic>>? _audioList;
+  int? _index;
 
   AudioPlayer get audioPlayer => _audioPlayer;
   bool get isPlaying => _isPlaying;
@@ -22,6 +24,8 @@ class AudioProvider extends ChangeNotifier {
   String? get samCoverUrl => _samCoverUrl;
   String? get mainCoverUrl => _mainCoverUrl;
   Stream<bool> get playingStream => _audioPlayer.playingStream;
+  List<Map<String, dynamic>>? get audioList => _audioList;
+  int? get index => _index;
 
   OverlayEntry _createOverlayEntry(BuildContext context) {
     return OverlayEntry(
@@ -51,9 +55,6 @@ class AudioProvider extends ChangeNotifier {
                             color: Colors.white,
                           ),
                           onPressed: () {
-                            // _overlayEntry?.remove();
-                            // _overlayEntry = null;
-
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -107,8 +108,8 @@ class AudioProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> playAudio(BuildContext context, Map<String, dynamic> dict,
-      String samCoverUrl, String mainCoverUrl) async {
+  Future<void> playAudio(
+      BuildContext context, Map<String, dynamic> dict) async {
     String url = dict["mediaStreamUrl"];
 
     if (_currentAudioUrl != url) {
@@ -118,8 +119,6 @@ class AudioProvider extends ChangeNotifier {
       _currentAudioUrl = url;
       _currentAudioTitle = dict["title"];
       _currentAudioWorkTitle = dict["workTitle"];
-      _samCoverUrl = samCoverUrl;
-      _mainCoverUrl = mainCoverUrl;
       _isPlaying = true;
       updateOverlay(context);
     } else {
@@ -132,6 +131,18 @@ class AudioProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
+  }
+
+  void playAudioList(
+      BuildContext context, List<Map<String, dynamic>> audioList, int index,
+      {String samCoverUrl = "", String mainCoverUrl = ""}) {
+    _audioList = audioList;
+    debugPrint(audioList.length.toString());
+    _index = index;
+    debugPrint(index.toString());
+    _samCoverUrl = samCoverUrl;
+    _mainCoverUrl = mainCoverUrl;
+    playAudio(context, audioList[index]);
   }
 
   Future<void> pauseAudio() async {

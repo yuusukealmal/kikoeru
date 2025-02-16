@@ -105,9 +105,12 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
     );
   }
 
-  void playAudio(BuildContext context, Map<String, dynamic> dict) async {
-    Provider.of<AudioProvider>(context, listen: false)
-        .playAudio(context, dict, widget.work.samCoverUrl, widget.work.mainCoverUrl);
+  void playAudio(
+      BuildContext context, List<Map<String, dynamic>> dict, int index) async {
+    Provider.of<AudioProvider>(context, listen: false).playAudioList(
+        context, dict, index,
+        samCoverUrl: widget.work.samCoverUrl,
+        mainCoverUrl: widget.work.mainCoverUrl);
   }
 
   void stopAudio(BuildContext context) async {
@@ -122,14 +125,31 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
     Provider.of<AudioProvider>(context, listen: false).resumeAudio();
   }
 
-  Widget _buildItem(Map<String, dynamic> item) {
+  List<Map<String, dynamic>> _getAudioList(List<dynamic>? children) {
+    if (children == null) return [];
+    return children
+        .where((child) => child["type"] == "audio")
+        .map((child) => child as Map<String, dynamic>)
+        .toList();
+  }
+
+  Widget _buildItem(Map<String, dynamic> item, {List<dynamic>? parentFolder}) {
     if (item["type"] == "folder") {
       return ExpansionTile(
         leading: getLeading(item["type"]),
         title: Text(item["title"]),
         children: item["children"].map<Widget>((child) {
-          return _buildItem(child);
+          return _buildItem(child, parentFolder: item["children"]);
         }).toList(),
+      );
+    } else if (item["type"] == "audio") {
+      return ListTile(
+        leading: getLeading(item["type"]),
+        title: Text(item["title"]),
+        onTap: () {
+          List<Map<String, dynamic>> audioList = _getAudioList(parentFolder);
+          playAudio(context, audioList, audioList.indexOf(item));
+        },
       );
     } else {
       return ListTile(
@@ -137,13 +157,6 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
         title: Text(item["title"]),
         onTap: () {
           switch (item["type"]) {
-            case "audio":
-              if (item["title"].endsWith(".mp3") ||
-                  item["title"].endsWith(".m4a") ||
-                  item["title"].endsWith(".wav")) {
-                playAudio(context, item);
-              }
-              break;
             case "text":
               Navigator.push(
                 context,
@@ -161,6 +174,7 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
                       openImage(context, item["title"], item["mediaStreamUrl"]),
                 ),
               );
+              break;
             case "other":
               if (item["title"].endsWith(".pdf")) {
                 Navigator.push(
