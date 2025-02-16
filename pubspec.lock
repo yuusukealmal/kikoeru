@@ -9,62 +9,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
-  audioplayers:
+  audio_session:
+    dependency: transitive
+    description:
+      name: audio_session
+      sha256: "2b7fff16a552486d078bfc09a8cde19f426dc6d6329262b684182597bec5b1ac"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.25"
+  audio_video_progress_bar:
     dependency: "direct main"
     description:
-      name: audioplayers
-      sha256: "4ca57fd24594af04e93b9b9f1b1739ffb9204dbab7ce8d9b28a02f464456dcca"
+      name: audio_video_progress_bar
+      sha256: "552b1f73c56c4c88407999e0a8507176f60c56de3e6d63bc20a0eab48467d4c9"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.1"
-  audioplayers_android:
-    dependency: transitive
-    description:
-      name: audioplayers_android
-      sha256: "6c9443ce0a99b29a840f14bc2d0f7b25eb0fd946dc592a1b8a697807d5b195f3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.1"
-  audioplayers_darwin:
-    dependency: transitive
-    description:
-      name: audioplayers_darwin
-      sha256: e507887f3ff18d8e5a10a668d7bedc28206b12e10b98347797257c6ae1019c3b
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.0.0"
-  audioplayers_linux:
-    dependency: transitive
-    description:
-      name: audioplayers_linux
-      sha256: "9d3cb4e9533a12a462821e3f18bd282e0fa52f67ff96a06301d48dd48b82c2d1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.1"
-  audioplayers_platform_interface:
-    dependency: transitive
-    description:
-      name: audioplayers_platform_interface
-      sha256: "6834dd48dfb7bc6c2404998ebdd161f79cd3774a7e6779e1348d54a3bfdcfaa5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "7.0.0"
-  audioplayers_web:
-    dependency: transitive
-    description:
-      name: audioplayers_web
-      sha256: "3609bdf0e05e66a3d9750ee40b1e37f2a622c4edb796cc600b53a90a30a2ace4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.1"
-  audioplayers_windows:
-    dependency: transitive
-    description:
-      name: audioplayers_windows
-      sha256: "8605762dddba992138d476f6a0c3afd9df30ac5b96039929063eceed416795c2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.0.0"
+    version: "2.0.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -224,6 +184,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.19.0"
+  just_audio:
+    dependency: "direct main"
+    description:
+      name: just_audio
+      sha256: f978d5b4ccea08f267dae0232ec5405c1b05d3f3cd63f82097ea46c015d5c09e
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.46"
+  just_audio_platform_interface:
+    dependency: transitive
+    description:
+      name: just_audio_platform_interface
+      sha256: "271b93b484c6f494ecd72a107fffbdb26b425f170c665b9777a0a24a726f2f24"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.4.0"
+  just_audio_web:
+    dependency: transitive
+    description:
+      name: just_audio_web
+      sha256: "58915be64509a7683c44bf11cd1a23c15a48de104927bee116e3c63c8eeea0d4"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.14"
   leak_tracker:
     dependency: transitive
     description:
@@ -384,6 +368,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
+  rxdart:
+    dependency: transitive
+    description:
+      name: rxdart
+      sha256: "5c3004a4a8dbb94bd4bf5412a4def4acdaa12e12f269737a5751369e12d1a962"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.28.0"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -549,14 +541,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "28.2.4"
-  synchronized:
-    dependency: transitive
-    description:
-      name: synchronized
-      sha256: "69fe30f3a8b04a0be0c15ae6490fc859a78ef4c43ae2dd5e8a623d45bfcf9225"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.0+3"
   term_glyph:
     dependency: transitive
     description:

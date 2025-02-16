@@ -107,7 +107,7 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
 
   void playAudio(BuildContext context, Map<String, dynamic> dict) async {
     Provider.of<AudioProvider>(context, listen: false)
-        .playAudio(context, dict, widget.work.samCoverUrl);
+        .playAudio(context, dict, widget.work.samCoverUrl, widget.work.mainCoverUrl);
   }
 
   void stopAudio(BuildContext context) async {

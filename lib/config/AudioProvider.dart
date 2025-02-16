@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
+import 'package:kikoeru/widget/AudioPlayerWidget.dart';
 
 class AudioProvider extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
@@ -8,14 +9,19 @@ class AudioProvider extends ChangeNotifier {
   String? _currentAudioTitle;
   String? _currentAudioWorkTitle;
   String? _samCoverUrl;
+  String? _mainCoverUrl;
   bool _isPlaying = false;
   bool _isOverlayShow = false;
   OverlayEntry? _overlayEntry;
 
+  AudioPlayer get audioPlayer => _audioPlayer;
   bool get isPlaying => _isPlaying;
   bool get isOverlayShow => _isOverlayShow;
   String? get currentAudioTitle => _currentAudioTitle;
   String? get currentAudioWorkTitle => _currentAudioWorkTitle;
+  String? get samCoverUrl => _samCoverUrl;
+  String? get mainCoverUrl => _mainCoverUrl;
+  Stream<bool> get playingStream => _audioPlayer.playingStream;
 
   OverlayEntry _createOverlayEntry(BuildContext context) {
     return OverlayEntry(
@@ -30,9 +36,34 @@ class AudioProvider extends ChangeNotifier {
               padding: EdgeInsets.all(8.0),
               child: Row(
                 children: [
-                  Image.network(
-                    _samCoverUrl ?? "",
-                    height: 60,
+                  Stack(
+                    children: [
+                      Image.network(
+                        _samCoverUrl ?? "",
+                        height: 60,
+                      ),
+                      Positioned(
+                        top: 0,
+                        left: 0,
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.queue,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            // _overlayEntry?.remove();
+                            // _overlayEntry = null;
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AudioPlayerScreen(),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(width: 8),
                   Expanded(
@@ -76,58 +107,49 @@ class AudioProvider extends ChangeNotifier {
     );
   }
 
-  Future<void> playAudio(
-      BuildContext context, Map<String, dynamic> dict, String ImageUrl) async {
+  Future<void> playAudio(BuildContext context, Map<String, dynamic> dict,
+      String samCoverUrl, String mainCoverUrl) async {
     String url = dict["mediaStreamUrl"];
 
     if (_currentAudioUrl != url) {
-      await _audioPlayer.stop();
-      await _audioPlayer.play(UrlSource(url));
+      _audioPlayer.stop();
+      await _audioPlayer.setUrl(url);
+      _audioPlayer.play();
       _currentAudioUrl = url;
       _currentAudioTitle = dict["title"];
       _currentAudioWorkTitle = dict["workTitle"];
-      _samCoverUrl = ImageUrl;
+      _samCoverUrl = samCoverUrl;
+      _mainCoverUrl = mainCoverUrl;
       _isPlaying = true;
-      _updateOverlay(context);
+      updateOverlay(context);
     } else {
       if (_isPlaying) {
-        await _audioPlayer.pause();
+        _audioPlayer.pause();
         _isPlaying = false;
       } else {
-        await _audioPlayer.resume();
+        _audioPlayer.play();
         _isPlaying = true;
       }
     }
     notifyListeners();
   }
 
-  void _updateOverlay(BuildContext context) {
-    if (_overlayEntry != null) {
-      _overlayEntry!.remove();
-      _overlayEntry = null;
-      _isOverlayShow = false;
-    }
-    _overlayEntry = _createOverlayEntry(context);
-    _isOverlayShow = true;
-    Overlay.of(context).insert(_overlayEntry!);
-  }
-
   Future<void> pauseAudio() async {
-    await _audioPlayer.pause();
+    _audioPlayer.pause();
     _isPlaying = false;
     notifyListeners();
     _updateOverlayIfNeeded();
   }
 
   Future<void> resumeAudio() async {
-    await _audioPlayer.resume();
+    _audioPlayer.play();
     _isPlaying = true;
     notifyListeners();
     _updateOverlayIfNeeded();
   }
 
   Future<void> stopAudio() async {
-    await _audioPlayer.stop();
+    _audioPlayer.stop();
     _isPlaying = false;
     _currentAudioUrl = null;
     _currentAudioTitle = null;
@@ -138,6 +160,20 @@ class AudioProvider extends ChangeNotifier {
       _isOverlayShow = false;
     }
     notifyListeners();
+  }
+
+  void updateOverlay(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_overlayEntry != null) {
+        _overlayEntry!.remove();
+        _overlayEntry = null;
+        _isOverlayShow = false;
+      }
+
+      _overlayEntry = _createOverlayEntry(context);
+      _isOverlayShow = true;
+      Overlay.of(context).insert(_overlayEntry!);
+    });
   }
 
   void _updateOverlayIfNeeded() {
