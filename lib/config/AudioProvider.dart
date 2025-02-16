@@ -176,6 +176,14 @@ class AudioProvider extends ChangeNotifier {
     });
   }
 
+  void hideOverlay() {
+    if (_overlayEntry != null) {
+      _overlayEntry!.remove();
+      _overlayEntry = null;
+      _isOverlayShow = false;
+    }
+  }
+
   void _updateOverlayIfNeeded() {
     if (_overlayEntry != null) {
       _overlayEntry!.markNeedsBuild();
