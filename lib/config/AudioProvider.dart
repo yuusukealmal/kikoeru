@@ -36,24 +36,19 @@ class AudioProvider extends ChangeNotifier {
             padding: EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Stack(
-                  children: [
-                    Image.network(_samCoverUrl ?? "", height: 60),
-                    Positioned(
-                      top: 0,
-                      left: 0,
-                      child: IconButton(
-                        icon: Icon(Icons.queue, color: Colors.white),
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AudioPlayerScreen(),
-                          ),
-                        ),
-                      ),
+                IconButton(
+                  icon: Icon(
+                    Icons.keyboard_arrow_up_sharp,
+                  ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AudioPlayerScreen(),
                     ),
-                  ],
+                  ),
                 ),
+                SizedBox(width: 8),
+                Image.network(_samCoverUrl ?? "", height: 60),
                 SizedBox(width: 8),
                 Expanded(
                   child: ListTile(
