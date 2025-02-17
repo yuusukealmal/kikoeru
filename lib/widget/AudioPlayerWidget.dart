@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:volume_controller/volume_controller.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:kikoeru/config/AudioProvider.dart';
 
@@ -11,10 +12,17 @@ class AudioPlayerScreen extends StatefulWidget {
 }
 
 class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
+  double? volume;
+
+  Future<double> getVolume() async {
+    return await VolumeController.instance.getVolume();
+  }
+
   @override
   void initState() {
     super.initState();
     Provider.of<AudioProvider>(context, listen: false).setIsAudioScreen(true);
+    getVolume().then((value) => setState(() => volume = value));
   }
 
   @override
@@ -26,8 +34,8 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   Widget build(BuildContext context) {
     final audioProvider = Provider.of<AudioProvider>(context);
     final _audioPlayer = audioProvider.audioPlayer;
-
     audioProvider.hideOverlay();
+
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) {
@@ -187,6 +195,39 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                               );
                             }
                           },
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 25),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.volume_down_alt,
+                          size: 32,
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width - 150,
+                          child: Scrollbar(
+                            child: Slider(
+                              value: volume ?? 0,
+                              min: 0.0,
+                              max: 1.0,
+                              divisions: 100,
+                              label: ((volume ?? 0) * 100).toInt().toString(),
+                              onChanged: (value) async {
+                                await VolumeController.instance
+                                    .setVolume(value);
+                                setState(() {
+                                  volume = value;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.volume_up,
+                          size: 32,
                         ),
                       ],
                     ),
