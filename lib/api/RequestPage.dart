@@ -107,7 +107,6 @@ class Request {
     }
     String URL =
         "${_API}search/%20${params.replaceAll(" ", "%20")}?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle&includeTranslationWorks=true";
-    debugPrint(URL);
     return await _sendRequest(URL);
   }
 

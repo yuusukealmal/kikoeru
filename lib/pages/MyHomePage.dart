@@ -17,11 +17,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   late TabController _tabController;
 
-  void _toggleTheme() async {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-    await themeProvider.toggleTheme();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -34,6 +29,11 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _tabController.removeListener(_handleTabSelection);
     _tabController.dispose();
     super.dispose();
+  }
+
+  void _toggleTheme() async {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    await themeProvider.toggleTheme();
   }
 
   void _handleTabSelection() {
@@ -75,8 +75,10 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                   controller: _searchController,
                   decoration: InputDecoration(
                     hintText: 'Search...',
-                    prefixIcon: Icon(Icons.search,
-                        color: Theme.of(context).iconTheme.color),
+                    prefixIcon: Icon(
+                      Icons.search,
+                      color: Theme.of(context).iconTheme.color,
+                    ),
                     border: InputBorder.none,
                     contentPadding:
                         EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -86,8 +88,9 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
                       context,
                       MaterialPageRoute(
                         builder: (context) => SearchWorksPage(
-                            type: SearchType.STRING,
-                            query: _searchController.text),
+                          type: SearchType.STRING,
+                          query: _searchController.text,
+                        ),
                       ),
                     );
                   },

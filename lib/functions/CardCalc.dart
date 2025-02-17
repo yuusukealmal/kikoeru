@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kikoeru/api/RequestPage.dart';
 import 'package:kikoeru/pages/SearchPage.dart';
 
-String calcDuration(int duration, bool isDetail) {
+String calcDuration(int duration, {bool isDetail = false}) {
   if (isDetail) {
     int hr = duration ~/ 3600;
     int min = (duration % 3600) ~/ 60;
@@ -109,7 +109,7 @@ dynamic getSubtitle(bool hasSubtitle) {
   }
 }
 
-dynamic getMutiLang(List<dynamic> langs, [bool isDetail = false]) {
+dynamic getMutiLang(List<dynamic> langs, {bool isDetail = false}) {
   if (langs.isNotEmpty) {
     return [
       Container(

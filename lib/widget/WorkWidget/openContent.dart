@@ -35,10 +35,13 @@ mixin openWorkContent {
           onLongPress: () async {
             Directory directory = Directory('/storage/emulated/0/Download');
             File f = File("${directory.path}/$title.jpg");
-            await f
-                .writeAsBytes(await http.get(Uri.parse(url)).then((response) {
-              return response.bodyBytes;
-            }));
+            await f.writeAsBytes(
+              await http.get(Uri.parse(url)).then(
+                (response) {
+                  return response.bodyBytes;
+                },
+              ),
+            );
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text("已下載到${f.path}")));
           },
@@ -49,10 +52,12 @@ mixin openWorkContent {
 
   Widget openPdf(String title, String url) {
     return Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SfPdfViewer.network(url, enableDoubleTapZooming: true)));
+      appBar: AppBar(title: Text(title)),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SfPdfViewer.network(url, enableDoubleTapZooming: true),
+      ),
+    );
   }
 
   Future<String> _fetchContent(String url) async {

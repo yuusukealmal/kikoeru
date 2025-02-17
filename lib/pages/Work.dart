@@ -20,19 +20,11 @@ class WorkPage extends StatefulWidget {
 class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
   late Future<dynamic> _workInfoFuture;
 
-  Future<dynamic> _getInfo() async {
-    return await Request.getWorkInfo(id: widget.work.sourceID.split("RJ")[1]);
-  }
-
   @override
   void initState() {
     super.initState();
-    _workInfoFuture = _getInfo();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    _workInfoFuture =
+        Request.getWorkInfo(id: widget.work.sourceID.split("RJ")[1]);
   }
 
   @override
@@ -63,14 +55,14 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
                 Stack(
                   children: [
                     WorkWidget.getWorkImage(widget.work),
-                    WorkWidget.getWorkRJID(widget.work, 12, 14),
+                    WorkWidget.getWorkRJID(widget.work, top: 12, left: 14),
                     WorkWidget.getWorkReleaseDate(widget.work),
                   ],
                 ),
                 WorkWidget.getTitleandCircle(context, widget.work),
-                WorkWidget.getRate(widget.work, true),
+                WorkWidget.getRate(widget.work, isDetail: true),
                 const SizedBox(height: 8),
-                WorkWidget.getSell(widget.work, true),
+                WorkWidget.getSell(widget.work, isDetail: true),
                 const SizedBox(height: 8),
                 WorkWidget.getTag(context, widget.work),
                 const SizedBox(height: 8),
@@ -82,7 +74,7 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
                     child: Center(
                       child: Text(
                         workInfo.toString(),
-                        style: TextStyle(color: Colors.red, fontSize: 16),
+                        style: const TextStyle(color: Colors.red, fontSize: 16),
                       ),
                     ),
                   )
@@ -90,13 +82,12 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
                   ListView.separated(
                     itemCount: workInfo.length,
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     separatorBuilder: (context, index) => const Divider(),
-                    itemBuilder: (context, index) {
-                      return _buildItem(workInfo[index]);
-                    },
+                    itemBuilder: (context, index) =>
+                        _buildItem(workInfo[index]),
                   ),
-                SizedBox(height: 75)
+                const SizedBox(height: 75),
               ],
             ),
           ),
@@ -106,31 +97,30 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
   }
 
   void playAudio(
-      BuildContext context, List<Map<String, dynamic>> dict, int index) async {
+      BuildContext context, List<Map<String, dynamic>> dict, int index) {
     Provider.of<AudioProvider>(context, listen: false).playAudioList(
-        context, dict, index,
-        samCoverUrl: widget.work.samCoverUrl,
-        mainCoverUrl: widget.work.mainCoverUrl);
+      context,
+      index,
+      dict,
+      widget.work.mainCoverUrl,
+      widget.work.samCoverUrl,
+    );
   }
 
-  void stopAudio(BuildContext context) async {
+  void stopAudio(BuildContext context) {
     Provider.of<AudioProvider>(context, listen: false).stopAudio();
   }
 
-  void pauseAudio(BuildContext context) async {
-    Provider.of<AudioProvider>(context, listen: false).pauseAudio();
-  }
-
-  void resumeAudio(BuildContext context) async {
-    Provider.of<AudioProvider>(context, listen: false).resumeAudio();
+  void toggleAudio(BuildContext context) {
+    Provider.of<AudioProvider>(context, listen: false).togglePlayPause();
   }
 
   List<Map<String, dynamic>> _getAudioList(List<dynamic>? children) {
-    if (children == null) return [];
     return children
-        .where((child) => child["type"] == "audio")
-        .map((child) => child as Map<String, dynamic>)
-        .toList();
+            ?.where((child) => child["type"] == "audio")
+            .map((child) => child as Map<String, dynamic>)
+            .toList() ??
+        [];
   }
 
   Widget _buildItem(Map<String, dynamic> item, {List<dynamic>? parentFolder}) {
@@ -138,9 +128,14 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
       return ExpansionTile(
         leading: getLeading(item["type"]),
         title: Text(item["title"]),
-        children: item["children"].map<Widget>((child) {
-          return _buildItem(child, parentFolder: item["children"]);
-        }).toList(),
+        children: item["children"]
+            .map<Widget>(
+              (child) => _buildItem(
+                child,
+                parentFolder: item["children"],
+              ),
+            )
+            .toList(),
       );
     } else if (item["type"] == "audio") {
       return ListTile(
@@ -155,40 +150,49 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
       return ListTile(
         leading: getLeading(item["type"]),
         title: Text(item["title"]),
-        onTap: () {
-          switch (item["type"]) {
-            case "text":
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      openText(item["title"], item["mediaDownloadUrl"]),
-                ),
-              );
-              break;
-            case "image":
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      openImage(context, item["title"], item["mediaStreamUrl"]),
-                ),
-              );
-              break;
-            case "other":
-              if (item["title"].endsWith(".pdf")) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        openPdf(item["title"], item["mediaStreamUrl"]),
-                  ),
-                );
-              }
-              break;
-          }
-        },
+        onTap: () => _handleItemTap(context, item),
       );
+    }
+  }
+
+  void _handleItemTap(BuildContext context, Map<String, dynamic> item) {
+    switch (item["type"]) {
+      case "text":
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => openText(
+              item["title"],
+              item["mediaDownloadUrl"],
+            ),
+          ),
+        );
+        break;
+      case "image":
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => openImage(
+              context,
+              item["title"],
+              item["mediaStreamUrl"],
+            ),
+          ),
+        );
+        break;
+      case "other":
+        if (item["title"].endsWith(".pdf")) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => openPdf(
+                item["title"],
+                item["mediaStreamUrl"],
+              ),
+            ),
+          );
+        }
+        break;
     }
   }
 }

@@ -14,7 +14,7 @@ mixin WorkWidget {
     );
   }
 
-  static Widget getWorkRJID(Work work, [double top = 8, double left = 8]) {
+  static Widget getWorkRJID(Work work, {double top = 8, double left = 8}) {
     return Positioned(
       top: top,
       left: left,
@@ -89,7 +89,7 @@ mixin WorkWidget {
     );
   }
 
-  static Widget getRate(Work work, [bool isDetail = false]) {
+  static Widget getRate(Work work, {bool isDetail = false}) {
     return Wrap(
       spacing: 6,
       runSpacing: 6,
@@ -126,7 +126,7 @@ mixin WorkWidget {
           // color: const Color.fromARGB(180, 255, 255, 255),
         ),
         Text(
-          calcDuration(work.duration, isDetail),
+          calcDuration(work.duration, isDetail: isDetail),
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
         ),
         Icon(
@@ -153,7 +153,7 @@ mixin WorkWidget {
     );
   }
 
-  static Widget getSell(Work work, [bool isDetail = false]) {
+  static Widget getSell(Work work, {bool isDetail = false}) {
     return Wrap(
       spacing: 6,
       runSpacing: 6,
@@ -174,7 +174,7 @@ mixin WorkWidget {
         ),
         ...getAgeString(work.AgeCategory),
         ...getSubtitle(work.HasSubTitle),
-        ...getMutiLang(work.OtherLang, isDetail),
+        ...getMutiLang(work.OtherLang, isDetail: isDetail),
       ],
     );
   }
@@ -213,7 +213,7 @@ mixin WorkWidget {
                   child: Text(
                     cv,
                     style: const TextStyle(
-                        color: Colors.white,
+                      color: Colors.white,
                       fontSize: 15,
                       fontWeight: FontWeight.w400,
                     ),

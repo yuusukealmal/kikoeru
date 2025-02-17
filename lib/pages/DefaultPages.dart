@@ -9,7 +9,9 @@ class PopularWorkPage extends BaseWorkPage {
   PopularWorkPage({super.key})
       : super(
           fetchWorks: (page, hasLanguage, order) => Request.getPopularWorks(
-              index: page, subtitle: hasLanguage ? 1 : 0),
+            index: page,
+            subtitle: hasLanguage ? 1 : 0,
+          ),
         );
 
   @override
@@ -23,7 +25,9 @@ class RecommandWorkPage extends BaseWorkPage {
   RecommandWorkPage({super.key})
       : super(
           fetchWorks: (page, hasLanguage, order) => Request.getRecommendedWorks(
-              index: page, subtitle: hasLanguage ? 1 : 0),
+            index: page,
+            subtitle: hasLanguage ? 1 : 0,
+          ),
         );
 
   @override
@@ -129,7 +133,10 @@ class AllWorksPage extends BaseWorkPage {
   AllWorksPage({super.key})
       : super(
           fetchWorks: (page, hasLanguage, order) => Request.getAllWorks(
-              index: page, subtitle: hasLanguage ? 1 : 0, order: order),
+            index: page,
+            subtitle: hasLanguage ? 1 : 0,
+            order: order,
+          ),
         );
 
   @override

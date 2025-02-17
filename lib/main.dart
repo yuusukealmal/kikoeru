@@ -27,11 +27,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return MaterialApp(
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: themeProvider.themeMode,
-      home: const MyHomePage(title: 'Kikoeru'),
-    );
+    try {
+      return MaterialApp(
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: themeProvider.themeMode,
+        home: const MyHomePage(title: 'Kikoeru'),
+      );
+    } catch (e) {
+      return Center(
+        child: Text("Error: ${e.toString()}"),
+      );
+    }
   }
 }

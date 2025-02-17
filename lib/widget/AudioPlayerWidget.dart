@@ -14,7 +14,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   @override
   void initState() {
     super.initState();
-    Provider.of<AudioProvider>(context, listen: false).setIsAudioScreem(true);
+    Provider.of<AudioProvider>(context, listen: false).setIsAudioScreen(true);
   }
 
   @override
@@ -32,7 +32,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) {
           Provider.of<AudioProvider>(context, listen: false)
-              .setIsAudioScreem(false);
+              .setIsAudioScreen(false);
           audioProvider.updateOverlay(context);
         }
       },
@@ -41,7 +41,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
           onVerticalDragUpdate: (details) {
             if (details.primaryDelta! > 5) {
               Provider.of<AudioProvider>(context, listen: false)
-                  .setIsAudioScreem(false);
+                  .setIsAudioScreen(false);
               audioProvider.updateOverlay(context);
               Navigator.pop(context);
             }
@@ -83,7 +83,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                     ),
                     SizedBox(height: 30),
                     Text(
-                      audioProvider.currentAudioTitle ?? 'Online Music Stream',
+                      audioProvider.currentAudioTitle ?? "",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -91,8 +91,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                     ),
                     SizedBox(height: 30),
                     Text(
-                      audioProvider.currentAudioWorkTitle ??
-                          'Streaming MP3/WAV from URL',
+                      audioProvider.currentAudioWorkTitle ?? "",
                       style: TextStyle(fontSize: 14),
                     ),
                     SizedBox(height: 65),
@@ -127,9 +126,9 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                               int index = audioProvider.index! - 1;
                               audioProvider.setIndex(index);
                               audioProvider.playAudio(
-                                  context,
-                                  audioProvider
-                                      .audioList![audioProvider.index!]);
+                                context,
+                                audioProvider.audioList![audioProvider.index!],
+                              );
                             }
                           },
                         ),
@@ -155,9 +154,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                                 size: 48,
                               ),
                               onPressed: () {
-                                isPlaying
-                                    ? audioProvider.pauseAudio()
-                                    : audioProvider.resumeAudio();
+                                audioProvider.togglePlayPause();
                               },
                             );
                           },
@@ -185,9 +182,9 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                               int index = audioProvider.index! + 1;
                               audioProvider.setIndex(index);
                               audioProvider.playAudio(
-                                  context,
-                                  audioProvider
-                                      .audioList![audioProvider.index!]);
+                                context,
+                                audioProvider.audioList![audioProvider.index!],
+                              );
                             }
                           },
                         ),

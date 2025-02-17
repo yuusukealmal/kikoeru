@@ -5,206 +5,155 @@ import 'package:kikoeru/widget/AudioPlayerWidget.dart';
 
 class AudioProvider extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
-  String? _currentAudioUrl;
-  String? _currentAudioTitle;
-  String? _currentAudioWorkTitle;
-  String? _samCoverUrl;
-  String? _mainCoverUrl;
-  bool _isPlaying = false;
-  bool _isOverlayShow = false;
-  bool _isAudioScreem = false;
+  String? _currentAudioUrl, _currentAudioTitle, _currentAudioWorkTitle;
+  String? _samCoverUrl, _mainCoverUrl;
+  bool _isPlaying = false, _isOverlayShow = false, _isAudioScreen = false;
   OverlayEntry? _overlayEntry;
-  List<Map<String, dynamic>>? _audioList;
   int? _index;
+  List<Map<String, dynamic>>? _audioList;
 
   AudioPlayer get audioPlayer => _audioPlayer;
-  bool get isPlaying => _isPlaying;
   bool get isOverlayShow => _isOverlayShow;
-  bool get isAudioScreem => _isAudioScreem;
   String? get currentAudioTitle => _currentAudioTitle;
   String? get currentAudioWorkTitle => _currentAudioWorkTitle;
-  String? get samCoverUrl => _samCoverUrl;
   String? get mainCoverUrl => _mainCoverUrl;
   Stream<bool> get playingStream => _audioPlayer.playingStream;
-  List<Map<String, dynamic>>? get audioList => _audioList;
   int? get index => _index;
+  List<Map<String, dynamic>>? get audioList => _audioList;
 
   void setIndex(int index) => _index = index;
-  void setIsAudioScreem(bool isAudioScreem) => _isAudioScreem = isAudioScreem;
+  void setIsAudioScreen(bool value) => _isAudioScreen = value;
 
   OverlayEntry _createOverlayEntry(BuildContext context) {
     return OverlayEntry(
-      builder: (context) {
-        return Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: Material(
-            elevation: 4,
-            child: Container(
-              padding: EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Stack(
-                    children: [
-                      Image.network(
-                        _samCoverUrl ?? "",
-                        height: 60,
-                      ),
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.queue,
-                            color: Colors.white,
+      builder: (context) => Positioned(
+        bottom: 0,
+        left: 0,
+        right: 0,
+        child: Material(
+          elevation: 4,
+          child: Container(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Stack(
+                  children: [
+                    Image.network(_samCoverUrl ?? "", height: 60),
+                    Positioned(
+                      top: 0,
+                      left: 0,
+                      child: IconButton(
+                        icon: Icon(Icons.queue, color: Colors.white),
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AudioPlayerScreen(),
                           ),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AudioPlayerScreen(),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: ListTile(
-                      title: SizedBox(
-                        height: 20,
-                        child: Marquee(
-                          text: _currentAudioTitle ?? "正在播放",
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ),
-                      subtitle: SizedBox(
-                        height: 20,
-                        child: Marquee(
-                          text: _currentAudioWorkTitle ?? "正在播放",
-                          style: TextStyle(fontSize: 12),
                         ),
                       ),
                     ),
+                  ],
+                ),
+                SizedBox(width: 8),
+                Expanded(
+                  child: ListTile(
+                    title: SizedBox(
+                      height: 20,
+                      child: Marquee(
+                        text: _currentAudioTitle ?? "正在播放",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    subtitle: SizedBox(
+                      height: 20,
+                      child: Marquee(
+                        text: _currentAudioWorkTitle ?? "正在播放",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                    ),
                   ),
-                  IconButton(
-                    icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
-                    onPressed: () {
-                      if (_isPlaying) {
-                        pauseAudio();
-                      } else {
-                        resumeAudio();
-                      }
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: stopAudio,
-                  ),
-                ],
-              ),
+                ),
+                IconButton(
+                  icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
+                  onPressed: togglePlayPause,
+                ),
+                IconButton(icon: Icon(Icons.close), onPressed: stopAudio),
+              ],
             ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
   Future<void> playAudio(
-      BuildContext context, Map<String, dynamic> dict) async {
+    BuildContext context,
+    Map<String, dynamic> dict,
+  ) async {
     String url = dict["mediaStreamUrl"];
 
     if (_currentAudioUrl != url) {
-      _audioPlayer.stop();
-      await _audioPlayer.setUrl(url);
-      _audioPlayer.play();
+      await stopAudio();
       _currentAudioUrl = url;
       _currentAudioTitle = dict["title"];
       _currentAudioWorkTitle = dict["workTitle"];
+      await _audioPlayer.setUrl(url);
       _isPlaying = true;
+      _audioPlayer.play();
       updateOverlay(context);
     } else {
-      if (_isPlaying) {
-        _audioPlayer.pause();
-        _isPlaying = false;
-      } else {
-        _audioPlayer.play();
-        _isPlaying = true;
-      }
+      // togglePlayPause();
     }
     notifyListeners();
   }
 
   void playAudioList(
-      BuildContext context, List<Map<String, dynamic>> audioList, int index,
-      {String samCoverUrl = "", String mainCoverUrl = ""}) {
-    _audioList = audioList;
-    debugPrint(audioList.length.toString());
+    BuildContext context,
+    int index,
+    List<Map<String, dynamic>> audioList,
+    String mainCoverUrl,
+    String samCoverUrl,
+  ) {
     _index = index;
-    debugPrint(index.toString());
-    _samCoverUrl = samCoverUrl;
+    _audioList = audioList;
     _mainCoverUrl = mainCoverUrl;
+    _samCoverUrl = samCoverUrl;
     playAudio(context, audioList[index]);
   }
 
-  Future<void> pauseAudio() async {
-    _audioPlayer.pause();
-    _isPlaying = false;
-    notifyListeners();
-    _updateOverlayIfNeeded();
-  }
-
-  Future<void> resumeAudio() async {
-    _audioPlayer.play();
-    _isPlaying = true;
+  void togglePlayPause() {
+    _isPlaying ? _audioPlayer.pause() : _audioPlayer.play();
+    _isPlaying = !_isPlaying;
     notifyListeners();
     _updateOverlayIfNeeded();
   }
 
   Future<void> stopAudio() async {
-    _audioPlayer.stop();
+    await _audioPlayer.stop();
     _isPlaying = false;
-    _currentAudioUrl = null;
-    _currentAudioTitle = null;
-    _currentAudioWorkTitle = null;
-    if (_overlayEntry != null) {
-      _overlayEntry!.remove();
-      _overlayEntry = null;
-      _isOverlayShow = false;
-    }
+    _currentAudioUrl = _currentAudioTitle = _currentAudioWorkTitle = null;
+    hideOverlay();
     notifyListeners();
   }
 
   void updateOverlay(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_overlayEntry != null) {
-        _overlayEntry!.remove();
-        _overlayEntry = null;
-        _isOverlayShow = false;
-      }
-
-      if (!_isAudioScreem) {
+      hideOverlay();
+      if (!_isAudioScreen) {
         _overlayEntry = _createOverlayEntry(context);
-        _isOverlayShow = true;
         Overlay.of(context).insert(_overlayEntry!);
+        _isOverlayShow = true;
       }
     });
   }
 
   void hideOverlay() {
-    if (_overlayEntry != null) {
-      _overlayEntry!.remove();
-      _overlayEntry = null;
-      _isOverlayShow = false;
-    }
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+    _isOverlayShow = false;
   }
 
   void _updateOverlayIfNeeded() {
-    if (_overlayEntry != null) {
-      _overlayEntry!.markNeedsBuild();
-    }
+    _overlayEntry?.markNeedsBuild();
   }
 }

@@ -6,11 +6,12 @@ class SearchWorksPage extends BaseWorkPage {
   SearchWorksPage({super.key, required this.type, required this.query})
       : super(
           fetchWorks: (page, hasLanguage, order) => Request.getSearchWorks(
-              type: type,
-              querys: query,
-              index: page,
-              subtitle: hasLanguage ? 1 : 0,
-              order: order),
+            type: type,
+            querys: query,
+            index: page,
+            subtitle: hasLanguage ? 1 : 0,
+            order: order,
+          ),
         );
 
   final SearchType type;
