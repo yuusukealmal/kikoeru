@@ -12,6 +12,7 @@ class AudioProvider extends ChangeNotifier {
   String? _mainCoverUrl;
   bool _isPlaying = false;
   bool _isOverlayShow = false;
+  bool _isAudioScreem = false;
   OverlayEntry? _overlayEntry;
   List<Map<String, dynamic>>? _audioList;
   int? _index;
@@ -19,6 +20,7 @@ class AudioProvider extends ChangeNotifier {
   AudioPlayer get audioPlayer => _audioPlayer;
   bool get isPlaying => _isPlaying;
   bool get isOverlayShow => _isOverlayShow;
+  bool get isAudioScreem => _isAudioScreem;
   String? get currentAudioTitle => _currentAudioTitle;
   String? get currentAudioWorkTitle => _currentAudioWorkTitle;
   String? get samCoverUrl => _samCoverUrl;
@@ -26,6 +28,9 @@ class AudioProvider extends ChangeNotifier {
   Stream<bool> get playingStream => _audioPlayer.playingStream;
   List<Map<String, dynamic>>? get audioList => _audioList;
   int? get index => _index;
+
+  void setIndex(int index) => _index = index;
+  void setIsAudioScreem(bool isAudioScreem) => _isAudioScreem = isAudioScreem;
 
   OverlayEntry _createOverlayEntry(BuildContext context) {
     return OverlayEntry(
@@ -181,9 +186,11 @@ class AudioProvider extends ChangeNotifier {
         _isOverlayShow = false;
       }
 
-      _overlayEntry = _createOverlayEntry(context);
-      _isOverlayShow = true;
-      Overlay.of(context).insert(_overlayEntry!);
+      if (!_isAudioScreem) {
+        _overlayEntry = _createOverlayEntry(context);
+        _isOverlayShow = true;
+        Overlay.of(context).insert(_overlayEntry!);
+      }
     });
   }
 

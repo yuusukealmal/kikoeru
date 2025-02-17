@@ -14,6 +14,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
   @override
   void initState() {
     super.initState();
+    Provider.of<AudioProvider>(context, listen: false).setIsAudioScreem(true);
   }
 
   @override
@@ -30,6 +31,8 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) {
+          Provider.of<AudioProvider>(context, listen: false)
+              .setIsAudioScreem(false);
           audioProvider.updateOverlay(context);
         }
       },
@@ -37,6 +40,8 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
         body: GestureDetector(
           onVerticalDragUpdate: (details) {
             if (details.primaryDelta! > 5) {
+              Provider.of<AudioProvider>(context, listen: false)
+                  .setIsAudioScreem(false);
               audioProvider.updateOverlay(context);
               Navigator.pop(context);
             }
@@ -119,10 +124,12 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                           onPressed: () {
                             if (audioProvider.index! > 0) {
                               audioProvider.stopAudio();
+                              int index = audioProvider.index! - 1;
+                              audioProvider.setIndex(index);
                               audioProvider.playAudio(
                                   context,
                                   audioProvider
-                                      .audioList![audioProvider.index! - 1]);
+                                      .audioList![audioProvider.index!]);
                             }
                           },
                         ),
@@ -175,10 +182,12 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                             if (audioProvider.index! <
                                 audioProvider.audioList!.length - 1) {
                               audioProvider.stopAudio();
+                              int index = audioProvider.index! + 1;
+                              audioProvider.setIndex(index);
                               audioProvider.playAudio(
                                   context,
                                   audioProvider
-                                      .audioList![audioProvider.index! + 1]);
+                                      .audioList![audioProvider.index!]);
                             }
                           },
                         ),
