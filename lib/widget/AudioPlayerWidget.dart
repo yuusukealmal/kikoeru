@@ -129,13 +129,15 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                             size: 32,
                           ),
                           onPressed: () {
+                            debugPrint(audioProvider.index.toString());
                             if (audioProvider.index! > 0) {
                               audioProvider.stopAudio();
                               int index = audioProvider.index! - 1;
                               audioProvider.setIndex(index);
-                              audioProvider.playAudio(
-                                context,
-                                audioProvider.audioList![audioProvider.index!],
+                              audioProvider.seekToPrevious(context);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("已經是第一首了")),
                               );
                             }
                           },
@@ -184,14 +186,16 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                             size: 32,
                           ),
                           onPressed: () {
+                            debugPrint(audioProvider.index.toString());
                             if (audioProvider.index! <
-                                audioProvider.audioList!.length - 1) {
+                                audioProvider.length! - 1) {
                               audioProvider.stopAudio();
                               int index = audioProvider.index! + 1;
                               audioProvider.setIndex(index);
-                              audioProvider.playAudio(
-                                context,
-                                audioProvider.audioList![audioProvider.index!],
+                              audioProvider.seekToNext(context);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("已經是最後一首了")),
                               );
                             }
                           },

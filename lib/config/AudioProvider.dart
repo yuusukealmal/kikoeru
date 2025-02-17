@@ -4,12 +4,26 @@ import 'package:marquee/marquee.dart';
 import 'package:kikoeru/widget/AudioPlayerWidget.dart';
 
 class AudioProvider extends ChangeNotifier {
+  AudioProvider() {
+    _audioPlayer.currentIndexStream.listen((index) {
+      if (index != null) {
+        _index = index;
+        _currentAudioUrl = _audioList?[index]["mediaStreamUrl"];
+        _currentAudioTitle = _audioList?[index]["title"];
+        _currentAudioWorkTitle = _audioList?[index]["workTitle"];
+        _updateOverlayIfNeeded();
+        notifyListeners();
+      }
+    });
+  }
+
   final AudioPlayer _audioPlayer = AudioPlayer();
   String? _currentAudioUrl, _currentAudioTitle, _currentAudioWorkTitle;
   String? _samCoverUrl, _mainCoverUrl;
   bool _isPlaying = false, _isOverlayShow = false, _isAudioScreen = false;
   OverlayEntry? _overlayEntry;
-  int? _index;
+  int? _index, _length;
+  ConcatenatingAudioSource? playList;
   List<Map<String, dynamic>>? _audioList;
 
   AudioPlayer get audioPlayer => _audioPlayer;
@@ -19,7 +33,7 @@ class AudioProvider extends ChangeNotifier {
   String? get mainCoverUrl => _mainCoverUrl;
   Stream<bool> get playingStream => _audioPlayer.playingStream;
   int? get index => _index;
-  List<Map<String, dynamic>>? get audioList => _audioList;
+  int? get length => _length;
 
   void setIndex(int index) => _index = index;
   void setIsAudioScreen(bool value) => _isAudioScreen = value;
@@ -81,18 +95,28 @@ class AudioProvider extends ChangeNotifier {
     );
   }
 
+  Future<void> seekToPrevious(BuildContext context) async {
+    await playAudio(context, _index!);
+    _updateOverlayIfNeeded();
+  }
+
+  Future<void> seekToNext(BuildContext context) async {
+    await playAudio(context, _index!);
+    _updateOverlayIfNeeded();
+  }
+
   Future<void> playAudio(
     BuildContext context,
-    Map<String, dynamic> dict,
+    int index,
   ) async {
-    String url = dict["mediaStreamUrl"];
-
+    String url = _audioList![index]["mediaStreamUrl"];
     if (_currentAudioUrl != url) {
       await stopAudio();
       _currentAudioUrl = url;
-      _currentAudioTitle = dict["title"];
-      _currentAudioWorkTitle = dict["workTitle"];
-      await _audioPlayer.setUrl(url);
+      _currentAudioTitle = _audioList![index]["title"];
+      _currentAudioWorkTitle = _audioList![index]["workTitle"];
+      await _audioPlayer.setAudioSource(playList!,
+          initialIndex: _index, initialPosition: Duration.zero);
       _isPlaying = true;
       _audioPlayer.play();
       updateOverlay(context);
@@ -105,15 +129,28 @@ class AudioProvider extends ChangeNotifier {
   void playAudioList(
     BuildContext context,
     int index,
-    List<Map<String, dynamic>> audioList,
-    String mainCoverUrl,
-    String samCoverUrl,
-  ) {
+    List<Map<String, dynamic>> audioList, [
+    String? mainCoverUrl,
+    String? samCoverUrl,
+  ]) {
     _index = index;
-    _audioList = audioList;
     _mainCoverUrl = mainCoverUrl;
     _samCoverUrl = samCoverUrl;
-    playAudio(context, audioList[index]);
+    List<UriAudioSource> audiolist = audioList
+        .map(
+          (item) => AudioSource.uri(
+            Uri.parse(item["mediaStreamUrl"]),
+          ),
+        )
+        .toList();
+    _length = audioList.length;
+    _audioList = audioList;
+    playList = ConcatenatingAudioSource(
+      useLazyPreparation: true,
+      shuffleOrder: DefaultShuffleOrder(),
+      children: audiolist,
+    );
+    playAudio(context, index);
   }
 
   void togglePlayPause() {
