@@ -39,12 +39,14 @@ class _WrokCardState extends State<WrokCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 上方圖片區塊 (含 ID 標籤)
-              Stack(
-                children: [
-                  WorkWidget.getWorkImage(work),
-                  WorkWidget.getWorkRJID(work),
-                  WorkWidget.getWorkReleaseDate(work)
-                ],
+              Center(
+                child: Stack(
+                  children: [
+                    WorkWidget.getWorkImage(work),
+                    WorkWidget.getWorkRJID(work),
+                    WorkWidget.getWorkReleaseDate(work)
+                  ],
+                ),
               ),
 
               // 作品資訊

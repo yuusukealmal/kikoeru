@@ -157,6 +157,7 @@ abstract class BaseWorkPageState<T extends BaseWorkPage> extends State<T> {
         Expanded(
           child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              mainAxisExtent: 550,
               crossAxisCount: 1,
               childAspectRatio: 0.7,
             ),
