@@ -155,12 +155,7 @@ abstract class BaseWorkPageState<T extends BaseWorkPage> extends State<T> {
           ),
         ),
         Expanded(
-          child: GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              mainAxisExtent: 550,
-              crossAxisCount: 1,
-              childAspectRatio: 0.7,
-            ),
+          child: ListView.builder(
             itemCount: works.length,
             itemBuilder: (context, index) {
               final Work work = Work(work: works[index]);
