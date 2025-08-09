@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:kikoeru/config/AudioProvider.dart';
 import 'package:kikoeru/config/ThemeProvider.dart';
 import 'package:kikoeru/config/SharedPreferences.dart';
-import 'package:kikoeru/pages/MyHomePage.dart';
+import 'package:kikoeru/pages/EntryPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: themeProvider.themeMode,
-      home: const MyHomePage(title: 'Kikoeru'),
+      home: const EntryPage(title: 'Kikoeru'),
     );
   }
 }

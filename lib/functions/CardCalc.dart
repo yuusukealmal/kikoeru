@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kikoeru/api/RequestPage.dart';
-import 'package:kikoeru/pages/SearchPage.dart';
+import 'package:kikoeru/pages/HomePage/SearchPage.dart';
 
 String calcDuration(int duration, {bool isDetail = false}) {
   if (isDetail) {

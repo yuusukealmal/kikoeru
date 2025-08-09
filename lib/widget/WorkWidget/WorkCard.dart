@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kikoeru/class/workInfo.dart';
-import 'package:kikoeru/widget/WorkWidget/WorkWidget.dart';
+
+// card detail
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/WorkImage.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/WorkRjID.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/ReleaseDate.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/TitleCircle.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Rate.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Sell.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Tag.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Va.dart';
 
 class WrokCard extends StatefulWidget {
   const WrokCard({super.key, required this.work});
@@ -35,35 +44,39 @@ class _WrokCardState extends State<WrokCard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          SizedBox(height: 16),
+
           // 上方圖片區塊 (含 ID 標籤)
           Center(
             child: Stack(
               children: [
-                WorkWidget.getWorkImage(work),
-                WorkWidget.getWorkRJID(work),
-                WorkWidget.getWorkReleaseDate(work)
+                getWorkImage(work),
+                getWorkRJID(work),
+                getWorkReleaseDate(work)
               ],
             ),
           ),
 
           // 作品資訊
-          WorkWidget.getTitleandCircle(context, work),
+          getTitleandCircle(context, work),
 
           // 作品統計資訊
-          WorkWidget.getRate(work),
+          getRate(work),
 
           // 價格和銷量
-          WorkWidget.getSell(work),
+          getSell(work),
 
           SizedBox(height: 8),
 
           // 標籤區塊
-          WorkWidget.getTag(context, work),
+          getTag(context, work),
 
           SizedBox(height: 8),
 
           // cv 區塊
-          WorkWidget.getVas(context, work),
+          getVas(context, work),
+
+          SizedBox(height: 16)
         ],
       ),
     );

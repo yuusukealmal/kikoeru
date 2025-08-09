@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kikoeru/api/RequestPage.dart';
-import 'package:kikoeru/widget/BaseWorkPage.dart';
+import 'package:kikoeru/pages/HomePage/BaseWorkPage.dart';
 
-class SearchWorksPage extends BaseWorkPage {
+class SearchWorksPage extends BasePage {
   SearchWorksPage({super.key, required this.type, required this.query})
       : super(
           fetchWorks: (page, hasLanguage, order) => Request.getSearchWorks(
@@ -21,7 +21,7 @@ class SearchWorksPage extends BaseWorkPage {
   State<SearchWorksPage> createState() => _SearchWorksPageState();
 }
 
-class _SearchWorksPageState extends BaseWorkPageState<SearchWorksPage> {
+class _SearchWorksPageState extends BasePageState<SearchWorksPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
-import 'package:kikoeru/widget/AudioPlayerWidget.dart';
+import 'package:kikoeru/widget/AudioPlayerWidget/AudioPlayerWidget.dart';
 
 class AudioProvider extends ChangeNotifier {
   AudioProvider() {

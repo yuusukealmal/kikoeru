@@ -5,8 +5,17 @@ import 'package:kikoeru/api/RequestPage.dart';
 import 'package:kikoeru/class/workInfo.dart';
 import 'package:kikoeru/config/AudioProvider.dart';
 import 'package:kikoeru/functions/getLeadintg.dart';
-import 'package:kikoeru/widget/WorkWidget/WorkWidget.dart';
 import 'package:kikoeru/widget/WorkWidget/openContent.dart';
+
+// card detail
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/WorkImage.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/WorkRjID.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/ReleaseDate.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/TitleCircle.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Rate.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Sell.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Tag.dart';
+import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Va.dart';
 
 class WorkPage extends StatefulWidget {
   const WorkPage({super.key, required this.work});
@@ -17,7 +26,7 @@ class WorkPage extends StatefulWidget {
   State<WorkPage> createState() => _WorkPageState();
 }
 
-class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
+class _WorkPageState extends State<WorkPage> with openWorkContent {
   late Future<dynamic> _workInfoFuture;
 
   @override
@@ -54,19 +63,19 @@ class _WorkPageState extends State<WorkPage> with WorkWidget, openWorkContent {
               children: [
                 Stack(
                   children: [
-                    WorkWidget.getWorkImage(widget.work),
-                    WorkWidget.getWorkRJID(widget.work, top: 12, left: 14),
-                    WorkWidget.getWorkReleaseDate(widget.work),
+                    getWorkImage(widget.work),
+                    getWorkRJID(widget.work, top: 12, left: 14),
+                    getWorkReleaseDate(widget.work),
                   ],
                 ),
-                WorkWidget.getTitleandCircle(context, widget.work),
-                WorkWidget.getRate(widget.work, isDetail: true),
+                getTitleandCircle(context, widget.work),
+                getRate(widget.work, isDetail: true),
                 const SizedBox(height: 8),
-                WorkWidget.getSell(widget.work, isDetail: true),
+                getSell(widget.work, isDetail: true),
                 const SizedBox(height: 8),
-                WorkWidget.getTag(context, widget.work),
+                getTag(context, widget.work),
                 const SizedBox(height: 8),
-                WorkWidget.getVas(context, widget.work),
+                getVas(context, widget.work),
                 const SizedBox(height: 8),
                 if (workInfo.toString().contains("error"))
                   Padding(

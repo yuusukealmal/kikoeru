@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:kikoeru/api/RequestPage.dart';
 import 'package:kikoeru/config/SharedPreferences.dart';
 import 'package:kikoeru/pages/LoginPage.dart';
-import 'package:kikoeru/widget/BaseWorkPage.dart';
+import 'package:kikoeru/pages/HomePage/BaseWorkPage.dart';
 
 // PopularWorks
-class PopularWorkPage extends BaseWorkPage {
+class PopularWorkPage extends BasePage {
   PopularWorkPage({super.key})
       : super(
           fetchWorks: (page, hasLanguage, order) => Request.getPopularWorks(
@@ -18,10 +18,10 @@ class PopularWorkPage extends BaseWorkPage {
   State<PopularWorkPage> createState() => _PopularWorkPageState();
 }
 
-class _PopularWorkPageState extends BaseWorkPageState<PopularWorkPage> {}
+class _PopularWorkPageState extends BasePageState<PopularWorkPage> {}
 
 // RecommendedWorks
-class RecommandWorkPage extends BaseWorkPage {
+class RecommandWorkPage extends BasePage {
   RecommandWorkPage({super.key})
       : super(
           fetchWorks: (page, hasLanguage, order) => Request.getRecommendedWorks(
@@ -34,7 +34,7 @@ class RecommandWorkPage extends BaseWorkPage {
   State<RecommandWorkPage> createState() => _RecommandWorkPageState();
 }
 
-class _RecommandWorkPageState extends BaseWorkPageState<RecommandWorkPage> {
+class _RecommandWorkPageState extends BasePageState<RecommandWorkPage> {
   @override
   bool checkLogin() {
     return SharedPreferencesHelper.getString("USER.RECOMMENDER.UUID") != null;
@@ -76,7 +76,7 @@ class _RecommandWorkPageState extends BaseWorkPageState<RecommandWorkPage> {
 }
 
 // MyFavoriteWorks
-class FavoriteWorkPage extends BaseWorkPage {
+class FavoriteWorkPage extends BasePage {
   FavoriteWorkPage({super.key})
       : super(
           fetchWorks: (page, hasLanguage, order) =>
@@ -87,7 +87,7 @@ class FavoriteWorkPage extends BaseWorkPage {
   State<FavoriteWorkPage> createState() => _FavoriteWorkPageState();
 }
 
-class _FavoriteWorkPageState extends BaseWorkPageState<FavoriteWorkPage> {
+class _FavoriteWorkPageState extends BasePageState<FavoriteWorkPage> {
   @override
   bool checkLogin() {
     return SharedPreferencesHelper.getString("USER.RECOMMENDER.UUID") != null;
@@ -129,7 +129,7 @@ class _FavoriteWorkPageState extends BaseWorkPageState<FavoriteWorkPage> {
 }
 
 // AllWorks
-class AllWorksPage extends BaseWorkPage {
+class AllWorksPage extends BasePage {
   AllWorksPage({super.key})
       : super(
           fetchWorks: (page, hasLanguage, order) => Request.getAllWorks(
@@ -143,4 +143,4 @@ class AllWorksPage extends BaseWorkPage {
   State<AllWorksPage> createState() => _AllWorksPageState();
 }
 
-class _AllWorksPageState extends BaseWorkPageState<AllWorksPage> {}
+class _AllWorksPageState extends BasePageState<AllWorksPage> {}
