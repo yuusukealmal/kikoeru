@@ -1,13 +1,20 @@
+// flutter
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
+// 3rd lib
 import 'package:provider/provider.dart';
 
+// config
 import 'package:kikoeru/core/config/provider/AudioProvider.dart';
 
+// widgets
 import 'package:kikoeru/pages/HomePage/widgets/HomePageHeader.dart';
 import 'package:kikoeru/pages/HomePage/widgets/HomePageCardView.dart';
 import 'package:kikoeru/pages/HomePage/widgets/HomePageFooter.dart';
+
+// function
+import 'package:kikoeru/pages/HomePage/logic/HomePageScroll.dart';
 
 abstract class BasePage extends StatefulWidget {
   final Future<String> Function(
@@ -30,6 +37,7 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
   final int itemsPerPage = 20;
   late int totalPages;
   final TextEditingController _textController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
 
   String order = "最新收錄";
   final List<String> orders = [
@@ -57,6 +65,7 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
   @override
   void dispose() {
     _textController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -83,6 +92,8 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
       _textController.text = currentPage.toString();
       fetchCurrentPage();
     });
+
+    resetScroll(_scrollController);
   }
 
   void onOrderChange(String order) {
@@ -99,6 +110,8 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
       hasLanguage = value;
       fetchCurrentPage();
     });
+
+    resetScroll(_scrollController);
   }
 
   @override
@@ -119,7 +132,7 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
           onOrderChange,
           onHasLanguageChange,
         ),
-        HomePageCardView(works),
+        HomePageCardView(works, _scrollController),
         HomePageFooter(
           context,
           currentPage,
