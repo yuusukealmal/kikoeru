@@ -14,7 +14,7 @@ import 'package:kikoeru/pages/WorkDetail/logic/ItemTapHandle.dart';
 // widget
 import 'package:kikoeru/pages/WorkDetail/widgets/WorkDetailCardView.dart';
 import 'package:kikoeru/pages/WorkDetail/widgets/WorkDetailForders.dart';
-import 'package:kikoeru/pages/WorkDetail/widgets/WorkDetailsLeadin.dart';
+import 'package:kikoeru/pages/WorkDetail/widgets/WorkDetailsLeading.dart';
 
 // mixin
 import 'package:kikoeru/pages/WorkDetail/logic/Audio.dart';
