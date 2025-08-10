@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
       darkTheme: ThemeData.dark(),
       themeMode: themeProvider.themeMode,
       home: const EntryPage(title: 'Kikoeru'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
