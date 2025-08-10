@@ -6,7 +6,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:marquee/marquee.dart';
 
 // widget
-import 'package:kikoeru/widget/AudioPlayerWidget/AudioPlayerWidget.dart';
+import 'package:kikoeru/pages/AudioPlayer/pages/AudioPlayer.dart';
 
 class AudioProvider extends ChangeNotifier {
   AudioProvider() {
