@@ -1,13 +1,13 @@
+// flutter
 import 'package:flutter/material.dart';
 
-import 'package:provider/provider.dart';
-
-import 'package:kikoeru/config/ThemeProvider.dart';
-
+// pages
 import 'package:kikoeru/widget/EntryPageWidget/HomePageTitle.dart';
 import 'package:kikoeru/widget/DrawerWidget/DrawerWidget.dart';
-
 import 'package:kikoeru/pages/HomePage/DefaultPages.dart';
+
+// function
+import 'package:kikoeru/functions/NormalPages/EntryPageEvent.dart';
 
 class EntryPage extends StatefulWidget {
   const EntryPage({super.key, required this.title});
@@ -26,28 +26,15 @@ class _EntryPageState extends State<EntryPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    _tabController.addListener(_handleTabSelection);
+    _tabController.addListener(() => handleTabSelection(_tabController));
   }
 
   @override
   void dispose() {
-    _tabController.removeListener(_handleTabSelection);
+    _tabController.removeListener(() => handleTabSelection(_tabController));
     _tabController.dispose();
     _searchController.dispose();
     super.dispose();
-  }
-
-  void _toggleTheme() async {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-    await themeProvider.toggleTheme();
-  }
-
-  void _handleTabSelection() {
-    if (_tabController.indexIsChanging) {
-      debugPrint('Tab is changing to index: ${_tabController.index}');
-    } else if (!_tabController.indexIsChanging) {
-      debugPrint('Tab changed to index: ${_tabController.index}');
-    }
   }
 
   @override
@@ -77,7 +64,7 @@ class _EntryPageState extends State<EntryPage> with TickerProviderStateMixin {
           IconButton(
             icon: const Icon(Icons.light_mode_outlined),
             tooltip: 'Toggle Theme',
-            onPressed: _toggleTheme,
+            onPressed: () => toggleTheme(context),
           ),
         ],
       ),

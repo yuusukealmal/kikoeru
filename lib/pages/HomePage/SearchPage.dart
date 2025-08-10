@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kikoeru/api/RequestPage.dart';
+import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
 import 'package:kikoeru/pages/HomePage/BaseWorkPage.dart';
 
 class SearchWorksPage extends BasePage {

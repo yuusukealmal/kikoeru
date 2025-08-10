@@ -1,18 +1,21 @@
+// flutter
 import 'package:flutter/material.dart';
-import 'package:kikoeru/class/workInfo.dart';
 
-Widget getWorkRJID(Work work, {double top = 8, double left = 8}) {
+// class
+import 'package:kikoeru/class/Work.dart';
+
+Widget getWorkReleaseDate(Work work) {
   return Positioned(
-    top: top,
-    left: left,
+    bottom: 4,
+    right: 8,
     child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 121, 85, 72),
+        color: const Color.fromARGB(100, 0, 0, 0),
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
-        "RJ${work.id}",
+        work.release,
         style:
             const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),

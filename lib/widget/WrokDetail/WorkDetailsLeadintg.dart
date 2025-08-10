@@ -1,7 +1,7 @@
+// flutter
 import 'package:flutter/material.dart';
 
-Widget getLeading(String type) {
-  debugPrint(type);
+Widget Leading(String type) {
   switch (type) {
     case "folder":
       return Icon(Icons.folder);

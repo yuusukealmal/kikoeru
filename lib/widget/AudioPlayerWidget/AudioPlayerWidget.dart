@@ -1,8 +1,13 @@
+// flutter
 import 'package:flutter/material.dart';
+
+// 3rd lib
 import 'package:provider/provider.dart';
 import 'package:volume_controller/volume_controller.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
-import 'package:kikoeru/config/AudioProvider.dart';
+
+// config
+import 'package:kikoeru/config/provider/AudioProvider.dart';
 
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({super.key});
@@ -23,11 +28,6 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
     super.initState();
     Provider.of<AudioProvider>(context, listen: false).setIsAudioScreen(true);
     getVolume().then((value) => setState(() => volume = value));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override

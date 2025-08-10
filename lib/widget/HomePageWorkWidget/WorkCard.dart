@@ -1,15 +1,21 @@
+// flutter
 import 'package:flutter/material.dart';
-import 'package:kikoeru/class/workInfo.dart';
 
-// card detail
-import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/WorkImage.dart';
-import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/WorkRjID.dart';
-import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/ReleaseDate.dart';
-import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/TitleCircle.dart';
-import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Rate.dart';
-import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Sell.dart';
-import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Tag.dart';
-import 'package:kikoeru/widget/WorkWidget/RJCardWidgets/Va.dart';
+// class
+import 'package:kikoeru/class/Work.dart';
+
+// card detail wodgets
+import 'package:kikoeru/widget/CardWidgets/WorkImage.dart';
+import 'package:kikoeru/widget/CardWidgets/WorkRjID.dart';
+import 'package:kikoeru/widget/CardWidgets/ReleaseDate.dart';
+import 'package:kikoeru/widget/CardWidgets/TitleCircle.dart';
+import 'package:kikoeru/widget/CardWidgets/Rate.dart';
+import 'package:kikoeru/widget/CardWidgets/Sell.dart';
+import 'package:kikoeru/widget/CardWidgets/Age.dart';
+import 'package:kikoeru/widget/CardWidgets/MutiLang.dart';
+import 'package:kikoeru/widget/CardWidgets/Subtitle.dart';
+import 'package:kikoeru/widget/CardWidgets/Tag.dart';
+import 'package:kikoeru/widget/CardWidgets/Va.dart';
 
 class WrokCard extends StatefulWidget {
   const WrokCard({super.key, required this.work});
@@ -21,16 +27,6 @@ class WrokCard extends StatefulWidget {
 }
 
 class _WrokCardState extends State<WrokCard> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     Work work = widget.work;
@@ -64,7 +60,17 @@ class _WrokCardState extends State<WrokCard> {
           getRate(work),
 
           // 價格和銷量
-          getSell(work),
+          Wrap(
+            spacing: 6,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.end,
+            children: [
+              ...getSell(work),
+              ...getAgeString(work.AgeCategory),
+              ...getSubtitle(work.HasSubTitle),
+              ...getMutiLang(work.OtherLang, isDetail: false),
+            ],
+          ),
 
           SizedBox(height: 8),
 

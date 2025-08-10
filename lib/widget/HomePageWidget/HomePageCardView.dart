@@ -1,7 +1,11 @@
+// flutter
 import 'package:flutter/material.dart';
 
-import 'package:kikoeru/class/workInfo.dart';
-import 'package:kikoeru/pages/Work.dart';
+// class
+import 'package:kikoeru/class/Work.dart';
+
+// pages
+import 'package:kikoeru/pages/WorkDetail/WorkDetailPage.dart';
 
 Widget HomePageCardView(List<dynamic> works) {
   return Expanded(

@@ -1,8 +1,32 @@
+// flutter
 import 'package:flutter/material.dart';
+
+// 3rd lib
 import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:kikoeru/class/workInfo.dart';
-import 'package:kikoeru/functions/CardCalc.dart';
+
+// class
+import 'package:kikoeru/class/Work.dart';
+
+// utils
+import 'package:kikoeru/utils/CardCalc.dart';
+
+Widget starRating(double rating) {
+  return Row(
+    mainAxisSize: MainAxisSize.min,
+    children: List.generate(5, (index) {
+      if (index < rating) {
+        if (rating - index >= 1) {
+          return Icon(Icons.star, size: 22, color: Colors.amber);
+        } else {
+          return Icon(Icons.star_half, size: 22, color: Colors.amber);
+        }
+      } else {
+        return Icon(Icons.star_border, size: 22, color: Colors.amber);
+      }
+    }),
+  );
+}
 
 Widget getRate(Work work, {bool isDetail = false}) {
   return Wrap(
@@ -10,7 +34,7 @@ Widget getRate(Work work, {bool isDetail = false}) {
     runSpacing: 6,
     children: [
       SizedBox(width: 1),
-      getStarRating(work.Rate),
+      starRating(work.Rate),
       Text(
         work.Rate.toString(),
         style: const TextStyle(

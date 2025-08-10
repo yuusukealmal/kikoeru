@@ -1,9 +1,12 @@
+// flutter
 import 'package:flutter/material.dart';
 
+// 3rd lib
 import 'package:provider/provider.dart';
 
+// config
 import 'package:kikoeru/config/SharedPreferences.dart';
-import 'package:kikoeru/config/ThemeProvider.dart';
+import 'package:kikoeru/config/provider/ThemeProvider.dart';
 
 Future<void> resetShard(BuildContext context) async {
   await SharedPreferencesHelper.delete();

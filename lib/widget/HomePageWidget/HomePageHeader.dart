@@ -1,6 +1,7 @@
+// flutter
 import 'package:flutter/material.dart';
 
-// runTimeType
+// runTimeType pages
 import 'package:kikoeru/pages/HomePage/DefaultPages.dart';
 import 'package:kikoeru/pages/HomePage/SearchPage.dart';
 

@@ -1,5 +1,8 @@
+// flutter
 import 'package:flutter/material.dart';
-import 'package:kikoeru/widget/WorkWidget/WorkCard.dart';
+
+// widget
+import 'package:kikoeru/widget/HomePageWorkWidget/WorkCard.dart';
 
 class Work {
   Work({required this.work}) {

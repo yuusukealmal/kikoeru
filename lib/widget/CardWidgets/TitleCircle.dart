@@ -1,6 +1,13 @@
+// flutter
 import 'package:flutter/material.dart';
-import 'package:kikoeru/api/RequestPage.dart';
-import 'package:kikoeru/class/workInfo.dart';
+
+// api
+import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
+
+// class
+import 'package:kikoeru/class/Work.dart';
+
+// pages
 import 'package:kikoeru/pages/HomePage/SearchPage.dart';
 
 Widget getTitleandCircle(BuildContext context, Work work) {

@@ -1,18 +1,19 @@
+// flutter
 import 'dart:math';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
+// config
 import 'package:kikoeru/config/SharedPreferences.dart';
+
+// api
+import 'package:kikoeru/utils/httpBase.dart';
 
 enum SearchType { STRING, VAS, Circle, Tag }
 
 class Request {
-  static final String _API = "https://api.asmr-200.com/api/";
-  static final Map<String, String> _headers = {
-    "Content-Type": "application/json",
-    "User-Agent":
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
-  };
-  static List<String> orders = [
+  static const String _API = "https://api.asmr-200.com/api/";
+
+  static const List<String> orders = [
     "release", //發售日期倒序
     "create_date", //最新收錄
     // "rating", // 我的評價倒序
@@ -25,16 +26,11 @@ class Request {
     "random" // 隨機
   ];
 
-  static Future<String> _sendRequest(String url,
-      {Map<String, String>? headers, String? body}) async {
-    http.Response response = await (body != null
-        ? http.post(Uri.parse(url), headers: headers, body: body)
-        : http.get(Uri.parse(url), headers: headers));
-    return response.body;
-  }
-
-  static Future<String> getAllWorks(
-      {int index = 1, int subtitle = 0, int order = 1}) async {
+  static Future<String> getAllWorks({
+    int index = 1,
+    int subtitle = 0,
+    int order = 1,
+  }) async {
     String URL =
         "${_API}works?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle";
     if (order == 9) {
@@ -43,11 +39,13 @@ class Request {
           "${_API}works?order=random&sort=desc&page=$index&seed=$rand&subtitle=0";
     }
 
-    return await _sendRequest(URL);
+    return await sendRequest(URL);
   }
 
-  static Future<String> getPopularWorks(
-      {int index = 1, int subtitle = 0}) async {
+  static Future<String> getPopularWorks({
+    int index = 1,
+    int subtitle = 0,
+  }) async {
     String URL = "${_API}recommender/popular";
     Map<String, dynamic> data = {
       "keyword": " ",
@@ -56,11 +54,13 @@ class Request {
       "localSubtitledWorks": [],
       "withPlaylistStatus": []
     };
-    return await _sendRequest(URL, headers: _headers, body: jsonEncode(data));
+    return await sendRequest(URL, body: jsonEncode(data));
   }
 
-  static Future<String> getRecommendedWorks(
-      {int index = 1, int subtitle = 0}) async {
+  static Future<String> getRecommendedWorks({
+    int index = 1,
+    int subtitle = 0,
+  }) async {
     String URL = "${_API}recommender/recommend-for-user";
     Map<String, dynamic> data = {
       "keyword": " ",
@@ -71,7 +71,7 @@ class Request {
       "localSubtitledWorks": [],
       "withPlaylistStatus": []
     };
-    return await _sendRequest(URL, headers: _headers, body: jsonEncode(data));
+    return await sendRequest(URL, body: jsonEncode(data));
   }
 
   static Future<String> getFavoriteWorks({int index = 1}) async {
@@ -81,15 +81,16 @@ class Request {
       "Authorization":
           "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
     };
-    return await _sendRequest(URL, headers: headers);
+    return await sendRequest(URL, headers: headers);
   }
 
-  static Future<String> getSearchWorks(
-      {required SearchType type,
-      String querys = " ",
-      int index = 1,
-      int subtitle = 0,
-      int order = 1}) async {
+  static Future<String> getSearchWorks({
+    required SearchType type,
+    String querys = " ",
+    int index = 1,
+    int subtitle = 0,
+    int order = 1,
+  }) async {
     String params;
     switch (type) {
       case SearchType.STRING:
@@ -106,21 +107,22 @@ class Request {
     }
     String URL =
         "${_API}search/%20${params.replaceAll(" ", "%20")}?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle&includeTranslationWorks=true";
-    return await _sendRequest(URL);
+    return await sendRequest(URL);
   }
 
   static Future<String> getWorkInfo({String id = "403038"}) async {
     String url = "${_API}tracks/$id?v=1";
-    return await _sendRequest(url);
+    return await sendRequest(url);
   }
 
-  static Future<bool> tryFetchToken(
-      {required String account, required String password}) async {
+  static Future<bool> tryFetchToken({
+    required String account,
+    required String password,
+  }) async {
     Map<String, String> accountInfo = {"name": account, "password": password};
     String url = "https://api.asmr.one/api/auth/me";
 
-    final response = await _sendRequest(url,
-        headers: _headers, body: jsonEncode(accountInfo));
+    final response = await sendRequest(url, body: jsonEncode(accountInfo));
     dynamic jsonres = jsonDecode(response);
 
     if (jsonres["user"]["loggedIn"]) {

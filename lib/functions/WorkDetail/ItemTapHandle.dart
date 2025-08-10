@@ -1,10 +1,26 @@
+// flutter
 import 'dart:io';
 import 'package:flutter/material.dart';
+
+// 3rd lib
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-mixin openWorkContent {
-  Widget openText(String title, String url) {
+mixin ItemTap {
+  Future<String> _fetchContent(String url) async {
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        return response.body;
+      } else {
+        return "Error: Unable to fetch text.";
+      }
+    } catch (e) {
+      return "Error: ${e.toString()}";
+    }
+  }
+
+  Widget _openText(String title, String url) {
     return FutureBuilder<String>(
       future: _fetchContent(url),
       builder: (context, snapshot) {
@@ -25,7 +41,7 @@ mixin openWorkContent {
     );
   }
 
-  Widget openImage(BuildContext context, String title, String url) {
+  Widget _openImage(BuildContext context, String title, String url) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: Padding(
@@ -50,7 +66,7 @@ mixin openWorkContent {
     );
   }
 
-  Widget openPdf(String title, String url) {
+  Widget _openPdf(String title, String url) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: Padding(
@@ -60,16 +76,44 @@ mixin openWorkContent {
     );
   }
 
-  Future<String> _fetchContent(String url) async {
-    try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        return response.body;
-      } else {
-        return "Error: Unable to fetch text.";
-      }
-    } catch (e) {
-      return "Error: ${e.toString()}";
+  void handleItemTap(BuildContext context, Map<String, dynamic> item) {
+    switch (item["type"]) {
+      case "text":
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => _openText(
+              item["title"],
+              item["mediaDownloadUrl"],
+            ),
+          ),
+        );
+        break;
+      case "image":
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => _openImage(
+              context,
+              item["title"],
+              item["mediaStreamUrl"],
+            ),
+          ),
+        );
+        break;
+      case "other":
+        if (item["title"].endsWith(".pdf")) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => _openPdf(
+                item["title"],
+                item["mediaStreamUrl"],
+              ),
+            ),
+          );
+        }
+        break;
     }
   }
 }

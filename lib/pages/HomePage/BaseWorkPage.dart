@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:kikoeru/config/AudioProvider.dart';
+import 'package:kikoeru/config/provider/AudioProvider.dart';
 
 import 'package:kikoeru/widget/HomePageWidget/HomePageHeader.dart';
 import 'package:kikoeru/widget/HomePageWidget/HomePageCardView.dart';
 import 'package:kikoeru/widget/HomePageWidget/HomePageFooter.dart';
 
 abstract class BasePage extends StatefulWidget {
-  final Future<String> Function(int page, bool hasLanguage, int order)
-      fetchWorks;
+  final Future<String> Function(
+    int page,
+    bool hasLanguage,
+    int order,
+  ) fetchWorks;
 
   const BasePage({super.key, required this.fetchWorks});
 

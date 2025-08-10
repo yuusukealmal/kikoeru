@@ -1,6 +1,11 @@
+// flutter
 import 'package:flutter/material.dart';
-import 'package:kikoeru/api/RequestPage.dart';
+
+// config
 import 'package:kikoeru/config/SharedPreferences.dart';
+
+// functions
+import 'package:kikoeru/functions/NormalPages/Login.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,33 +21,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    super.initState();
-  }
-
-  Future<void> _login() async {
-    String account = _accountController.text.trim();
-    String password = _passwordController.text.trim();
-
-    if (account.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("請輸入帳號和密碼")),
-      );
-      return;
-    } else {
-      bool success =
-          await Request.tryFetchToken(account: account, password: password);
-      if (success) {
-        Navigator.of(context).pop();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("帳號或是密碼有誤")),
-        );
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     if (SharedPreferencesHelper.getString('USER.NAME') != null) {
       _accountController.text = SharedPreferencesHelper.getString('USER.NAME')!;
     }
@@ -51,6 +29,18 @@ class _LoginPageState extends State<LoginPage> {
           SharedPreferencesHelper.getString('USER.PASSWORD')!;
     }
 
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _accountController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("登入")),
       body: Padding(
@@ -84,7 +74,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SizedBox(height: 30),
             ElevatedButton(
-              onPressed: _login,
+              onPressed: () async => await login(
+                context,
+                _accountController.text.trim(),
+                _passwordController.text.trim(),
+              ),
               child: Text("登入"),
             ),
           ],
