@@ -65,10 +65,10 @@ class _HomePageWrokCardState extends State<HomePageWrokCard> {
             runSpacing: 6,
             crossAxisAlignment: WrapCrossAlignment.end,
             children: [
-              ...getSell(work),
-              ...getAgeString(work.AgeCategory),
-              ...getSubtitle(work.HasSubTitle),
-              ...getMutiLang(work.OtherLang, isDetail: false),
+              getSell(work),
+              getAgeString(work.AgeCategory),
+              getSubtitle(work.HasSubTitle),
+              getMutiLang(work.OtherLang, isDetail: false),
             ],
           ),
 
