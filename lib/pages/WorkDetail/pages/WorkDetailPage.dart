@@ -12,7 +12,6 @@ import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
 import 'package:kikoeru/pages/WorkDetail/logic/ItemTapHandle.dart';
 
 // widget
-import 'package:kikoeru/pages/WorkDetail/widgets/WorkDetailCardView.dart';
 import 'package:kikoeru/pages/WorkDetail/widgets/WorkDetailForders.dart';
 import 'package:kikoeru/pages/WorkDetail/widgets/WorkDetailsLeading.dart';
 
@@ -102,7 +101,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ...WorkDetailCardView(context, widget.work),
+                widget.work.DetailWorkCard(),
                 WorkDetailFolders(workInfo, _buildWorkDetailItems),
                 const SizedBox(height: 75),
               ],

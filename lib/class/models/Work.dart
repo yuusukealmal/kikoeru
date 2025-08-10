@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // widget
 import 'package:kikoeru/pages/HomePage/widgets/HomePageWorkCard.dart';
+import 'package:kikoeru/pages/WorkDetail/widgets/WorkDetailCardView.dart';
 
 class Work {
   Work({required this.work}) {
@@ -74,5 +75,9 @@ class Work {
 
   Widget HomePageWorkCard() {
     return HomePageWrokCard(work: this);
+  }
+
+  Widget DetailWorkCard() {
+    return WorkDetailCardView(work: this);
   }
 }

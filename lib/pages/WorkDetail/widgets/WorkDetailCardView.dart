@@ -17,33 +17,42 @@ import 'package:kikoeru/class/CardWidgets/Subtitle.dart';
 import 'package:kikoeru/class/CardWidgets/Tag.dart';
 import 'package:kikoeru/class/CardWidgets/Va.dart';
 
-List<Widget> WorkDetailCardView(BuildContext context, Work work) {
-  return [
-    Stack(
+class WorkDetailCardView extends StatelessWidget {
+  const WorkDetailCardView({super.key, required this.work});
+  final Work work;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        getWorkImage(work),
-        getWorkRJID(work, top: 12, left: 14),
-        getWorkReleaseDate(work),
+        Stack(
+          children: [
+            getWorkImage(work),
+            getWorkRJID(work, top: 12, left: 14),
+            getWorkReleaseDate(work),
+          ],
+        ),
+        getTitleandCircle(context, work),
+        getRate(work, isDetail: true),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 6,
+          runSpacing: 6,
+          crossAxisAlignment: WrapCrossAlignment.end,
+          children: [
+            ...getSell(work),
+            ...getAgeString(work.AgeCategory),
+            ...getSubtitle(work.HasSubTitle),
+            ...getMutiLang(work.OtherLang, isDetail: false),
+          ],
+        ),
+        const SizedBox(height: 8),
+        getTag(context, work),
+        const SizedBox(height: 8),
+        getVas(context, work),
+        const SizedBox(height: 8),
       ],
-    ),
-    getTitleandCircle(context, work),
-    getRate(work, isDetail: true),
-    const SizedBox(height: 8),
-    Wrap(
-      spacing: 6,
-      runSpacing: 6,
-      crossAxisAlignment: WrapCrossAlignment.end,
-      children: [
-        ...getSell(work),
-        ...getAgeString(work.AgeCategory),
-        ...getSubtitle(work.HasSubTitle),
-        ...getMutiLang(work.OtherLang, isDetail: false),
-      ],
-    ),
-    const SizedBox(height: 8),
-    getTag(context, work),
-    const SizedBox(height: 8),
-    getVas(context, work),
-    const SizedBox(height: 8),
-  ];
+    );
+  }
 }
