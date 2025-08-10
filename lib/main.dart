@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 // config
-import 'package:kikoeru/config/provider/AudioProvider.dart';
-import 'package:kikoeru/config/provider/ThemeProvider.dart';
-import 'package:kikoeru/config/SharedPreferences.dart';
+import 'package:kikoeru/core/config/provider/AudioProvider.dart';
+import 'package:kikoeru/core/config/provider/ThemeProvider.dart';
+import 'package:kikoeru/core/config/SharedPreferences.dart';
 
 // page
-import 'package:kikoeru/pages/NormalPages/EntryPage.dart';
+import 'package:kikoeru/pages/NormalPages/pages/EntryPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

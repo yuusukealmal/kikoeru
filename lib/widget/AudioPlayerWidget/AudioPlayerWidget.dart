@@ -7,7 +7,7 @@ import 'package:volume_controller/volume_controller.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 
 // config
-import 'package:kikoeru/config/provider/AudioProvider.dart';
+import 'package:kikoeru/core/config/provider/AudioProvider.dart';
 
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({super.key});
