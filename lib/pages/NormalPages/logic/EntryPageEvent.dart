@@ -12,13 +12,13 @@ void toggleTheme(BuildContext context) async {
   await themeProvider.toggleTheme();
 }
 
-void handleTabSelection(TabController _tabController) {
+void handleTabSelection(TabController tabController) {
   const tabIndexMap = {0: "熱門作品", 1: "推薦作品", 2: "我的收藏", 3: "All 所有作品"};
-  final currentPage = tabIndexMap[_tabController.index];
+  final currentPage = tabIndexMap[tabController.index];
 
-  if (_tabController.indexIsChanging) {
+  if (tabController.indexIsChanging) {
     debugPrint('Tab is changing to: $currentPage');
-  } else if (!_tabController.indexIsChanging) {
+  } else if (!tabController.indexIsChanging) {
     debugPrint('Tab changed to: $currentPage');
   }
 }

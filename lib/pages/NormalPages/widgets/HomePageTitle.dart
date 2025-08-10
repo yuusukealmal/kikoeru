@@ -10,7 +10,7 @@ import 'package:kikoeru/pages/HomePage/pages/SearchPage.dart';
 Widget HomePageTitle(
   BuildContext context,
   String title,
-  TextEditingController _searchController,
+  TextEditingController searchController,
 ) {
   return Row(
     children: [
@@ -29,7 +29,7 @@ Widget HomePageTitle(
             borderRadius: BorderRadius.circular(20),
           ),
           child: TextField(
-            controller: _searchController,
+            controller: searchController,
             decoration: InputDecoration(
               hintText: 'Search...',
               prefixIcon: Icon(
@@ -46,7 +46,7 @@ Widget HomePageTitle(
                 MaterialPageRoute(
                   builder: (context) => SearchWorksPage(
                     type: SearchType.STRING,
-                    query: _searchController.text,
+                    query: searchController.text,
                   ),
                 ),
               );

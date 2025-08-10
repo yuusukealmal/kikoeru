@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
 
 Future<void> login(
-    BuildContext context, String account, String password) async {
+  BuildContext context,
+  String account,
+  String password,
+) async {
   if (account.isEmpty || password.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("請輸入帳號和密碼")),
