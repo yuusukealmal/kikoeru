@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 
 // 3rd lib
 import 'package:just_audio/just_audio.dart';
-import 'package:marquee/marquee.dart';
 
-// widget
-import 'package:kikoeru/pages/AudioPlayer/pages/AudioPlayer.dart';
+// pages
+import 'package:kikoeru/pages/PreviewPlayer/pages/AudioPlayerPreview.dart';
 
 class AudioProvider extends ChangeNotifier {
   AudioProvider() {
@@ -36,6 +35,8 @@ class AudioProvider extends ChangeNotifier {
   String? get currentAudioTitle => _currentAudioTitle;
   String? get currentAudioWorkTitle => _currentAudioWorkTitle;
   String? get mainCoverUrl => _mainCoverUrl;
+  String? get sameCoverUrl => _samCoverUrl;
+  bool get isPlaying => _isPlaying;
   Stream<bool> get playingStream => _audioPlayer.playingStream;
   int? get index => _index;
   int? get length => _length;
@@ -44,60 +45,7 @@ class AudioProvider extends ChangeNotifier {
   void setIsAudioScreen(bool value) => _isAudioScreen = value;
 
   OverlayEntry _createOverlayEntry(BuildContext context) {
-    return OverlayEntry(
-      builder: (context) => Positioned(
-        bottom: 0,
-        left: 0,
-        right: 0,
-        child: Material(
-          elevation: 4,
-          child: Container(
-            padding: EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.keyboard_arrow_up_sharp,
-                  ),
-                  onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AudioPlayerScreen(),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 8),
-                Image.network(_samCoverUrl ?? "", height: 60),
-                SizedBox(width: 8),
-                Expanded(
-                  child: ListTile(
-                    title: SizedBox(
-                      height: 20,
-                      child: Marquee(
-                        text: _currentAudioTitle ?? "正在播放",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    subtitle: SizedBox(
-                      height: 20,
-                      child: Marquee(
-                        text: _currentAudioWorkTitle ?? "正在播放",
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
-                  ),
-                ),
-                IconButton(
-                  icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
-                  onPressed: togglePlayPause,
-                ),
-                IconButton(icon: Icon(Icons.close), onPressed: stopAudio),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+    return OverlayEntry(builder: (context) => AudioPlayerPewview());
   }
 
   Future<void> seekToPrevious(BuildContext context) async {
