@@ -8,7 +8,7 @@ Widget AudioPlayerImage(AudioProvider audioProvider) {
   return ClipRRect(
     borderRadius: BorderRadius.circular(12),
     child: Image.network(
-      audioProvider.mainCoverUrl ?? "",
+      audioProvider.AudioInfo[AudioInfoType.MainCover]!,
       fit: BoxFit.cover,
     ),
   );

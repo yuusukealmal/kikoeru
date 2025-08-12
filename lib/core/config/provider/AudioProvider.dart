@@ -4,75 +4,92 @@ import 'package:flutter/material.dart';
 // 3rd lib
 import 'package:just_audio/just_audio.dart';
 
-// pages
-import 'package:kikoeru/pages/PreviewPlayer/pages/AudioPlayerPreview.dart';
+// function
+import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart';
+
+enum AudioInfoType {
+  CurrentTrackIndex,
+  TotalTrackLength,
+  IsPlaying,
+  MainTitle,
+  SubTitle,
+  MainCover,
+  SamCover
+}
 
 class AudioProvider extends ChangeNotifier {
   AudioProvider() {
     _audioPlayer.currentIndexStream.listen((index) {
       if (index != null) {
-        _index = index;
-        _currentAudioUrl = _audioList?[index]["mediaStreamUrl"];
-        _currentAudioTitle = _audioList?[index]["title"];
-        _currentAudioWorkTitle = _audioList?[index]["workTitle"];
-        _updateOverlayIfNeeded();
+        _trackIndex = index;
+        setAudio(
+          _audioList?[index]["mediaStreamUrl"],
+          _audioList?[index]["title"],
+          _audioList?[index]["workTitle"],
+        );
+        updateOverlay(this);
         notifyListeners();
       }
     });
   }
 
   final AudioPlayer _audioPlayer = AudioPlayer();
-  String? _currentAudioUrl, _currentAudioTitle, _currentAudioWorkTitle;
-  String? _samCoverUrl, _mainCoverUrl;
-  bool _isPlaying = false, _isOverlayShow = false, _isAudioScreen = false;
-  OverlayEntry? _overlayEntry;
-  int? _index, _length;
+  OverlayEntry? overlayEntry;
+
+  String? _currentAudioUrl;
+  String? _currentAudioTitle;
+  String? _currentAudioSubTitle;
+  String? _samCoverUrl;
+  String? _mainCoverUrl;
+  bool _isPlaying = false;
+  int _trackIndex = 0;
+  int _trackLength = 0;
   ConcatenatingAudioSource? playList;
   List<Map<String, dynamic>>? _audioList;
 
-  AudioPlayer get audioPlayer => _audioPlayer;
-  bool get isOverlayShow => _isOverlayShow;
-  String? get currentAudioTitle => _currentAudioTitle;
-  String? get currentAudioWorkTitle => _currentAudioWorkTitle;
-  String? get mainCoverUrl => _mainCoverUrl;
-  String? get sameCoverUrl => _samCoverUrl;
-  bool get isPlaying => _isPlaying;
-  Stream<bool> get playingStream => _audioPlayer.playingStream;
-  int? get index => _index;
-  int? get length => _length;
-
-  void setIndex(int index) => _index = index;
-  void setIsAudioScreen(bool value) => _isAudioScreen = value;
-
-  OverlayEntry _createOverlayEntry(BuildContext context) {
-    return OverlayEntry(builder: (context) => AudioPlayerPewview());
+  void setTrack(int index) => _trackIndex = index;
+  void setAudio(String url, String title, String subtitle) {
+    _currentAudioUrl = url;
+    _currentAudioTitle = title;
+    _currentAudioSubTitle = subtitle;
   }
 
-  Future<void> seekToPrevious(BuildContext context) async {
-    await playAudio(context, _index!);
-    _updateOverlayIfNeeded();
+  void resetAudio() {
+    _currentAudioUrl = null;
+    _currentAudioTitle = null;
+    _currentAudioSubTitle = null;
   }
 
-  Future<void> seekToNext(BuildContext context) async {
-    await playAudio(context, _index!);
-    _updateOverlayIfNeeded();
+  Future<void> seekToPrevious() async {
+    await playAudio(_trackIndex);
+    updateOverlay(this);
+  }
+
+  Future<void> seekToNext() async {
+    await playAudio(_trackIndex);
+    updateOverlay(this);
   }
 
   Future<void> playAudio(
-    BuildContext context,
     int index,
   ) async {
     String url = _audioList![index]["mediaStreamUrl"];
     if (_currentAudioUrl != url) {
       await stopAudio();
-      _currentAudioUrl = url;
-      _currentAudioTitle = _audioList![index]["title"];
-      _currentAudioWorkTitle = _audioList![index]["workTitle"];
-      await _audioPlayer.setAudioSource(playList!,
-          initialIndex: _index, initialPosition: Duration.zero);
+      setAudio(
+        url,
+        _audioList?[index]["title"],
+        _audioList?[index]["workTitle"],
+      );
+
+      await _audioPlayer.setAudioSource(
+        playList!,
+        initialIndex: _trackIndex,
+        initialPosition: Duration.zero,
+      );
       _isPlaying = true;
       _audioPlayer.play();
-      updateOverlay(context);
+      updateOverlay(this);
     } else {
       // togglePlayPause();
     }
@@ -82,63 +99,56 @@ class AudioProvider extends ChangeNotifier {
   void playAudioList(
     BuildContext context,
     int index,
-    List<Map<String, dynamic>> audioList, [
+    List<Map<String, dynamic>> rawAudioSource, [
     String? mainCoverUrl,
     String? samCoverUrl,
   ]) {
-    _index = index;
+    _trackIndex = index;
     _mainCoverUrl = mainCoverUrl;
     _samCoverUrl = samCoverUrl;
-    List<UriAudioSource> audiolist = audioList
+    List<UriAudioSource> audioList = rawAudioSource
         .map(
           (item) => AudioSource.uri(
             Uri.parse(item["mediaStreamUrl"]),
           ),
         )
         .toList();
-    _length = audioList.length;
-    _audioList = audioList;
+    _trackLength = rawAudioSource.length;
+    _audioList = rawAudioSource;
     playList = ConcatenatingAudioSource(
       useLazyPreparation: true,
       shuffleOrder: DefaultShuffleOrder(),
-      children: audiolist,
+      children: audioList,
     );
-    playAudio(context, index);
+    playAudio(index);
+    refreshOverlay(context, this);
   }
 
   void togglePlayPause() {
     _isPlaying ? _audioPlayer.pause() : _audioPlayer.play();
     _isPlaying = !_isPlaying;
     notifyListeners();
-    _updateOverlayIfNeeded();
+    updateOverlay(this);
   }
 
   Future<void> stopAudio() async {
     await _audioPlayer.stop();
     _isPlaying = false;
-    _currentAudioUrl = _currentAudioTitle = _currentAudioWorkTitle = null;
-    hideOverlay();
+    resetAudio();
+    hideOverlay(this);
     notifyListeners();
   }
 
-  void updateOverlay(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      hideOverlay();
-      if (!_isAudioScreen) {
-        _overlayEntry = _createOverlayEntry(context);
-        Overlay.of(context).insert(_overlayEntry!);
-        _isOverlayShow = true;
-      }
-    });
-  }
-
-  void hideOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-    _isOverlayShow = false;
-  }
-
-  void _updateOverlayIfNeeded() {
-    _overlayEntry?.markNeedsBuild();
-  }
+  AudioPlayer get audioPlayer => _audioPlayer;
+  Stream<bool> get AudioPlayingStream => _audioPlayer.playingStream;
+  int? get currentTrackIndex => _trackIndex;
+  Map<AudioInfoType, dynamic> get AudioInfo => {
+        AudioInfoType.CurrentTrackIndex: _trackIndex,
+        AudioInfoType.TotalTrackLength: _trackLength,
+        AudioInfoType.IsPlaying: _isPlaying,
+        AudioInfoType.MainTitle: _currentAudioTitle ?? "",
+        AudioInfoType.SubTitle: _currentAudioSubTitle ?? "",
+        AudioInfoType.MainCover: _mainCoverUrl ?? "",
+        AudioInfoType.SamCover: _samCoverUrl ?? ""
+      };
 }

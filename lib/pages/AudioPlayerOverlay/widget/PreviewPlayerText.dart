@@ -13,15 +13,17 @@ Widget AudioPlayerPreviewText(AudioProvider audioProvider) {
       title: SizedBox(
         height: 20,
         child: Marquee(
-          text: audioProvider.currentAudioWorkTitle ?? "正在播放",
+          text: audioProvider.AudioInfo[AudioInfoType.MainTitle]!,
           style: TextStyle(fontSize: 16),
+          blankSpace: 12,
         ),
       ),
       subtitle: SizedBox(
         height: 20,
         child: Marquee(
-          text: audioProvider.currentAudioWorkTitle ?? "正在播放",
+          text: audioProvider.AudioInfo[AudioInfoType.SubTitle]!,
           style: TextStyle(fontSize: 12),
+          blankSpace: 12,
         ),
       ),
     ),

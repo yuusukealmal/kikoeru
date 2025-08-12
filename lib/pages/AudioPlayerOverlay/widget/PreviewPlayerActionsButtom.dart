@@ -8,7 +8,11 @@ Widget AudioPlayerPrevieActionButtom(AudioProvider audioProvider) {
   return Row(
     children: [
       IconButton(
-        icon: Icon(audioProvider.isPlaying ? Icons.pause : Icons.play_arrow),
+        icon: Icon(
+          audioProvider.AudioInfo[AudioInfoType.IsPlaying]
+              ? Icons.pause
+              : Icons.play_arrow,
+        ),
         onPressed: audioProvider.togglePlayPause,
       ),
       IconButton(icon: Icon(Icons.close), onPressed: audioProvider.stopAudio),

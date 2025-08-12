@@ -9,6 +9,8 @@ import 'package:kikoeru/core/config/provider/AudioProvider.dart';
 
 // func
 import 'package:kikoeru/pages/AudioPlayer/logic/AudioPlayerEvent.dart';
+import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart';
+import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayRouteObserver.dart';
 
 // widgets
 import 'package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerHeader.dart';
@@ -18,6 +20,9 @@ import 'package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerText.dart';
 import 'package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerController.dart';
 import 'package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerVolumeController.dart';
 
+// pages
+import 'package:kikoeru/main.dart';
+
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({super.key});
 
@@ -25,26 +30,35 @@ class AudioPlayerScreen extends StatefulWidget {
   State<AudioPlayerScreen> createState() => _AudioPlayerScreenState();
 }
 
-class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
+class _AudioPlayerScreenState extends State<AudioPlayerScreen>
+    with OverlayRouteAware {
   @override
   void initState() {
     super.initState();
+  }
 
-    Provider.of<AudioProvider>(context, listen: false).setIsAudioScreen(true);
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    routeObserver.subscribe(this, ModalRoute.of(context)!);
+  }
+
+  @override
+  void dispose() {
+    routeObserver.unsubscribe(this);
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final audioProvider = Provider.of<AudioProvider>(context);
     final _audioPlayer = audioProvider.audioPlayer;
-    audioProvider.hideOverlay();
+    hideOverlay(audioProvider);
 
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) {
-          Provider.of<AudioProvider>(context, listen: false)
-              .setIsAudioScreen(false);
-          audioProvider.updateOverlay(context);
+          updateOverlay(audioProvider);
         }
       },
       child: Scaffold(
@@ -68,10 +82,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen> {
                     SizedBox(height: 65),
                     AudioPlayerProgressBar(_audioPlayer),
                     SizedBox(height: 10),
-                    AudioPlayerController(
-                      audioProvider: audioProvider,
-                      audioPlayer: _audioPlayer,
-                    ),
+                    AudioPlayerController(audioProvider: audioProvider),
                     SizedBox(height: 25),
                     AudioPlayerVolumeController()
                   ],

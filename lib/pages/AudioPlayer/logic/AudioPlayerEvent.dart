@@ -2,25 +2,26 @@
 import 'package:flutter/material.dart';
 
 // 3rd lib
-import 'package:provider/provider.dart';
 import 'package:just_audio/just_audio.dart';
 
 // config
 import 'package:kikoeru/core/config/provider/AudioProvider.dart';
 
+// function
+import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart';
+
 void hidePlayer(BuildContext context, AudioProvider audioProvider) {
-  Provider.of<AudioProvider>(context, listen: false).setIsAudioScreen(false);
-  audioProvider.updateOverlay(context);
+  refreshOverlay(context, audioProvider);
   Navigator.pop(context);
 }
 
 void onPreviewPress(BuildContext context, AudioProvider audioProvider) {
-  debugPrint(audioProvider.index.toString());
-  if (audioProvider.index! > 0) {
+  debugPrint(audioProvider.currentTrackIndex.toString());
+  if (audioProvider.currentTrackIndex! > 0) {
     audioProvider.stopAudio();
-    int index = audioProvider.index! - 1;
-    audioProvider.setIndex(index);
-    audioProvider.seekToPrevious(context);
+    int index = audioProvider.currentTrackIndex! - 1;
+    audioProvider.setTrack(index);
+    audioProvider.seekToPrevious();
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("已經是第一首了")),
@@ -29,12 +30,13 @@ void onPreviewPress(BuildContext context, AudioProvider audioProvider) {
 }
 
 void onNextPress(BuildContext context, AudioProvider audioProvider) {
-  debugPrint(audioProvider.index.toString());
-  if (audioProvider.index! < audioProvider.length! - 1) {
+  debugPrint(audioProvider.currentTrackIndex.toString());
+  if (audioProvider.currentTrackIndex! <
+      audioProvider.AudioInfo[AudioInfoType.TotalTrackLength] - 1) {
     audioProvider.stopAudio();
-    int index = audioProvider.index! + 1;
-    audioProvider.setIndex(index);
-    audioProvider.seekToNext(context);
+    int index = audioProvider.currentTrackIndex! + 1;
+    audioProvider.setTrack(index);
+    audioProvider.seekToNext();
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("已經是最後一首了")),

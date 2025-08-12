@@ -12,6 +12,8 @@ import 'package:kikoeru/core/config/SharedPreferences.dart';
 // page
 import 'package:kikoeru/pages/NormalPages/pages/EntryPage.dart';
 
+final routeObserver = RouteObserver<ModalRoute<void>>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesHelper.init();
@@ -39,6 +41,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
       themeMode: themeProvider.themeMode,
+      navigatorObservers: [routeObserver],
       home: const EntryPage(title: 'Kikoeru'),
     );
   }

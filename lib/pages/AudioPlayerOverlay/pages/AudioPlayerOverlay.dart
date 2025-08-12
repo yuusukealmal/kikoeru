@@ -8,18 +8,18 @@ import 'package:kikoeru/core/config/provider/AudioProvider.dart';
 import 'package:provider/provider.dart';
 
 // widgets
-import 'package:kikoeru/pages/PreviewPlayer/widget/OpenFullPlayerButton.dart';
-import 'package:kikoeru/pages/PreviewPlayer/widget/PreviewPlayerActionsButtom.dart';
-import 'package:kikoeru/pages/PreviewPlayer/widget/PreviewPlayerText.dart';
+import 'package:kikoeru/pages/AudioPlayerOverlay/widget/OpenFullPlayerButton.dart';
+import 'package:kikoeru/pages/AudioPlayerOverlay/widget/PreviewPlayerActionsButtom.dart';
+import 'package:kikoeru/pages/AudioPlayerOverlay/widget/PreviewPlayerText.dart';
 
-class AudioPlayerPewview extends StatefulWidget {
-  const AudioPlayerPewview({super.key});
+class AudioPlayerOverlay extends StatefulWidget {
+  const AudioPlayerOverlay({super.key});
 
   @override
   State<StatefulWidget> createState() => _AudioPlayerPewview();
 }
 
-class _AudioPlayerPewview extends State<AudioPlayerPewview> {
+class _AudioPlayerPewview extends State<AudioPlayerOverlay> {
   @override
   Widget build(BuildContext context) {
     final AudioProvider audioProvider = Provider.of<AudioProvider>(context);
@@ -36,7 +36,10 @@ class _AudioPlayerPewview extends State<AudioPlayerPewview> {
             children: [
               openFullPlayerButton(context),
               SizedBox(width: 8),
-              Image.network(audioProvider.sameCoverUrl ?? "", height: 80),
+              Image.network(
+                audioProvider.AudioInfo[AudioInfoType.SamCover]!,
+                height: 80,
+              ),
               SizedBox(width: 8),
               AudioPlayerPreviewText(audioProvider),
               AudioPlayerPrevieActionButtom(audioProvider)

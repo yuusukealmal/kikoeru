@@ -10,7 +10,7 @@ Widget AudioPlayerText(AudioProvider audioProvider) {
     child: Column(
       children: [
         Text(
-          audioProvider.currentAudioTitle ?? "",
+          audioProvider.AudioInfo[AudioInfoType.MainTitle]!,
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.bold,
@@ -18,7 +18,7 @@ Widget AudioPlayerText(AudioProvider audioProvider) {
         ),
         SizedBox(height: 30),
         Text(
-          audioProvider.currentAudioWorkTitle ?? "",
+          audioProvider.AudioInfo[AudioInfoType.SubTitle]!,
           style: TextStyle(fontSize: 14),
         ),
       ],

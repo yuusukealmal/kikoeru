@@ -2,12 +2,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
-// 3rd lib
-import 'package:provider/provider.dart';
-
-// config
-import 'package:kikoeru/core/config/provider/AudioProvider.dart';
-
 // widgets
 import 'package:kikoeru/pages/HomePage/widgets/HomePageHeader.dart';
 import 'package:kikoeru/pages/HomePage/widgets/HomePageCardView.dart';
@@ -140,8 +134,6 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
           _textController,
           changePage,
         ),
-        if (Provider.of<AudioProvider>(context).isOverlayShow)
-          const SizedBox(height: 90),
       ],
     );
   }
