@@ -11,14 +11,18 @@ OverlayEntry createOverlayEntry(BuildContext context) {
   return OverlayEntry(builder: (context) => AudioPlayerOverlay());
 }
 
+void setOverlay(BuildContext context, AudioProvider audioProvider) {
+  audioProvider.overlayEntry = createOverlayEntry(context);
+  Overlay.of(context).insert(audioProvider.overlayEntry!);
+}
+
 void refreshOverlay(
   BuildContext context,
   AudioProvider audioProvider,
 ) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
     hideOverlay(audioProvider);
-    audioProvider.overlayEntry = createOverlayEntry(context);
-    Overlay.of(context).insert(audioProvider.overlayEntry!);
+    setOverlay(context, audioProvider);
   });
 }
 

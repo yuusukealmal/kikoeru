@@ -16,12 +16,9 @@ void hidePlayer(BuildContext context, AudioProvider audioProvider) {
 }
 
 void onPreviewPress(BuildContext context, AudioProvider audioProvider) {
-  debugPrint(audioProvider.currentTrackIndex.toString());
-  if (audioProvider.currentTrackIndex! > 0) {
+  if (audioProvider.AudioInfo[AudioInfoType.CurrentTrackIndex] > 0) {
     audioProvider.stopAudio();
-    int index = audioProvider.currentTrackIndex! - 1;
-    audioProvider.setTrack(index);
-    audioProvider.seekToPrevious();
+    audioProvider.previousTrack();
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("已經是第一首了")),
@@ -30,13 +27,10 @@ void onPreviewPress(BuildContext context, AudioProvider audioProvider) {
 }
 
 void onNextPress(BuildContext context, AudioProvider audioProvider) {
-  debugPrint(audioProvider.currentTrackIndex.toString());
-  if (audioProvider.currentTrackIndex! <
+  if (audioProvider.AudioInfo[AudioInfoType.CurrentTrackIndex] <
       audioProvider.AudioInfo[AudioInfoType.TotalTrackLength] - 1) {
     audioProvider.stopAudio();
-    int index = audioProvider.currentTrackIndex! + 1;
-    audioProvider.setTrack(index);
-    audioProvider.seekToNext();
+    audioProvider.nextTrack();
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("已經是最後一首了")),

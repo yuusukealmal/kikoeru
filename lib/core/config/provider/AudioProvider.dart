@@ -47,7 +47,6 @@ class AudioProvider extends ChangeNotifier {
   ConcatenatingAudioSource? playList;
   List<Map<String, dynamic>>? _audioList;
 
-  void setTrack(int index) => _trackIndex = index;
   void setAudio(String url, String title, String subtitle) {
     _currentAudioUrl = url;
     _currentAudioTitle = title;
@@ -60,12 +59,14 @@ class AudioProvider extends ChangeNotifier {
     _currentAudioSubTitle = null;
   }
 
-  Future<void> seekToPrevious() async {
+  Future<void> previousTrack() async {
+    _trackIndex--;
     await playAudio(_trackIndex);
     updateOverlay(this);
   }
 
-  Future<void> seekToNext() async {
+  Future<void> nextTrack() async {
+    _trackIndex++;
     await playAudio(_trackIndex);
     updateOverlay(this);
   }
@@ -141,7 +142,6 @@ class AudioProvider extends ChangeNotifier {
 
   AudioPlayer get audioPlayer => _audioPlayer;
   Stream<bool> get AudioPlayingStream => _audioPlayer.playingStream;
-  int? get currentTrackIndex => _trackIndex;
   Map<AudioInfoType, dynamic> get AudioInfo => {
         AudioInfoType.CurrentTrackIndex: _trackIndex,
         AudioInfoType.TotalTrackLength: _trackLength,
