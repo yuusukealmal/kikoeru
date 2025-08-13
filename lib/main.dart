@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // 3rd lib
 import 'package:provider/provider.dart';
+import 'package:logger/web.dart';
 
 // config
 import 'package:kikoeru/core/config/provider/AudioProvider.dart';
@@ -12,6 +13,7 @@ import 'package:kikoeru/core/config/SharedPreferences.dart';
 // page
 import 'package:kikoeru/pages/NormalPages/pages/EntryPage.dart';
 
+final logger = Logger();
 final routeObserver = RouteObserver<ModalRoute<void>>();
 
 void main() async {

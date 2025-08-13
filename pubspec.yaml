@@ -1,6 +1,6 @@
 name: kikoeru
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -21,6 +21,7 @@ dependencies:
   just_audio: ^0.9.46
   audio_video_progress_bar: ^2.0.3
   volume_controller: ^3.2.0
+  logger: ^2.6.1
 
 dev_dependencies:
   flutter_test:
@@ -29,5 +30,4 @@ dev_dependencies:
   flutter_lints: ^5.0.0
 
 flutter:
-
   uses-material-design: true

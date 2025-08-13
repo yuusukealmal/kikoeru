@@ -7,6 +7,9 @@ import 'package:provider/provider.dart';
 // config
 import 'package:kikoeru/core/config/provider/ThemeProvider.dart';
 
+// pages
+import "package:kikoeru/main.dart";
+
 void toggleTheme(BuildContext context) async {
   final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
   await themeProvider.toggleTheme();
@@ -17,8 +20,8 @@ void handleTabSelection(TabController tabController) {
   final currentPage = tabIndexMap[tabController.index];
 
   if (tabController.indexIsChanging) {
-    debugPrint('Tab is changing to: $currentPage');
+    logger.d('Tab is changing to: $currentPage');
   } else if (!tabController.indexIsChanging) {
-    debugPrint('Tab changed to: $currentPage');
+    logger.d('Tab changed to: $currentPage');
   }
 }
