@@ -4,17 +4,15 @@ import 'package:flutter/material.dart';
 
 // 3rd lib
 import 'package:http/http.dart' as http;
+import 'package:kikoeru/core/utils/httpBase.dart';
+
+// api
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 mixin ItemTap {
   Future<String> _fetchContent(String url) async {
     try {
-      final response = await http.get(Uri.parse(url));
-      if (response.statusCode == 200) {
-        return response.body;
-      } else {
-        return "Error: Unable to fetch text.";
-      }
+      return await sendRequest(url);
     } catch (e) {
       return "Error: ${e.toString()}";
     }
