@@ -35,12 +35,10 @@ class _AudioPlayerPewview extends State<AudioPlayerOverlay> {
           child: Row(
             children: [
               openFullPlayerButton(context),
-              SizedBox(width: 8),
               Image.network(
                 audioProvider.AudioInfo[AudioInfoType.SamCover]!,
-                height: 80,
+                height: 60,
               ),
-              SizedBox(width: 8),
               AudioPlayerPreviewText(audioProvider),
               AudioPlayerPrevieActionButtom(audioProvider)
             ],
