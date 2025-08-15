@@ -70,7 +70,7 @@ class AudioProvider extends ChangeNotifier {
   }
 
   Future<void> seek(Duration duration) async {
-    await _audioPlayer.seek(duration);
+    await _audioPlayer.seek(_audioPlayer.position + duration);
   }
 
   Future<void> playAudio(int index) async {
