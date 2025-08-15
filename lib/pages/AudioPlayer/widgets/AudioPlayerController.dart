@@ -37,7 +37,7 @@ class _AudioPlayerControllerState extends State<AudioPlayerController> {
             Icons.replay_5,
             size: 32,
           ),
-          onPressed: () => audioPlayerSeek(audioProvider.audioPlayer, -5),
+          onPressed: () => audioPlayerSeek(audioProvider, -5),
         ),
         StreamBuilder<bool>(
           stream: audioProvider.AudioPlayingStream,
@@ -59,7 +59,7 @@ class _AudioPlayerControllerState extends State<AudioPlayerController> {
               Icons.forward_5,
               size: 32,
             ),
-            onPressed: () => audioPlayerSeek(audioProvider.audioPlayer, 5)),
+            onPressed: () => audioPlayerSeek(audioProvider, 5)),
         IconButton(
             icon: Icon(
               Icons.skip_next,

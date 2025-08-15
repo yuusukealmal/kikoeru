@@ -52,7 +52,6 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
   @override
   Widget build(BuildContext context) {
     final audioProvider = Provider.of<AudioProvider>(context);
-    final _audioPlayer = audioProvider.audioPlayer;
     hideOverlay(audioProvider);
 
     return PopScope(
@@ -80,7 +79,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
                     SizedBox(height: 30),
                     AudioPlayerText(audioProvider),
                     SizedBox(height: 65),
-                    AudioPlayerProgressBar(_audioPlayer),
+                    AudioPlayerProgressBar(audioProvider),
                     SizedBox(height: 10),
                     AudioPlayerController(audioProvider: audioProvider),
                     SizedBox(height: 25),

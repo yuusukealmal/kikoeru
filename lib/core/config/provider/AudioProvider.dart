@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // 3rd lib
 import 'package:just_audio/just_audio.dart';
-import 'package:kikoeru/main.dart';
 import 'package:synchronized/synchronized.dart';
 
 // function
@@ -11,13 +10,14 @@ import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart';
 
 enum AudioInfoType {
   CurrentTrackIndex,
-  TotalTrackLength,
   IsPlaying,
   MainTitle,
   SubTitle,
   MainCover,
   SamCover
 }
+
+enum AudioPlayerInfoType { Position, Duration }
 
 class AudioProvider extends ChangeNotifier {
   AudioProvider() {
@@ -44,13 +44,14 @@ class AudioProvider extends ChangeNotifier {
   String? _mainCoverUrl;
   bool _isPlaying = false;
   int _trackIndex = -1;
-  int _trackLength = 0;
   ConcatenatingAudioSource? playList;
   List<Map<String, dynamic>>? _audioList;
 
   void setAudio(String title, String subtitle) {
     _currentAudioTitle = title;
     _currentAudioSubTitle = subtitle;
+
+    notifyListeners();
   }
 
   void resetAudio() {
@@ -59,13 +60,17 @@ class AudioProvider extends ChangeNotifier {
   }
 
   Future<void> previousTrack() async {
-    await playAudio(_trackIndex - 1);
+    _audioPlayer.seekToPrevious();
     updateOverlay(this);
   }
 
   Future<void> nextTrack() async {
-    await playAudio(_trackIndex + 1);
+    _audioPlayer.seekToPrevious();
     updateOverlay(this);
+  }
+
+  Future<void> seek(Duration duration) async {
+    await _audioPlayer.seek(duration);
   }
 
   Future<void> playAudio(int index) async {
@@ -79,37 +84,14 @@ class AudioProvider extends ChangeNotifier {
       );
 
       await _lock.synchronized(() async {
-        try {
-          await _audioPlayer.setAudioSource(
-            playList!,
-            initialIndex: _trackIndex,
-            initialPosition: Duration.zero,
-          );
+        await _audioPlayer.setAudioSource(
+          playList!,
+          initialIndex: _trackIndex,
+          initialPosition: Duration.zero,
+        );
 
-          _isPlaying = true;
-          _audioPlayer.play();
-        } catch (e) {
-          logger.e("playAudio error: $e");
-          _isPlaying = false;
-          if (e.toString().contains('PlayerInterruptedException') ||
-              e.toString().contains('Connection aborted')) {
-            logger.d('Try to reconnect');
-            await Future.delayed(Duration(milliseconds: 1000));
-            try {
-              await _audioPlayer.setAudioSource(
-                playList!,
-                initialIndex: _trackIndex,
-                initialPosition: Duration.zero,
-              );
-              _isPlaying = true;
-              _audioPlayer.play();
-              logger.i('Reconnect success');
-            } catch (retryError) {
-              logger.d('Reconnect fail: $retryError');
-              _isPlaying = false;
-            }
-          }
-        }
+        _isPlaying = true;
+        _audioPlayer.play();
       });
       updateOverlay(this);
     } else {
@@ -125,7 +107,6 @@ class AudioProvider extends ChangeNotifier {
     String? mainCoverUrl,
     String? samCoverUrl,
   ]) {
-    // _trackIndex = index;
     _mainCoverUrl = mainCoverUrl;
     _samCoverUrl = samCoverUrl;
     List<UriAudioSource> audioList = rawAudioSource
@@ -135,7 +116,6 @@ class AudioProvider extends ChangeNotifier {
           ),
         )
         .toList();
-    _trackLength = rawAudioSource.length;
     _audioList = rawAudioSource;
     playList = ConcatenatingAudioSource(
       useLazyPreparation: true,
@@ -161,14 +141,21 @@ class AudioProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  AudioPlayer get audioPlayer => _audioPlayer;
   Stream<bool> get AudioPlayingStream => _audioPlayer.playingStream;
+  // Stream<Duration> get AudioPositionStream => _audioPlayer.positionStream;
+  bool get hasPrevious => _audioPlayer.previousIndex != null;
+  bool get hasNext => _audioPlayer.nextIndex != null;
+
+  Map<AudioPlayerInfoType, dynamic> get AudioPlayerInfo => {
+        AudioPlayerInfoType.Position: _audioPlayer.positionStream,
+        AudioPlayerInfoType.Duration: _audioPlayer.duration
+      };
+
   Map<AudioInfoType, dynamic> get AudioInfo => {
         AudioInfoType.CurrentTrackIndex: _trackIndex,
-        AudioInfoType.TotalTrackLength: _trackLength,
         AudioInfoType.IsPlaying: _isPlaying,
-        AudioInfoType.MainTitle: _currentAudioTitle ?? "",
-        AudioInfoType.SubTitle: _currentAudioSubTitle ?? "",
+        AudioInfoType.MainTitle: _currentAudioTitle ?? "載入中...",
+        AudioInfoType.SubTitle: _currentAudioSubTitle ?? "正在載入音樂",
         AudioInfoType.MainCover: _mainCoverUrl ?? "",
         AudioInfoType.SamCover: _samCoverUrl ?? ""
       };

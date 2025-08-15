@@ -1,9 +1,6 @@
 // flutter
 import 'package:flutter/material.dart';
 
-// 3rd lib
-import 'package:just_audio/just_audio.dart';
-
 // config
 import 'package:kikoeru/core/config/provider/AudioProvider.dart';
 
@@ -16,7 +13,7 @@ void hidePlayer(BuildContext context, AudioProvider audioProvider) {
 }
 
 void onPreviewPress(BuildContext context, AudioProvider audioProvider) {
-  if (audioProvider.AudioInfo[AudioInfoType.CurrentTrackIndex] > 0) {
+  if (audioProvider.hasPrevious) {
     audioProvider.stopAudio();
     audioProvider.previousTrack();
   } else {
@@ -27,8 +24,7 @@ void onPreviewPress(BuildContext context, AudioProvider audioProvider) {
 }
 
 void onNextPress(BuildContext context, AudioProvider audioProvider) {
-  if (audioProvider.AudioInfo[AudioInfoType.CurrentTrackIndex] <
-      audioProvider.AudioInfo[AudioInfoType.TotalTrackLength] - 1) {
+  if (audioProvider.hasNext) {
     audioProvider.stopAudio();
     audioProvider.nextTrack();
   } else {
@@ -38,10 +34,6 @@ void onNextPress(BuildContext context, AudioProvider audioProvider) {
   }
 }
 
-void audioPlayerSeek(AudioPlayer audioPlayer, int seconds) {
-  if (seconds > 0) {
-    audioPlayer.seek(audioPlayer.position + Duration(seconds: 5));
-  } else {
-    audioPlayer.seek(audioPlayer.position - Duration(seconds: 5));
-  }
+void audioPlayerSeek(AudioProvider audioProvider, int seconds) {
+  audioProvider.seek(Duration(seconds: seconds));
 }
