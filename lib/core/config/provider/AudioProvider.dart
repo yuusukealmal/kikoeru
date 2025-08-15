@@ -27,7 +27,7 @@ class AudioProvider extends ChangeNotifier {
           _audioList?[index]["title"],
           _audioList?[index]["workTitle"],
         );
-        updateOverlay(this);
+
         notifyListeners();
       }
     });
@@ -41,7 +41,6 @@ class AudioProvider extends ChangeNotifier {
   String? _currentAudioSubTitle;
   String? _samCoverUrl;
   String? _mainCoverUrl;
-  bool _isPlaying = false;
   ConcatenatingAudioSource? playList;
   List<Map<String, dynamic>>? _audioList;
 
@@ -60,13 +59,15 @@ class AudioProvider extends ChangeNotifier {
   Future<void> previousTrack() async {
     _audioPlayer.seekToPrevious();
     _audioPlayer.play();
-    updateOverlay(this);
+
+    notifyListeners();
   }
 
   Future<void> nextTrack() async {
     _audioPlayer.seekToNext();
     _audioPlayer.play();
-    updateOverlay(this);
+
+    notifyListeners();
   }
 
   Future<void> seek(Duration duration) async {
@@ -84,13 +85,12 @@ class AudioProvider extends ChangeNotifier {
           initialPosition: Duration.zero,
         );
 
-        _isPlaying = true;
         _audioPlayer.play();
       });
-      updateOverlay(this);
     } else {
       // togglePlayPause();
     }
+
     notifyListeners();
   }
 
@@ -116,22 +116,22 @@ class AudioProvider extends ChangeNotifier {
       shuffleOrder: DefaultShuffleOrder(),
       children: audioList,
     );
+
     _playAudio(index);
     refreshOverlay(context, this);
   }
 
   void togglePlayPause() {
-    _isPlaying ? _audioPlayer.pause() : _audioPlayer.play();
-    _isPlaying = !_isPlaying;
+    _audioPlayer.playing ? _audioPlayer.pause() : _audioPlayer.play();
+
     notifyListeners();
-    updateOverlay(this);
   }
 
   Future<void> stopAudio() async {
     await _audioPlayer.stop();
-    _isPlaying = false;
     _resetAudio();
     hideOverlay(this);
+
     notifyListeners();
   }
 
@@ -146,7 +146,7 @@ class AudioProvider extends ChangeNotifier {
 
   Map<AudioInfoType, dynamic> get AudioInfo => {
         AudioInfoType.CurrentTrackIndex: _audioPlayer.currentIndex,
-        AudioInfoType.IsPlaying: _isPlaying,
+        AudioInfoType.IsPlaying: _audioPlayer.playing,
         AudioInfoType.MainTitle: _currentAudioTitle ?? "載入中...",
         AudioInfoType.SubTitle: _currentAudioSubTitle ?? "正在載入音樂",
         AudioInfoType.MainCover: _mainCoverUrl ?? "",
