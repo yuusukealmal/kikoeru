@@ -25,7 +25,6 @@ class AudioProvider extends ChangeNotifier {
       if (index != null) {
         _trackIndex = index;
         setAudio(
-          _audioList?[index]["mediaStreamUrl"],
           _audioList?[index]["title"],
           _audioList?[index]["workTitle"],
         );
@@ -39,49 +38,42 @@ class AudioProvider extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   OverlayEntry? overlayEntry;
 
-  String? _currentAudioUrl;
   String? _currentAudioTitle;
   String? _currentAudioSubTitle;
   String? _samCoverUrl;
   String? _mainCoverUrl;
   bool _isPlaying = false;
-  int _trackIndex = 0;
+  int _trackIndex = -1;
   int _trackLength = 0;
   ConcatenatingAudioSource? playList;
   List<Map<String, dynamic>>? _audioList;
 
-  void setAudio(String url, String title, String subtitle) {
-    _currentAudioUrl = url;
+  void setAudio(String title, String subtitle) {
     _currentAudioTitle = title;
     _currentAudioSubTitle = subtitle;
   }
 
   void resetAudio() {
-    _currentAudioUrl = null;
     _currentAudioTitle = null;
     _currentAudioSubTitle = null;
   }
 
   Future<void> previousTrack() async {
-    _trackIndex--;
-    await playAudio(_trackIndex);
+    await playAudio(_trackIndex - 1);
     updateOverlay(this);
   }
 
   Future<void> nextTrack() async {
-    _trackIndex++;
-    await playAudio(_trackIndex);
+    await playAudio(_trackIndex + 1);
     updateOverlay(this);
   }
 
   Future<void> playAudio(int index) async {
-    String url = _audioList?[index]["streamLowQualityUrl"] ??
-        _audioList?[index]["mediaStreamUrl"];
-
-    if (_currentAudioUrl != url) {
+    if (_trackIndex != index) {
       await stopAudio();
+      _trackIndex = index;
+
       setAudio(
-        url,
         _audioList?[index]["title"],
         _audioList?[index]["workTitle"],
       );
@@ -133,7 +125,7 @@ class AudioProvider extends ChangeNotifier {
     String? mainCoverUrl,
     String? samCoverUrl,
   ]) {
-    _trackIndex = index;
+    // _trackIndex = index;
     _mainCoverUrl = mainCoverUrl;
     _samCoverUrl = samCoverUrl;
     List<UriAudioSource> audioList = rawAudioSource
