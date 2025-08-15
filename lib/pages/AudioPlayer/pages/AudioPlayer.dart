@@ -69,7 +69,7 @@ class _AudioPlayerScreenState extends State<AudioPlayerScreen>
             children: [
               Header(),
               Positioned(
-                top: MediaQuery.of(context).size.height / 2 - 300,
+                top: MediaQuery.of(context).size.height / 2 - 350,
                 left: 0,
                 right: 0,
                 child: Column(
