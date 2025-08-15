@@ -9,7 +9,7 @@ import 'package:kikoeru/core/config/provider/AudioProvider.dart';
 
 StreamBuilder<Duration?> AudioPlayerProgressBar(AudioProvider audioProvider) {
   return StreamBuilder<Duration?>(
-    stream: audioProvider.AudioPlayerInfo[AudioPlayerInfoType.Position],
+    stream: audioProvider.AudioPlayerInfo[AudioPlayerInfoType.PositionStream],
     builder: (context, snapshot) {
       return SizedBox(
         width: MediaQuery.of(context).size.width - 20,

@@ -40,7 +40,8 @@ class _AudioPlayerControllerState extends State<AudioPlayerController> {
           onPressed: () => audioPlayerSeek(audioProvider, -5),
         ),
         StreamBuilder<bool>(
-          stream: audioProvider.AudioPlayingStream,
+          stream:
+              audioProvider.AudioPlayerInfo[AudioPlayerInfoType.PlayingStream],
           builder: (context, snapshot) {
             final isPlaying = snapshot.data ?? false;
             return IconButton(

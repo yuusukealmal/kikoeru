@@ -17,7 +17,7 @@ enum AudioInfoType {
   SamCover
 }
 
-enum AudioPlayerInfoType { Position, Duration }
+enum AudioPlayerInfoType { PlayingStream, PositionStream, Duration }
 
 class AudioProvider extends ChangeNotifier {
   AudioProvider() {
@@ -141,13 +141,12 @@ class AudioProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Stream<bool> get AudioPlayingStream => _audioPlayer.playingStream;
-  // Stream<Duration> get AudioPositionStream => _audioPlayer.positionStream;
   bool get hasPrevious => _audioPlayer.previousIndex != null;
   bool get hasNext => _audioPlayer.nextIndex != null;
 
   Map<AudioPlayerInfoType, dynamic> get AudioPlayerInfo => {
-        AudioPlayerInfoType.Position: _audioPlayer.positionStream,
+        AudioPlayerInfoType.PlayingStream: _audioPlayer.playingStream,
+        AudioPlayerInfoType.PositionStream: _audioPlayer.positionStream,
         AudioPlayerInfoType.Duration: _audioPlayer.duration
       };
 
