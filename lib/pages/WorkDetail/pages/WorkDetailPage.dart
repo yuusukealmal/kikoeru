@@ -53,6 +53,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
           List<Map<String, dynamic>> audioList = getAudioList(parentFolder);
           playAudio(
             context,
+            widget.work.id,
             audioList,
             audioList.indexOf(item),
             widget.work.mainCoverUrl,
@@ -72,8 +73,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
   @override
   void initState() {
     super.initState();
-    _workInfoFuture =
-        Request.getWorkInfo(id: widget.work.id.toString());
+    _workInfoFuture = Request.getWorkInfo(id: widget.work.id.toString());
   }
 
   @override
