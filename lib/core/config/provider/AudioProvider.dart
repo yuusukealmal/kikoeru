@@ -23,8 +23,7 @@ class AudioProvider extends ChangeNotifier {
   AudioProvider() {
     _audioPlayer.currentIndexStream.listen((index) {
       if (index != null) {
-        _trackIndex = index;
-        setAudio(
+        _setAudio(
           _audioList?[index]["title"],
           _audioList?[index]["workTitle"],
         );
@@ -43,29 +42,30 @@ class AudioProvider extends ChangeNotifier {
   String? _samCoverUrl;
   String? _mainCoverUrl;
   bool _isPlaying = false;
-  int _trackIndex = -1;
   ConcatenatingAudioSource? playList;
   List<Map<String, dynamic>>? _audioList;
 
-  void setAudio(String title, String subtitle) {
+  void _setAudio(String title, String subtitle) {
     _currentAudioTitle = title;
     _currentAudioSubTitle = subtitle;
 
     notifyListeners();
   }
 
-  void resetAudio() {
+  void _resetAudio() {
     _currentAudioTitle = null;
     _currentAudioSubTitle = null;
   }
 
   Future<void> previousTrack() async {
     _audioPlayer.seekToPrevious();
+    _audioPlayer.play();
     updateOverlay(this);
   }
 
   Future<void> nextTrack() async {
-    _audioPlayer.seekToPrevious();
+    _audioPlayer.seekToNext();
+    _audioPlayer.play();
     updateOverlay(this);
   }
 
@@ -73,20 +73,14 @@ class AudioProvider extends ChangeNotifier {
     await _audioPlayer.seek(_audioPlayer.position + duration);
   }
 
-  Future<void> playAudio(int index) async {
-    if (_trackIndex != index) {
+  Future<void> _playAudio(int index) async {
+    if (_audioPlayer.currentIndex != index) {
       await stopAudio();
-      _trackIndex = index;
-
-      setAudio(
-        _audioList?[index]["title"],
-        _audioList?[index]["workTitle"],
-      );
 
       await _lock.synchronized(() async {
         await _audioPlayer.setAudioSource(
           playList!,
-          initialIndex: _trackIndex,
+          initialIndex: index,
           initialPosition: Duration.zero,
         );
 
@@ -122,7 +116,7 @@ class AudioProvider extends ChangeNotifier {
       shuffleOrder: DefaultShuffleOrder(),
       children: audioList,
     );
-    playAudio(index);
+    _playAudio(index);
     refreshOverlay(context, this);
   }
 
@@ -136,7 +130,7 @@ class AudioProvider extends ChangeNotifier {
   Future<void> stopAudio() async {
     await _audioPlayer.stop();
     _isPlaying = false;
-    resetAudio();
+    _resetAudio();
     hideOverlay(this);
     notifyListeners();
   }
@@ -151,7 +145,7 @@ class AudioProvider extends ChangeNotifier {
       };
 
   Map<AudioInfoType, dynamic> get AudioInfo => {
-        AudioInfoType.CurrentTrackIndex: _trackIndex,
+        AudioInfoType.CurrentTrackIndex: _audioPlayer.currentIndex,
         AudioInfoType.IsPlaying: _isPlaying,
         AudioInfoType.MainTitle: _currentAudioTitle ?? "載入中...",
         AudioInfoType.SubTitle: _currentAudioSubTitle ?? "正在載入音樂",
