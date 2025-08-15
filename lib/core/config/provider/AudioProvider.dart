@@ -76,19 +76,23 @@ class AudioProvider extends ChangeNotifier {
   }
 
   Future<void> _playAudio(int index) async {
-    if (_audioPlayer.currentIndex != index) {
+    final needReload =
+        _audioPlayer.sequenceState?.sequence != playList?.sequence ||
+            _audioPlayer.currentIndex != index;
+
+    if (needReload) {
       await _lock.synchronized(() async {
-        await stopAudio();
+        _setAudio(
+          _audioList?[index]["title"],
+          _audioList?[index]["workTitle"],
+        );
         await _audioPlayer.setAudioSource(
           playList!,
           initialIndex: index,
           initialPosition: Duration.zero,
         );
-
         _audioPlayer.play();
       });
-    } else {
-      // togglePlayPause();
     }
 
     notifyListeners();
