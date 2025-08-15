@@ -44,7 +44,7 @@ class AudioProvider extends ChangeNotifier {
   ConcatenatingAudioSource? playList;
   List<Map<String, dynamic>>? _audioList;
 
-  void _setAudio(String title, String subtitle) {
+  void _setAudio(String? title, String? subtitle) {
     _currentAudioTitle = title;
     _currentAudioSubTitle = subtitle;
 
@@ -57,14 +57,14 @@ class AudioProvider extends ChangeNotifier {
   }
 
   Future<void> previousTrack() async {
-    _audioPlayer.seekToPrevious();
+    await _audioPlayer.seekToPrevious();
     _audioPlayer.play();
 
     notifyListeners();
   }
 
   Future<void> nextTrack() async {
-    _audioPlayer.seekToNext();
+    await _audioPlayer.seekToNext();
     _audioPlayer.play();
 
     notifyListeners();
@@ -76,9 +76,8 @@ class AudioProvider extends ChangeNotifier {
 
   Future<void> _playAudio(int index) async {
     if (_audioPlayer.currentIndex != index) {
-      await stopAudio();
-
       await _lock.synchronized(() async {
+        await stopAudio();
         await _audioPlayer.setAudioSource(
           playList!,
           initialIndex: index,

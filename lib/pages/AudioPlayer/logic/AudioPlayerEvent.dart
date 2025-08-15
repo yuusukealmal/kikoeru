@@ -14,7 +14,6 @@ void hidePlayer(BuildContext context, AudioProvider audioProvider) {
 
 void onPreviewPress(BuildContext context, AudioProvider audioProvider) {
   if (audioProvider.hasPrevious) {
-    audioProvider.stopAudio();
     audioProvider.previousTrack();
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -25,7 +24,6 @@ void onPreviewPress(BuildContext context, AudioProvider audioProvider) {
 
 void onNextPress(BuildContext context, AudioProvider audioProvider) {
   if (audioProvider.hasNext) {
-    audioProvider.stopAudio();
     audioProvider.nextTrack();
   } else {
     ScaffoldMessenger.of(context).showSnackBar(
