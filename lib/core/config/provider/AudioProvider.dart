@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 // 3rd lib
 import 'package:just_audio/just_audio.dart';
+import 'package:kikoeru/main.dart';
+import 'package:synchronized/synchronized.dart';
 
 // function
 import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart';
@@ -33,6 +35,7 @@ class AudioProvider extends ChangeNotifier {
     });
   }
 
+  final Lock _lock = Lock();
   final AudioPlayer _audioPlayer = AudioPlayer();
   OverlayEntry? overlayEntry;
 
@@ -71,10 +74,10 @@ class AudioProvider extends ChangeNotifier {
     updateOverlay(this);
   }
 
-  Future<void> playAudio(
-    int index,
-  ) async {
-    String url = _audioList![index]["mediaStreamUrl"];
+  Future<void> playAudio(int index) async {
+    String url = _audioList?[index]["streamLowQualityUrl"] ??
+        _audioList?[index]["mediaStreamUrl"];
+
     if (_currentAudioUrl != url) {
       await stopAudio();
       setAudio(
@@ -83,13 +86,39 @@ class AudioProvider extends ChangeNotifier {
         _audioList?[index]["workTitle"],
       );
 
-      await _audioPlayer.setAudioSource(
-        playList!,
-        initialIndex: _trackIndex,
-        initialPosition: Duration.zero,
-      );
-      _isPlaying = true;
-      _audioPlayer.play();
+      await _lock.synchronized(() async {
+        try {
+          await _audioPlayer.setAudioSource(
+            playList!,
+            initialIndex: _trackIndex,
+            initialPosition: Duration.zero,
+          );
+
+          _isPlaying = true;
+          _audioPlayer.play();
+        } catch (e) {
+          logger.e("playAudio error: $e");
+          _isPlaying = false;
+          if (e.toString().contains('PlayerInterruptedException') ||
+              e.toString().contains('Connection aborted')) {
+            logger.d('Try to reconnect');
+            await Future.delayed(Duration(milliseconds: 1000));
+            try {
+              await _audioPlayer.setAudioSource(
+                playList!,
+                initialIndex: _trackIndex,
+                initialPosition: Duration.zero,
+              );
+              _isPlaying = true;
+              _audioPlayer.play();
+              logger.i('Reconnect success');
+            } catch (retryError) {
+              logger.d('Reconnect fail: $retryError');
+              _isPlaying = false;
+            }
+          }
+        }
+      });
       updateOverlay(this);
     } else {
       // togglePlayPause();
@@ -110,7 +139,7 @@ class AudioProvider extends ChangeNotifier {
     List<UriAudioSource> audioList = rawAudioSource
         .map(
           (item) => AudioSource.uri(
-            Uri.parse(item["mediaStreamUrl"]),
+            Uri.parse(item["streamLowQualityUrl"] ?? item["mediaStreamUrl"]),
           ),
         )
         .toList();
