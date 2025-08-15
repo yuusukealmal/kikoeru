@@ -18,7 +18,7 @@ mixin WorkAudio {
 
   void playAudio(
     BuildContext context,
-    int id,
+    String title,
     List<Map<String, dynamic>> dict,
     int index,
     String mainCoverUrl,
@@ -26,7 +26,7 @@ mixin WorkAudio {
   ) {
     Provider.of<AudioProvider>(context, listen: false).playAudioList(
       context,
-      id: id,
+      title: title,
       index: index,
       rawAudioSource: dict,
       mainCoverUrl: mainCoverUrl,

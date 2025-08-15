@@ -31,7 +31,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
   late Future<dynamic> _workInfoFuture;
 
   Widget _buildWorkDetailItems(Map<String, dynamic> item,
-      {List<dynamic>? parentFolder}) {
+      {List<dynamic>? parentFolder, String? parentTitle}) {
     if (item["type"] == "folder") {
       return ExpansionTile(
         leading: Leading(item["type"]),
@@ -41,6 +41,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
               (child) => _buildWorkDetailItems(
                 child,
                 parentFolder: item["children"],
+                parentTitle: item["title"],
               ),
             )
             .toList(),
@@ -53,7 +54,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
           List<Map<String, dynamic>> audioList = getAudioList(parentFolder);
           playAudio(
             context,
-            widget.work.id,
+            parentTitle!,
             audioList,
             audioList.indexOf(item),
             widget.work.mainCoverUrl,

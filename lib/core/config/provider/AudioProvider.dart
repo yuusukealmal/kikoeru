@@ -37,7 +37,7 @@ class AudioProvider extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   OverlayEntry? overlayEntry;
 
-  int? _currentWorkID;
+  String? _currentFolderTitle;
   String? _currentAudioTitle;
   String? _currentAudioSubTitle;
   String? _samCoverUrl;
@@ -96,13 +96,13 @@ class AudioProvider extends ChangeNotifier {
 
   void playAudioList(
     BuildContext context, {
-    required int id,
+    required String title,
     required int index,
     required List<Map<String, dynamic>> rawAudioSource,
     required String mainCoverUrl,
     required String samCoverUrl,
   }) {
-    if (id == _currentWorkID) {
+    if (title == _currentFolderTitle) {
       if (index != _audioPlayer.currentIndex) {
         _audioPlayer.seek(Duration.zero, index: index);
         _audioPlayer.play();
@@ -113,7 +113,7 @@ class AudioProvider extends ChangeNotifier {
     }
 
     stopAudio();
-    _currentWorkID = id;
+    _currentFolderTitle = title;
     _mainCoverUrl = mainCoverUrl;
     _samCoverUrl = samCoverUrl;
     List<UriAudioSource> audioList = rawAudioSource
