@@ -105,7 +105,10 @@ class AudioProvider extends ChangeNotifier {
     List<UriAudioSource> audioList = rawAudioSource
         .map(
           (item) => AudioSource.uri(
-            Uri.parse(item["streamLowQualityUrl"] ?? item["mediaStreamUrl"]),
+            Uri.parse((item["streamLowQualityUrl"] != null &&
+                    item["streamLowQualityUrl"].toString().isNotEmpty)
+                ? item["streamLowQualityUrl"]
+                : item["mediaStreamUrl"]),
           ),
         )
         .toList();

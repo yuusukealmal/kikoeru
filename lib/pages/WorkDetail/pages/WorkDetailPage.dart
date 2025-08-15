@@ -73,7 +73,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
   void initState() {
     super.initState();
     _workInfoFuture =
-        Request.getWorkInfo(id: widget.work.sourceID.split("RJ")[1]);
+        Request.getWorkInfo(id: widget.work.id.toString());
   }
 
   @override
