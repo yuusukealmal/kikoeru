@@ -42,8 +42,7 @@ mixin ItemTap {
   Widget _openImage(BuildContext context, String title, String url) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Center(
         child: GestureDetector(
           child: Image.network(url),
           onLongPress: () async {
