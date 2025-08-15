@@ -44,7 +44,7 @@ class AudioProvider extends ChangeNotifier {
   ConcatenatingAudioSource? playList;
   List<Map<String, dynamic>>? _audioList;
 
-  void _setAudio(String? title, String? subtitle) {
+  void _setAudio(String title, String subtitle) {
     _currentAudioTitle = title;
     _currentAudioSubTitle = subtitle;
 
