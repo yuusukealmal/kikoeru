@@ -72,6 +72,8 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
         currentPage, hasLanguage, orders.indexOf(order));
     dynamic jsonData = jsonDecode(response);
 
+    if (!mounted) return;
+
     setState(() {
       totalItems = jsonData["pagination"]["totalCount"];
       totalPages = (totalItems / itemsPerPage).ceil();
