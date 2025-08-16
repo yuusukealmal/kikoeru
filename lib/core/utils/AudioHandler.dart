@@ -34,18 +34,11 @@ class MyAudioHandler extends BaseAudioHandler {
         MediaControl.skipToPrevious,
         playing ? MediaControl.pause : MediaControl.play,
         MediaControl.skipToNext,
-        MediaControl.stop,
       ],
-      androidCompactActionIndices: const [0, 1, 2],
       processingState: _mapProcessingState(processingState),
       playing: playing,
       updatePosition:
           audioProvider.AudioPlayerInfo[AudioPlayerInfoType.Position],
-      bufferedPosition:
-          audioProvider.AudioPlayerInfo[AudioPlayerInfoType.BufferedPosition],
-      speed: audioProvider.AudioPlayerInfo[AudioPlayerInfoType.Speed],
-      queueIndex:
-          audioProvider.AudioPlayerInfo[AudioPlayerInfoType.CurrentIndex],
     ));
 
     final currentSource =
