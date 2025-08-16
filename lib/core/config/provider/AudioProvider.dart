@@ -22,13 +22,10 @@ enum AudioPlayerInfoType { PlayingStream, PositionStream, Duration }
 
 class AudioProvider extends ChangeNotifier {
   AudioProvider() {
-    _audioPlayer.currentIndexStream.listen((index) {
-      if (index != null) {
-        _setAudio(
-          _audioList?[index]["title"],
-          _audioList?[index]["workTitle"],
-        );
-
+    _audioPlayer.sequenceStateStream.listen((state) {
+      final tag = state?.currentSource?.tag;
+      if (tag is MediaItem) {
+        _setAudio(tag.title, tag.album ?? "");
         notifyListeners();
       }
     });
@@ -44,7 +41,6 @@ class AudioProvider extends ChangeNotifier {
   String? _samCoverUrl;
   String? _mainCoverUrl;
   ConcatenatingAudioSource? playList;
-  List<Map<String, dynamic>>? _audioList;
 
   void _setAudio(String title, String subtitle) {
     _currentAudioTitle = title;
@@ -54,6 +50,7 @@ class AudioProvider extends ChangeNotifier {
   }
 
   void _resetAudio() {
+    _currentFolderTitle = null;
     _currentAudioTitle = null;
     _currentAudioSubTitle = null;
   }
@@ -83,10 +80,6 @@ class AudioProvider extends ChangeNotifier {
 
     if (needReload) {
       await _lock.synchronized(() async {
-        _setAudio(
-          _audioList?[index]["title"],
-          _audioList?[index]["workTitle"],
-        );
         await _audioPlayer.setAudioSource(
           playList!,
           initialIndex: index,
@@ -139,7 +132,6 @@ class AudioProvider extends ChangeNotifier {
           ),
         )
         .toList();
-    _audioList = rawAudioSource;
     playList = ConcatenatingAudioSource(
       useLazyPreparation: true,
       shuffleOrder: DefaultShuffleOrder(),
