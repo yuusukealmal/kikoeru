@@ -23,6 +23,7 @@ dependencies:
   volume_controller: ^3.2.0
   logger: ^2.6.1
   synchronized: ^3.3.1
+  audio_service: ^0.18.18
 
 dev_dependencies:
   flutter_test:

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // 3rd lib
 import 'package:just_audio/just_audio.dart';
+import 'package:audio_service/audio_service.dart';
 import 'package:synchronized/synchronized.dart';
 
 // function
@@ -123,10 +124,18 @@ class AudioProvider extends ChangeNotifier {
     List<UriAudioSource> audioList = rawAudioSource
         .map(
           (item) => AudioSource.uri(
-            Uri.parse((item["streamLowQualityUrl"] != null &&
-                    item["streamLowQualityUrl"].toString().isNotEmpty)
-                ? item["streamLowQualityUrl"]
-                : item["mediaStreamUrl"]),
+            Uri.parse(
+              (item["streamLowQualityUrl"] != null &&
+                      item["streamLowQualityUrl"].toString().isNotEmpty)
+                  ? item["streamLowQualityUrl"]
+                  : item["mediaStreamUrl"],
+            ),
+            tag: MediaItem(
+              id: item["hash"] ?? "-1",
+              album: item["workTitle"] ?? "Album name",
+              title: item["title"] ?? "Song name",
+              artUri: Uri.parse(samCoverUrl),
+            ),
           ),
         )
         .toList();
