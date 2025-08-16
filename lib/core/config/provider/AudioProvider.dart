@@ -9,16 +9,21 @@ import 'package:synchronized/synchronized.dart';
 // function
 import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart';
 
-enum AudioInfoType {
-  CurrentTrackIndex,
+enum AudioPlayerInfoType {
+  PlayingStream,
+  PositionStream,
+  PlayerStateStream,
+  SequenceStateStream,
+  CurrentIndex,
+  CurrentSource,
   IsPlaying,
-  MainTitle,
-  SubTitle,
-  MainCover,
-  SamCover
+  Speed,
+  Position,
+  Duration,
+  BufferedPosition
 }
 
-enum AudioPlayerInfoType { PlayingStream, PositionStream, Duration }
+enum AudioInfoType { MainTitle, SubTitle, MainCover, SamCover }
 
 class AudioProvider extends ChangeNotifier {
   AudioProvider() {
@@ -26,6 +31,7 @@ class AudioProvider extends ChangeNotifier {
       final tag = state?.currentSource?.tag;
       if (tag is MediaItem) {
         _setAudio(tag.title, tag.album ?? "");
+
         notifyListeners();
       }
     });
@@ -142,7 +148,7 @@ class AudioProvider extends ChangeNotifier {
     refreshOverlay(context, this);
   }
 
-  void togglePlayPause() {
+  Future<void> togglePlayPause() async {
     _audioPlayer.playing ? _audioPlayer.pause() : _audioPlayer.play();
 
     notifyListeners();
@@ -162,12 +168,20 @@ class AudioProvider extends ChangeNotifier {
   Map<AudioPlayerInfoType, dynamic> get AudioPlayerInfo => {
         AudioPlayerInfoType.PlayingStream: _audioPlayer.playingStream,
         AudioPlayerInfoType.PositionStream: _audioPlayer.positionStream,
-        AudioPlayerInfoType.Duration: _audioPlayer.duration
+        AudioPlayerInfoType.PlayerStateStream: _audioPlayer.playerStateStream,
+        AudioPlayerInfoType.SequenceStateStream:
+            _audioPlayer.sequenceStateStream,
+        AudioPlayerInfoType.CurrentIndex: _audioPlayer.currentIndex,
+        AudioPlayerInfoType.CurrentSource:
+            _audioPlayer.sequenceState?.currentSource,
+        AudioPlayerInfoType.IsPlaying: _audioPlayer.playing,
+        AudioPlayerInfoType.Speed: _audioPlayer.speed,
+        AudioPlayerInfoType.Position: _audioPlayer.position,
+        AudioPlayerInfoType.Duration: _audioPlayer.duration,
+        AudioPlayerInfoType.BufferedPosition: _audioPlayer.bufferedPosition
       };
 
   Map<AudioInfoType, dynamic> get AudioInfo => {
-        AudioInfoType.CurrentTrackIndex: _audioPlayer.currentIndex,
-        AudioInfoType.IsPlaying: _audioPlayer.playing,
         AudioInfoType.MainTitle: _currentAudioTitle ?? "載入中...",
         AudioInfoType.SubTitle: _currentAudioSubTitle ?? "正在載入音樂",
         AudioInfoType.MainCover: _mainCoverUrl ?? "",

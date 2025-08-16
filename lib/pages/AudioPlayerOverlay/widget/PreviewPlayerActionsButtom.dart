@@ -9,7 +9,7 @@ Widget AudioPlayerPrevieActionButtom(AudioProvider audioProvider) {
     children: [
       IconButton(
         icon: Icon(
-          audioProvider.AudioInfo[AudioInfoType.IsPlaying]
+          audioProvider.AudioPlayerInfo[AudioPlayerInfoType.IsPlaying]
               ? Icons.pause
               : Icons.play_arrow,
         ),

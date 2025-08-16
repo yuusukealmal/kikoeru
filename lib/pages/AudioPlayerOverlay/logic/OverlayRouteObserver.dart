@@ -21,7 +21,7 @@ mixin OverlayRouteAware<T extends StatefulWidget> on State<T>
   @override
   void didPopNext() {
     final audioProvider = Provider.of<AudioProvider>(context, listen: false);
-    if (audioProvider.AudioInfo[AudioInfoType.IsPlaying]) {
+    if (audioProvider.AudioPlayerInfo[AudioPlayerInfoType.IsPlaying]) {
       refreshOverlay(context, audioProvider);
     }
   }

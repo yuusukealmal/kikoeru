@@ -27,9 +27,10 @@ Future<void> main() async {
   await AudioService.init(
     builder: () => MyAudioHandler(audioProvider),
     config: AudioServiceConfig(
-      androidNotificationChannelId: 'com.example.audio',
+      androidNotificationChannelId: 'com.kikoeru.audio',
       androidNotificationChannelName: '音樂播放',
       androidNotificationOngoing: true,
+      androidStopForegroundOnPause: true,
     ),
   );
 
