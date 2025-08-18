@@ -63,7 +63,7 @@ class WorkInfo {
     }();
     orginalWorkNo = work['original_workno'] ?? "";
     otherLangEditionsInDB = (work['other_language_editions_in_db'] as List?)
-            ?.map((e) => OtherlangindbClass(otherlangindbDetail: e))
+            ?.map((e) => OtherlanginDBClass(otherlanginDBDetail: e))
             .toList() ??
         [];
     translateInfo =
@@ -100,7 +100,7 @@ class WorkInfo {
   late final List<TagClass> tags;
   late final List<LanguageEditionsClass> languageEditions;
   late final String orginalWorkNo;
-  late final List<OtherlangindbClass> otherLangEditionsInDB;
+  late final List<OtherlanginDBClass> otherLangEditionsInDB;
   late final TranslateInfoClass translateInfo;
   late final String workAttributes;
   late final String ageCategoryString;

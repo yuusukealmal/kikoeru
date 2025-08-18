@@ -110,7 +110,7 @@ class Request {
     return await sendRequest(URL);
   }
 
-  static Future<String> getWorkInfo({String id = "403038"}) async {
+  static Future<String> getWorkTrack({String id = "403038"}) async {
     String url = "${_API}tracks/$id?v=1";
     return await sendRequest(url);
   }

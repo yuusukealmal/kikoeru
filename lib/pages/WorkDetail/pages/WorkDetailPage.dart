@@ -28,7 +28,7 @@ class WorkPage extends StatefulWidget {
 }
 
 class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
-  late Future<dynamic> _workInfoFuture;
+  late Future<String> _workTrackFuture;
 
   Widget _buildWorkDetailItems(Map<String, dynamic> item,
       {List<dynamic>? parentFolder, String? parentTitle}) {
@@ -74,13 +74,13 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
   @override
   void initState() {
     super.initState();
-    _workInfoFuture = Request.getWorkInfo(id: widget.work.id.toString());
+    _workTrackFuture = Request.getWorkTrack(id: widget.work.id.toString());
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<dynamic>(
-      future: _workInfoFuture,
+    return FutureBuilder<String>(
+      future: _workTrackFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -91,7 +91,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
         if (!snapshot.hasData) {
           return const Center(child: Text("No Data Available"));
         }
-        final dynamic workInfo = jsonDecode(snapshot.data);
+        final dynamic workTrack = jsonDecode(snapshot.data!);
 
         return Scaffold(
           appBar: AppBar(
@@ -103,7 +103,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 widget.work.DetailWorkCard(),
-                WorkDetailFolders(workInfo, _buildWorkDetailItems),
+                WorkDetailFolders(workTrack, _buildWorkDetailItems),
                 const SizedBox(height: 75),
               ],
             ),

@@ -1,7 +1,10 @@
 // flutter
 import 'package:flutter/material.dart';
 
-Widget getMutiLang(List<dynamic> langs, {bool isDetail = false}) {
+// class
+import 'package:kikoeru/class/WorkInfo/models/OtherLangInDBClass.dart';
+
+Widget getMutiLang(List<OtherlanginDBClass> langs, {bool isDetail = false}) {
   if (langs.isEmpty) return SizedBox.shrink();
   return Wrap(
     spacing: 6,
@@ -26,7 +29,7 @@ Widget getMutiLang(List<dynamic> langs, {bool isDetail = false}) {
         ...langs.map(
           (lang) {
             return Text(
-              lang["lang"],
+              lang.lang,
               style: const TextStyle(
                   fontSize: 14, color: Color.fromARGB(255, 11, 155, 244)),
             );

@@ -1,14 +1,14 @@
-class OtherlangindbClass {
-  OtherlangindbClass({required this.otherlangindbDetail}) {
-    ID = otherlangindbDetail["id"] ?? 0;
-    lang = otherlangindbDetail["lang"] ?? "";
-    title = otherlangindbDetail["title"] ?? "";
-    sourceID = otherlangindbDetail["source_id"] ?? "";
-    isOriginal = otherlangindbDetail["is_original"];
-    sourceType = otherlangindbDetail["source_type"] ?? "";
+class OtherlanginDBClass {
+  OtherlanginDBClass({required this.otherlanginDBDetail}) {
+    ID = otherlanginDBDetail["id"] ?? 0;
+    lang = otherlanginDBDetail["lang"] ?? "";
+    title = otherlanginDBDetail["title"] ?? "";
+    sourceID = otherlanginDBDetail["source_id"] ?? "";
+    isOriginal = otherlanginDBDetail["is_original"];
+    sourceType = otherlanginDBDetail["source_type"] ?? "";
   }
 
-  final Map<String, dynamic> otherlangindbDetail;
+  final Map<String, dynamic> otherlanginDBDetail;
   late final int ID;
   late final String lang;
   late final String title;
