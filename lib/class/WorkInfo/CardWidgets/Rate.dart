@@ -11,6 +11,15 @@ import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 // utils
 import 'package:kikoeru/core/utils/CardCalc.dart';
 
+String getSourceType(String sourceType) {
+  switch (sourceType.toLowerCase()) {
+    case "dlsite":
+      return "DLsite";
+    default:
+      throw Exception("Unknown source type");
+  }
+}
+
 Widget starRating(double rating) {
   return Row(
     mainAxisSize: MainAxisSize.min,
@@ -80,7 +89,7 @@ Widget getRate(WorkInfo work, {bool isDetail = false}) {
           );
         },
         child: Text(
-          "DLsite",
+          getSourceType(work.sourceType),
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,

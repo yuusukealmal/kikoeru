@@ -27,9 +27,9 @@ Future<String> sendRequest(
   if (response.statusCode < 200 || response.statusCode > 299) {
     logger.e('HTTP Error: ${response.statusCode}\nMessage: ${response.body}');
 
-    throw Exception(
-      'HTTP Error: ${response.statusCode}\nMessage: ${response.body}',
-    );
+    // throw Exception(
+    //   'HTTP Error: ${response.statusCode}\nMessage: ${response.body}',
+    // );
   }
 
   return response.body;
