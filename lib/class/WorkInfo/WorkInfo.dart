@@ -43,10 +43,24 @@ class WorkInfo {
     tags =
         (work['tags'] as List?)?.map((e) => TagClass(tagDetail: e)).toList() ??
             [];
-    languageEditions = (work['language_editions'] as List?)
-            ?.map((e) => LanguageeditionsClass(languageeDitionsDetail: e))
-            .toList() ??
-        [];
+    languageEditions = () {
+      final langEditions = work['language_editions'];
+      if (langEditions == null) return <LanguageEditionsClass>[];
+
+      final List<Map<String, dynamic>> editionsList;
+      if (langEditions is Map<String, dynamic>) {
+        editionsList =
+            langEditions.values.cast<Map<String, dynamic>>().toList();
+      } else if (langEditions is List) {
+        editionsList = langEditions.cast<Map<String, dynamic>>();
+      } else {
+        return <LanguageEditionsClass>[];
+      }
+
+      return editionsList
+          .map((e) => LanguageEditionsClass(languageDitionsDetail: e))
+          .toList();
+    }();
     orginalWorkNo = work['original_workno'] ?? "";
     otherLangEditionsInDB = (work['other_language_editions_in_db'] as List?)
             ?.map((e) => OtherlangindbClass(otherlangindbDetail: e))
@@ -84,7 +98,7 @@ class WorkInfo {
   late final String createData;
   late final List<VasClass> vas;
   late final List<TagClass> tags;
-  late final List<LanguageeditionsClass> languageEditions;
+  late final List<LanguageEditionsClass> languageEditions;
   late final String orginalWorkNo;
   late final List<OtherlangindbClass> otherLangEditionsInDB;
   late final TranslateInfoClass translateInfo;

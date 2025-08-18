@@ -10,6 +10,10 @@ import 'package:kikoeru/pages/HomePage/widgets/HomePageFooter.dart';
 // function
 import 'package:kikoeru/pages/HomePage/logic/HomePageScroll.dart';
 
+// class
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
+import 'package:kikoeru/class/SearchResult/SearchResult.dart';
+
 abstract class BasePage extends StatefulWidget {
   final Future<String> Function(
     int page,
@@ -24,7 +28,7 @@ abstract class BasePage extends StatefulWidget {
 }
 
 abstract class BasePageState<T extends BasePage> extends State<T> {
-  List<dynamic> works = [];
+  List<WorkInfo> works = [];
   int totalItems = 0;
   int currentPage = 1;
   bool hasLanguage = false;
@@ -70,14 +74,15 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
   Future<void> fetchCurrentPage() async {
     String response = await widget.fetchWorks(
         currentPage, hasLanguage, orders.indexOf(order));
-    dynamic jsonData = jsonDecode(response);
+    Searchresult searchresult =
+        Searchresult(searchResultDetail: jsonDecode(response));
 
     if (!mounted) return;
 
     setState(() {
-      totalItems = jsonData["pagination"]["totalCount"];
+      totalItems = searchresult.pagination.totalCount;
       totalPages = (totalItems / itemsPerPage).ceil();
-      works = jsonData["works"];
+      works = searchresult.workInfoList;
     });
   }
 

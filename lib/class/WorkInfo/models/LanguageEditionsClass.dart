@@ -1,14 +1,14 @@
-class LanguageeditionsClass {
-  LanguageeditionsClass({required this.languageeDitionsDetail}) {
-    lang = languageeDitionsDetail["lang"] ?? "";
-    lable = languageeDitionsDetail["lable"] ?? "";
-    workno = languageeDitionsDetail["workno"] ?? "";
-    editionID = languageeDitionsDetail["edition_id"] ?? 0;
-    editionType = languageeDitionsDetail["edition_type"] ?? "";
-    displayOrder = languageeDitionsDetail["display_order"] ?? 0;
+class LanguageEditionsClass {
+  LanguageEditionsClass({required this.languageDitionsDetail}) {
+    lang = languageDitionsDetail["lang"] ?? "";
+    lable = languageDitionsDetail["lable"] ?? "";
+    workno = languageDitionsDetail["workno"] ?? "";
+    editionID = languageDitionsDetail["edition_id"] ?? 0;
+    editionType = languageDitionsDetail["edition_type"] ?? "";
+    displayOrder = languageDitionsDetail["display_order"] ?? 0;
   }
 
-  final Map<String, dynamic> languageeDitionsDetail;
+  final Map<String, dynamic> languageDitionsDetail;
   late final String lang;
   late final String lable;
   late final String workno;
