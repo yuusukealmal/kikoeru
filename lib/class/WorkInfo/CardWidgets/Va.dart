@@ -5,18 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
 
 // class
-import 'package:kikoeru/class/models/Work.dart';
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
 // pages
 import 'package:kikoeru/pages/HomePage/pages/SearchPage.dart';
 
-Widget getVas(BuildContext context, Work work) {
+Widget getVas(BuildContext context, WorkInfo work) {
   return Padding(
     padding: const EdgeInsets.only(left: 8, bottom: 8),
     child: Wrap(
       spacing: 6,
       runSpacing: 4,
-      children: work.Vas.map((va) => va["name"].toString())
+      children: work.vas
+          .map((va) => va.name)
           .toList()
           .map(
             (cv) => GestureDetector(

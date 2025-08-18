@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 // class
-import 'package:kikoeru/class/models/Work.dart';
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
-Widget getWorkReleaseDate(Work work) {
+Widget getWorkReleaseDate(WorkInfo work) {
   return Positioned(
     bottom: 4,
     right: 8,

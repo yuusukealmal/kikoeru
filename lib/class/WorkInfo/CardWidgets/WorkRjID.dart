@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 // class
-import 'package:kikoeru/class/models/Work.dart';
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
-Widget getWorkRJID(Work work, {double top = 8, double left = 8}) {
+Widget getWorkRJID(WorkInfo work, {double top = 8, double left = 8}) {
   return Positioned(
     top: top,
     left: left,

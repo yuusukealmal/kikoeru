@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
 
 // class
-import 'package:kikoeru/class/models/Work.dart';
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
 // pages
 import 'package:kikoeru/pages/HomePage/pages/SearchPage.dart';
 
-Widget getTitleandCircle(BuildContext context, Work work) {
+Widget getTitleandCircle(BuildContext context, WorkInfo work) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Column(

@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 // class
-import 'package:kikoeru/class/models/Work.dart';
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
-Widget getWorkImage(Work work) {
+Widget getWorkImage(WorkInfo work) {
   return Image.network(
     work.mainCoverUrl,
     fit: BoxFit.cover,

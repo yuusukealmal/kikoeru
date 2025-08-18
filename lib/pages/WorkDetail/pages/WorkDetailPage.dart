@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 // class
-import 'package:kikoeru/class/models/Work.dart';
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
 // api
 import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
@@ -21,7 +21,7 @@ import 'package:kikoeru/pages/WorkDetail/logic/Audio.dart';
 class WorkPage extends StatefulWidget {
   const WorkPage({super.key, required this.work});
 
-  final Work work;
+  final WorkInfo work;
 
   @override
   State<WorkPage> createState() => _WorkPageState();

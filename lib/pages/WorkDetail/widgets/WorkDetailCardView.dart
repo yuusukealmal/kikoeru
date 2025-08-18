@@ -2,24 +2,24 @@
 import 'package:flutter/material.dart';
 
 // class
-import 'package:kikoeru/class/models/Work.dart';
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
 // card detail widgets
-import 'package:kikoeru/class/CardWidgets/WorkImage.dart';
-import 'package:kikoeru/class/CardWidgets/WorkRjID.dart';
-import 'package:kikoeru/class/CardWidgets/ReleaseDate.dart';
-import 'package:kikoeru/class/CardWidgets/TitleCircle.dart';
-import 'package:kikoeru/class/CardWidgets/Rate.dart';
-import 'package:kikoeru/class/CardWidgets/Sell.dart';
-import 'package:kikoeru/class/CardWidgets/Age.dart';
-import 'package:kikoeru/class/CardWidgets/MutiLang.dart';
-import 'package:kikoeru/class/CardWidgets/Subtitle.dart';
-import 'package:kikoeru/class/CardWidgets/Tag.dart';
-import 'package:kikoeru/class/CardWidgets/Va.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/WorkImage.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/WorkRjID.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/ReleaseDate.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/TitleCircle.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/Rate.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/Sell.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/Age.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/MutiLang.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/Subtitle.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/Tag.dart';
+import 'package:kikoeru/class/WorkInfo/CardWidgets/Va.dart';
 
 class WorkDetailCardView extends StatelessWidget {
   const WorkDetailCardView({super.key, required this.work});
-  final Work work;
+  final WorkInfo work;
 
   @override
   Widget build(BuildContext context) {
@@ -42,9 +42,9 @@ class WorkDetailCardView extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.end,
           children: [
             getSell(work),
-            getAgeString(work.AgeCategory),
-            getSubtitle(work.HasSubTitle),
-            getMutiLang(work.OtherLang, isDetail: false),
+            getAgeString(work.ageCategoryString),
+            getSubtitle(work.hasSubTitle),
+            getMutiLang(work.otherLangEditionsInDB, isDetail: false),
           ],
         ),
         const SizedBox(height: 8),

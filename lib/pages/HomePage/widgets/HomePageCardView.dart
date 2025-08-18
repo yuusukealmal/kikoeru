@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // class
-import 'package:kikoeru/class/models/Work.dart';
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
 // pages
 import 'package:kikoeru/pages/WorkDetail/pages/WorkDetailPage.dart';
@@ -16,7 +16,7 @@ Widget HomePageCardView(
       controller: scrollController,
       itemCount: works.length,
       itemBuilder: (context, index) {
-        final Work work = Work(work: works[index]);
+        final WorkInfo work = WorkInfo(work: works[index]);
         return GestureDetector(
           child: work.HomePageWorkCard(),
           onTap: () => Navigator.push(

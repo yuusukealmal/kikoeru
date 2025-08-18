@@ -6,7 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // class
-import 'package:kikoeru/class/models/Work.dart';
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
 // utils
 import 'package:kikoeru/core/utils/CardCalc.dart';
@@ -28,20 +28,20 @@ Widget starRating(double rating) {
   );
 }
 
-Widget getRate(Work work, {bool isDetail = false}) {
+Widget getRate(WorkInfo work, {bool isDetail = false}) {
   return Wrap(
     spacing: 6,
     runSpacing: 6,
     children: [
       SizedBox(width: 1),
-      starRating(work.Rate),
+      starRating(work.rateAverage2dp),
       Text(
-        work.Rate.toString(),
+        work.rateAverage2dp.toString(),
         style: const TextStyle(
             fontSize: 16, color: Colors.red, fontWeight: FontWeight.bold),
       ),
       Text(
-        "(${work.RateCount})",
+        "(${work.rateCount})",
         style: const TextStyle(
           fontSize: 12,
           color: Color.fromARGB(255, 130, 130, 130),
@@ -53,7 +53,7 @@ Widget getRate(Work work, {bool isDetail = false}) {
         color: const Color.fromARGB(153, 255, 255, 255),
       ),
       Text(
-        "(${work.ReviewCount})",
+        "(${work.reviewCount})",
         style: const TextStyle(
           fontSize: 14,
           // color: Color.fromARGB(255, 130, 130, 130),

@@ -2,9 +2,9 @@
 import 'package:flutter/material.dart';
 
 // class
-import 'package:kikoeru/class/models/Work.dart';
+import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
-Widget getSell(Work work) {
+Widget getSell(WorkInfo work) {
   return Row(
     spacing: 8.0,
     children: [
