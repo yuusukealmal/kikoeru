@@ -1,5 +1,5 @@
 // class
-import 'package:kikoeru/class/SearchResult/model/PaginationClass.dart';
+import 'package:kikoeru/class/SearchResult/models/PaginationClass.dart';
 import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
 
 class Searchresult {
