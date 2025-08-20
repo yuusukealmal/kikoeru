@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 // class
 import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
+import 'package:kikoeru/class/TrackInfo/TrackInfo.dart';
+import 'package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart';
 
 // api
 import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
@@ -30,28 +32,28 @@ class WorkPage extends StatefulWidget {
 class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
   late Future<String> _workTrackFuture;
 
-  Widget _buildWorkDetailItems(Map<String, dynamic> item,
+  Widget _buildWorkDetailItems(dynamic item,
       {List<dynamic>? parentFolder, String? parentTitle}) {
-    if (item["type"] == "folder") {
+    if (item is TypeFolderClass) {
       return ExpansionTile(
-        leading: Leading(item["type"]),
-        title: Text(item["title"]),
-        children: item["children"]
+        leading: Leading(item.type),
+        title: Text(item.title),
+        children: item.children
             .map<Widget>(
               (child) => _buildWorkDetailItems(
                 child,
-                parentFolder: item["children"],
-                parentTitle: item["title"],
+                parentFolder: item.children,
+                parentTitle: item.title,
               ),
             )
             .toList(),
       );
-    } else if (item["type"] == "audio") {
+    } else if (item is TypeAudioClass) {
       return ListTile(
-        leading: Leading(item["type"]),
-        title: Text(item["title"]),
+        leading: Leading(item.type),
+        title: Text(item.title),
         onTap: () {
-          List<Map<String, dynamic>> audioList = getAudioList(parentFolder);
+          List<TypeAudioClass> audioList = getAudioList(parentFolder);
           playAudio(
             context,
             parentTitle!,
@@ -64,8 +66,8 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
       );
     } else {
       return ListTile(
-        leading: Leading(item["type"]),
-        title: Text(item["title"]),
+        leading: Leading(item.type),
+        title: Text(item.title),
         onTap: () => handleItemTap(context, item),
       );
     }
@@ -91,7 +93,9 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
         if (!snapshot.hasData) {
           return const Center(child: Text("No Data Available"));
         }
-        final dynamic workTrack = jsonDecode(snapshot.data!);
+        final List<TrackInfo> workTrack = (jsonDecode(snapshot.data!) as List)
+            .map((e) => TrackInfo.create(e as Map<String, dynamic>))
+            .toList();
 
         return Scaffold(
           appBar: AppBar(

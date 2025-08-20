@@ -9,6 +9,9 @@ import 'package:synchronized/synchronized.dart';
 // function
 import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart';
 
+// class
+import 'package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart';
+
 enum AudioPlayerInfoType {
   PlayingStream,
   PositionStream,
@@ -102,7 +105,7 @@ class AudioProvider extends ChangeNotifier {
     BuildContext context, {
     required String title,
     required int index,
-    required List<Map<String, dynamic>> rawAudioSource,
+    required List<TypeAudioClass> rawAudioSource,
     required String mainCoverUrl,
     required String samCoverUrl,
   }) {
@@ -123,16 +126,13 @@ class AudioProvider extends ChangeNotifier {
     List<UriAudioSource> audioList = rawAudioSource
         .map(
           (item) => AudioSource.uri(
-            Uri.parse(
-              (item["streamLowQualityUrl"] != null &&
-                      item["streamLowQualityUrl"].toString().isNotEmpty)
-                  ? item["streamLowQualityUrl"]
-                  : item["mediaStreamUrl"],
-            ),
+            Uri.parse(item.streamLowQualityUrl.toString().isNotEmpty
+                ? item.streamLowQualityUrl
+                : item.mediaStreamUrl),
             tag: MediaItem(
-              id: item["hash"] ?? "-1",
-              album: item["workTitle"] ?? "Album name",
-              title: item["title"] ?? "Song name",
+              id: item.hash,
+              album: item.workTitle,
+              title: item.title,
               artUri: Uri.parse(samCoverUrl),
             ),
           ),

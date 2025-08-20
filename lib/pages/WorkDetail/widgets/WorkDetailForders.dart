@@ -1,10 +1,12 @@
 // flutter
 import 'package:flutter/material.dart';
 
+// class
+import 'package:kikoeru/class/TrackInfo/TrackInfo.dart';
+
 Widget WorkDetailFolders(
-  dynamic workTrack,
-  Widget Function(Map<String, dynamic>, {List<dynamic>? parentFolder})
-      buildItem,
+  List<TrackInfo> workTrack,
+  Widget Function(dynamic, {List<dynamic>? parentFolder}) buildItem,
 ) {
   if (workTrack.toString().contains("error")) {
     return Padding(

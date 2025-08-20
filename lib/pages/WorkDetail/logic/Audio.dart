@@ -7,11 +7,14 @@ import 'package:provider/provider.dart';
 // config
 import 'package:kikoeru/core/config/provider/AudioProvider.dart';
 
+// class
+import 'package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart';
+
 mixin WorkAudio {
-  List<Map<String, dynamic>> getAudioList(List<dynamic>? children) {
+  List<TypeAudioClass> getAudioList(List<dynamic>? children) {
     return children
-            ?.where((child) => child["type"] == "audio")
-            .map((child) => child as Map<String, dynamic>)
+            ?.where((child) => child.type == "audio")
+            .cast<TypeAudioClass>()
             .toList() ??
         [];
   }
@@ -19,7 +22,7 @@ mixin WorkAudio {
   void playAudio(
     BuildContext context,
     String title,
-    List<Map<String, dynamic>> dict,
+    List<TypeAudioClass> dict,
     int index,
     String mainCoverUrl,
     String samCoverUrl,
