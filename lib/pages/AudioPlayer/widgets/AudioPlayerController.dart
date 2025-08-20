@@ -68,9 +68,10 @@ class _AudioPlayerControllerState extends State<AudioPlayerController> {
               size: 32,
             ),
             onPressed: () => onNextPress(context, audioProvider)),
-        IconButton(
-            onPressed: () => EnterPip(context),
-            icon: Icon(Icons.branding_watermark))
+        if (audioProvider.AudioInfo[AudioInfoType.Lyrics].length > 0)
+          IconButton(
+              onPressed: () => EnterPip(context),
+              icon: Icon(Icons.branding_watermark))
       ],
     );
   }

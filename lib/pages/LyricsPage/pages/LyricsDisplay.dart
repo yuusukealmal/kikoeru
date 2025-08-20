@@ -43,27 +43,24 @@ class _LyricsDisplayState extends State<LyricsDisplay> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AudioProvider>(context);
+    final currentIndex =
+        provider.AudioPlayerInfo[AudioPlayerInfoType.CurrentIndex];
+    final mediaUrl =
+        provider.AudioInfo[AudioInfoType.Lyrics][currentIndex].mediaStreamUrl;
 
     return FutureBuilder<String>(
-      future: sendRequest(provider
-          .AudioInfo[AudioInfoType.Lyrics]
-              [provider.AudioPlayerInfo[AudioPlayerInfoType.CurrentIndex]]
-          .mediaStreamUrl),
-      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+      key: ValueKey(currentIndex),
+      future: sendRequest(mediaUrl),
+      builder: (context, snapshot) {
         if (snapshot.hasData) {
-          if (subtitles.isEmpty) {
-            subtitles = getVTTClass(snapshot.data!);
-          }
+          subtitles = getVTTClass(snapshot.data!);
           return StreamBuilder<Duration>(
             stream:
                 provider.AudioPlayerInfo[AudioPlayerInfoType.PositionStream],
-            builder: (BuildContext context,
-                AsyncSnapshot<Duration> positionSnapshot) {
+            builder: (context, positionSnapshot) {
               final currentPosition = positionSnapshot.data ?? Duration.zero;
-              final currentText = getCurrentSubtitle(
-                currentPosition,
-                subtitles,
-              );
+              final currentText =
+                  getCurrentSubtitle(currentPosition, subtitles);
 
               return Center(
                 child: Text(
