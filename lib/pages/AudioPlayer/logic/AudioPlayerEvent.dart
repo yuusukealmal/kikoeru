@@ -33,5 +33,5 @@ void onNextPress(BuildContext context, AudioProvider audioProvider) {
 }
 
 void audioPlayerSeek(AudioProvider audioProvider, int seconds) {
-  audioProvider.seek(Duration(seconds: seconds));
+  audioProvider.seek(Duration(seconds: seconds), fromCurrent: true);
 }
