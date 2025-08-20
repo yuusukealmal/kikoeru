@@ -1,5 +1,5 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 Widget getSubtitle(bool hasSubtitle) {
   if (!hasSubtitle) return SizedBox.shrink();

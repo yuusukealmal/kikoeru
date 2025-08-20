@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // pages
-import 'package:kikoeru/pages/AudioPlayer/pages/AudioPlayer.dart';
+import "package:kikoeru/pages/AudioPlayer/pages/AudioPlayer.dart";
 
 Widget openFullPlayerButton(BuildContext context) {
   return IconButton(

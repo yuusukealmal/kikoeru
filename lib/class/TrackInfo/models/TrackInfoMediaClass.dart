@@ -1,6 +1,6 @@
 // class
-import 'package:kikoeru/class/TrackInfo/TrackInfo.dart';
-import 'package:kikoeru/class/TrackInfo/models/TrackInfoWorkDetailClass.dart';
+import "package:kikoeru/class/TrackInfo/TrackInfo.dart";
+import "package:kikoeru/class/TrackInfo/models/TrackInfoWorkDetailClass.dart";
 
 class TypeMediaClass extends TrackInfo {
   TypeMediaClass({required super.track}) : super(track) {

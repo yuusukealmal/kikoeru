@@ -1,5 +1,5 @@
 // class
-import 'package:kikoeru/class/WorkInfo/models/TranslateBonusLangsClass.dart';
+import "package:kikoeru/class/WorkInfo/models/TranslateBonusLangsClass.dart";
 
 class TranslateInfoClass {
   TranslateInfoClass({required this.translateInfoDetail}) {
@@ -14,7 +14,7 @@ class TranslateInfoClass {
     isTranslationAgree = translateInfoDetail["is_translation_agree"] ?? false;
     translationBonusLangs = () {
       final translationBonusLangsDetail =
-          translateInfoDetail['translation_bonus_langs'];
+          translateInfoDetail["translation_bonus_langs"];
       if (translationBonusLangsDetail == null) {
         return <Translatebonuslangsclass>[];
       }

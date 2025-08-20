@@ -1,18 +1,18 @@
 // flutter
-import 'dart:convert';
-import 'package:flutter/material.dart';
+import "dart:convert";
+import "package:flutter/material.dart";
 
 // widgets
-import 'package:kikoeru/pages/HomePage/widgets/HomePageHeader.dart';
-import 'package:kikoeru/pages/HomePage/widgets/HomePageCardView.dart';
-import 'package:kikoeru/pages/HomePage/widgets/HomePageFooter.dart';
+import "package:kikoeru/pages/HomePage/widgets/HomePageHeader.dart";
+import "package:kikoeru/pages/HomePage/widgets/HomePageCardView.dart";
+import "package:kikoeru/pages/HomePage/widgets/HomePageFooter.dart";
 
 // function
-import 'package:kikoeru/pages/HomePage/logic/HomePageScroll.dart';
+import "package:kikoeru/pages/HomePage/logic/HomePageScroll.dart";
 
 // class
-import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
-import 'package:kikoeru/class/SearchResult/SearchResult.dart';
+import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
+import "package:kikoeru/class/SearchResult/SearchResult.dart";
 
 abstract class BasePage extends StatefulWidget {
   final Future<String> Function(

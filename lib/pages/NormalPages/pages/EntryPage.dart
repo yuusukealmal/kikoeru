@@ -1,15 +1,15 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // pages
-import 'package:kikoeru/pages/HomePage/pages/DefaultPages.dart';
+import "package:kikoeru/pages/HomePage/pages/DefaultPages.dart";
 
 // widget
-import 'package:kikoeru/pages/NormalPages/widgets/HomePageTitle.dart';
-import 'package:kikoeru/pages/NormalPages/widgets/DrawerWidget.dart';
+import "package:kikoeru/pages/NormalPages/widgets/HomePageTitle.dart";
+import "package:kikoeru/pages/NormalPages/widgets/DrawerWidget.dart";
 
 // function
-import 'package:kikoeru/pages/NormalPages/logic/EntryPageEvent.dart';
+import "package:kikoeru/pages/NormalPages/logic/EntryPageEvent.dart";
 
 class EntryPage extends StatefulWidget {
   const EntryPage({super.key, required this.title});
@@ -65,7 +65,7 @@ class _EntryPageState extends State<EntryPage> with TickerProviderStateMixin {
         actions: [
           IconButton(
             icon: const Icon(Icons.light_mode_outlined),
-            tooltip: 'Toggle Theme',
+            tooltip: "Toggle Theme",
             onPressed: () => toggleTheme(context),
           ),
         ],

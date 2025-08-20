@@ -1,9 +1,9 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // runTimeType pages
-import 'package:kikoeru/pages/HomePage/pages/DefaultPages.dart';
-import 'package:kikoeru/pages/HomePage/pages/SearchPage.dart';
+import "package:kikoeru/pages/HomePage/pages/DefaultPages.dart";
+import "package:kikoeru/pages/HomePage/pages/SearchPage.dart";
 
 final List<String> orders = [
   "發售日期倒序",

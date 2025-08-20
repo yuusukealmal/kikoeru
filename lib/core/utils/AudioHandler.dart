@@ -1,9 +1,9 @@
 // 3rd lib
-import 'package:audio_service/audio_service.dart';
-import 'package:just_audio/just_audio.dart';
+import "package:audio_service/audio_service.dart";
+import "package:just_audio/just_audio.dart";
 
 // config
-import 'package:kikoeru/core/config/provider/AudioProvider.dart';
+import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 class MyAudioHandler extends BaseAudioHandler {
   final AudioProvider audioProvider;

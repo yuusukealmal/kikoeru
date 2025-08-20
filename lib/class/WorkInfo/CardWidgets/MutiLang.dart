@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // class
-import 'package:kikoeru/class/WorkInfo/models/OtherLangInDBClass.dart';
+import "package:kikoeru/class/WorkInfo/models/OtherLangInDBClass.dart";
 
 Widget getMutiLang(List<OtherlanginDBClass> langs, {bool isDetail = false}) {
   if (langs.isEmpty) return SizedBox.shrink();

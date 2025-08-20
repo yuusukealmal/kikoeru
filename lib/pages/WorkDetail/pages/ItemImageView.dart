@@ -1,8 +1,8 @@
 // dart
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // functions
-import 'package:kikoeru/pages/WorkDetail/logic/ItemImageViewEvent.dart';
+import "package:kikoeru/pages/WorkDetail/logic/ItemImageViewEvent.dart";
 
 class ItemImageView extends StatefulWidget {
   final String title;

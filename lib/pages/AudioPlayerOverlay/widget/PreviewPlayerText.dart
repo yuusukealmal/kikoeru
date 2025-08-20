@@ -1,11 +1,11 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:marquee/marquee.dart';
+import "package:marquee/marquee.dart";
 
 // config
-import 'package:kikoeru/core/config/provider/AudioProvider.dart';
+import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 Widget AudioPlayerPreviewText(AudioProvider audioProvider) {
   return Expanded(

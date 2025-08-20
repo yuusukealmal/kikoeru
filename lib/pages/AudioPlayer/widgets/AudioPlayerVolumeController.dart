@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:volume_controller/volume_controller.dart';
+import "package:volume_controller/volume_controller.dart";
 
 class AudioPlayerVolumeController extends StatefulWidget {
   const AudioPlayerVolumeController({super.key});

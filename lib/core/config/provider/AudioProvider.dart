@@ -1,16 +1,16 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:just_audio/just_audio.dart';
-import 'package:audio_service/audio_service.dart';
-import 'package:synchronized/synchronized.dart';
+import "package:just_audio/just_audio.dart";
+import "package:audio_service/audio_service.dart";
+import "package:synchronized/synchronized.dart";
 
 // function
-import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart';
+import "package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart";
 
 // class
-import 'package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart';
+import "package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart";
 
 enum AudioPlayerInfoType {
   PlayingStream,

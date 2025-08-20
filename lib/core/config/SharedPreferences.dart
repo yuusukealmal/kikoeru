@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:shared_preferences/shared_preferences.dart";
 
 class SharedPreferencesHelper with ChangeNotifier {
   static final SharedPreferencesHelper _instance =

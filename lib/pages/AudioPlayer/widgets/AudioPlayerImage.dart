@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // config
-import 'package:kikoeru/core/config/provider/AudioProvider.dart';
+import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 Widget AudioPlayerImage(AudioProvider audioProvider) {
   return ClipRRect(

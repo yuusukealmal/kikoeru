@@ -1,6 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
-import 'package:kikoeru/pages/HomePage/pages/BaseWorkPage.dart';
+// flutter
+import "package:flutter/material.dart";
+
+// api
+import "package:kikoeru/api/WorkRequest/httpRequests.dart";
+
+// pages
+import "package:kikoeru/pages/HomePage/pages/BaseWorkPage.dart";
 
 class SearchWorksPage extends BasePage {
   SearchWorksPage({super.key, required this.type, required this.query})

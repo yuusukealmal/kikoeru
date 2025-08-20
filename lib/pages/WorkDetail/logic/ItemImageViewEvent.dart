@@ -1,9 +1,9 @@
 // flutter
-import 'dart:io';
-import 'package:flutter/material.dart';
+import "dart:io";
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:http/http.dart' as http;
+import "package:http/http.dart" as http;
 
 void handleDoubleTap(
     TransformationController controller, double zoom, TapDownDetails? details) {
@@ -21,7 +21,7 @@ void handleDoubleTap(
 }
 
 void handleLongPress(BuildContext context, String title, String url) async {
-  Directory directory = Directory('/storage/emulated/0/Download');
+  Directory directory = Directory("/storage/emulated/0/Download");
   File f = File("${directory.path}/$title.jpg");
   await f.writeAsBytes(
     await http.get(Uri.parse(url)).then(

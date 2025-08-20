@@ -1,15 +1,15 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // class
-import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
-import 'package:kikoeru/class/WorkInfo/models/TagClass.dart';
+import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
+import "package:kikoeru/class/WorkInfo/models/TagClass.dart";
 
 // api
-import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
+import "package:kikoeru/api/WorkRequest/httpRequests.dart";
 
 // pages
-import 'package:kikoeru/pages/HomePage/pages/SearchPage.dart';
+import "package:kikoeru/pages/HomePage/pages/SearchPage.dart";
 
 Widget getTagWidget(BuildContext context, TagClass tag) {
   return GestureDetector(

@@ -1,14 +1,14 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:provider/provider.dart';
+import "package:provider/provider.dart";
 
 // config
-import 'package:kikoeru/core/config/provider/AudioProvider.dart';
+import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 // class
-import 'package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart';
+import "package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart";
 
 mixin WorkAudio {
   List<TypeAudioClass> getAudioList(List<dynamic>? children) {

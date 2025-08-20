@@ -1,12 +1,12 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:provider/provider.dart';
+import "package:provider/provider.dart";
 
 // config
-import 'package:kikoeru/core/config/SharedPreferences.dart';
-import 'package:kikoeru/core/config/provider/ThemeProvider.dart';
+import "package:kikoeru/core/config/SharedPreferences.dart";
+import "package:kikoeru/core/config/provider/ThemeProvider.dart";
 
 Future<void> resetShard(BuildContext context) async {
   await SharedPreferencesHelper.delete();
@@ -15,7 +15,7 @@ Future<void> resetShard(BuildContext context) async {
 
 Widget resetShardTab(BuildContext context) {
   return ListTile(
-    title: const Text('Reset Shared Preferences'),
+    title: const Text("Reset Shared Preferences"),
     trailing: const Icon(Icons.delete),
     onTap: () async {
       showDialog(

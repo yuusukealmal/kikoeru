@@ -1,11 +1,11 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // config
-import 'package:kikoeru/core/config/SharedPreferences.dart';
+import "package:kikoeru/core/config/SharedPreferences.dart";
 
 // functions
-import 'package:kikoeru/pages/NormalPages/logic/Login.dart';
+import "package:kikoeru/pages/NormalPages/logic/Login.dart";
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,12 +21,12 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    if (SharedPreferencesHelper.getString('USER.NAME') != null) {
-      _accountController.text = SharedPreferencesHelper.getString('USER.NAME')!;
+    if (SharedPreferencesHelper.getString("USER.NAME") != null) {
+      _accountController.text = SharedPreferencesHelper.getString("USER.NAME")!;
     }
-    if (SharedPreferencesHelper.getString('USER.PASSWORD') != null) {
+    if (SharedPreferencesHelper.getString("USER.PASSWORD") != null) {
       _passwordController.text =
-          SharedPreferencesHelper.getString('USER.PASSWORD')!;
+          SharedPreferencesHelper.getString("USER.PASSWORD")!;
     }
 
     super.initState();

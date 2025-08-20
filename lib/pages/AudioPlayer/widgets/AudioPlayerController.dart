@@ -1,9 +1,9 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // config
-import 'package:kikoeru/core/config/provider/AudioProvider.dart';
-import 'package:kikoeru/pages/AudioPlayer/logic/AudioPlayerEvent.dart';
+import "package:kikoeru/core/config/provider/AudioProvider.dart";
+import "package:kikoeru/pages/AudioPlayer/logic/AudioPlayerEvent.dart";
 
 class AudioPlayerController extends StatefulWidget {
   final AudioProvider audioProvider;

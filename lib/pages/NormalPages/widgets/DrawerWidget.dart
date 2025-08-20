@@ -1,12 +1,12 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // config
-import 'package:kikoeru/core/config/SharedPreferences.dart';
+import "package:kikoeru/core/config/SharedPreferences.dart";
 
 // widget
-import 'package:kikoeru/pages/NormalPages/widgets/LogoutTab.dart';
-import 'package:kikoeru/pages/NormalPages/widgets/ResetShardTab.dart';
+import "package:kikoeru/pages/NormalPages/widgets/LogoutTab.dart";
+import "package:kikoeru/pages/NormalPages/widgets/ResetShardTab.dart";
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});

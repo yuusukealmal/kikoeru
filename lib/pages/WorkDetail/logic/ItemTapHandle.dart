@@ -1,12 +1,12 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // pages
-import 'package:kikoeru/pages/WorkDetail/pages/ItemImageView.dart';
+import "package:kikoeru/pages/WorkDetail/pages/ItemImageView.dart";
 
 // widget
-import 'package:kikoeru/pages/WorkDetail/widgets/ItemPdfView.dart';
-import 'package:kikoeru/pages/WorkDetail/widgets/ItemTextView.dart';
+import "package:kikoeru/pages/WorkDetail/widgets/ItemPdfView.dart";
+import "package:kikoeru/pages/WorkDetail/widgets/ItemTextView.dart";
 
 mixin ItemTap {
   void handleItemTap(BuildContext context, dynamic item) {

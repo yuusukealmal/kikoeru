@@ -1,11 +1,11 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // config
-import 'package:kikoeru/core/config/provider/AudioProvider.dart';
+import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 // function
-import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart';
+import "package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart";
 
 void hidePlayer(BuildContext context, AudioProvider audioProvider) {
   refreshOverlay(context, audioProvider);

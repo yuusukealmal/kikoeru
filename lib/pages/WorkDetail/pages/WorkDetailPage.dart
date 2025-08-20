@@ -1,24 +1,24 @@
 // flutter
-import 'dart:convert';
-import 'package:flutter/material.dart';
+import "dart:convert";
+import "package:flutter/material.dart";
 
 // class
-import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
-import 'package:kikoeru/class/TrackInfo/TrackInfo.dart';
-import 'package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart';
+import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
+import "package:kikoeru/class/TrackInfo/TrackInfo.dart";
+import "package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart";
 
 // api
-import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
+import "package:kikoeru/api/WorkRequest/httpRequests.dart";
 
 // function
-import 'package:kikoeru/pages/WorkDetail/logic/ItemTapHandle.dart';
+import "package:kikoeru/pages/WorkDetail/logic/ItemTapHandle.dart";
 
 // widget
-import 'package:kikoeru/pages/WorkDetail/widgets/WorkDetailForders.dart';
-import 'package:kikoeru/pages/WorkDetail/widgets/WorkDetailsLeading.dart';
+import "package:kikoeru/pages/WorkDetail/widgets/WorkDetailForders.dart";
+import "package:kikoeru/pages/WorkDetail/widgets/WorkDetailsLeading.dart";
 
 // mixin
-import 'package:kikoeru/pages/WorkDetail/logic/Audio.dart';
+import "package:kikoeru/pages/WorkDetail/logic/Audio.dart";
 
 class WorkPage extends StatefulWidget {
   const WorkPage({super.key, required this.work});

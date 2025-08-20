@@ -11,13 +11,13 @@ class HistoryItemClass {
 
 class LanguageContentClass {
   LanguageContentClass({required this.languageDetail}) {
-    name = languageDetail['name'] ?? "";
-    history = languageDetail['history'] != null
-        ? (languageDetail['history'] as List)
+    name = languageDetail["name"] ?? "";
+    history = languageDetail["history"] != null
+        ? (languageDetail["history"] as List)
             .map((e) => HistoryItemClass(historyDetail: e))
             .toList()
         : [];
-    censored = languageDetail['censored'] ?? "";
+    censored = languageDetail["censored"] ?? "";
   }
 
   final Map<String, dynamic> languageDetail;
@@ -28,9 +28,9 @@ class LanguageContentClass {
 
 class i18nClass {
   i18nClass({required this.i18nDetail}) {
-    enUs = LanguageContentClass(languageDetail: i18nDetail['en-us'] ?? {});
-    jaJp = LanguageContentClass(languageDetail: i18nDetail['ja-jp'] ?? {});
-    zhCn = LanguageContentClass(languageDetail: i18nDetail['zh-cn'] ?? {});
+    enUs = LanguageContentClass(languageDetail: i18nDetail["en-us"] ?? {});
+    jaJp = LanguageContentClass(languageDetail: i18nDetail["ja-jp"] ?? {});
+    zhCn = LanguageContentClass(languageDetail: i18nDetail["zh-cn"] ?? {});
   }
 
   final Map<String, dynamic> i18nDetail;

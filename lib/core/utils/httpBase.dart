@@ -1,8 +1,8 @@
 // 3rd lib
-import 'package:http/http.dart' as http;
+import "package:http/http.dart" as http;
 
 // pages
-import 'package:kikoeru/main.dart';
+import "package:kikoeru/main.dart";
 
 Future<String> sendRequest(
   String url, {
@@ -13,7 +13,7 @@ Future<String> sendRequest(
       {
         "Content-Type": "application/json",
         "User-Agent":
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)'
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)"
       };
 
   logger.d(
@@ -25,10 +25,10 @@ Future<String> sendRequest(
       : http.get(Uri.parse(url), headers: headers));
 
   if (response.statusCode < 200 || response.statusCode > 299) {
-    logger.e('HTTP Error: ${response.statusCode}\nMessage: ${response.body}');
+    logger.e("HTTP Error: ${response.statusCode}\nMessage: ${response.body}");
 
     // throw Exception(
-    //   'HTTP Error: ${response.statusCode}\nMessage: ${response.body}',
+    //   "HTTP Error: ${response.statusCode}\nMessage: ${response.body}",
     // );
   }
 

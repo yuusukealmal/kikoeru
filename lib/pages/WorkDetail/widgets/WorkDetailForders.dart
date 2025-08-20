@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // class
-import 'package:kikoeru/class/TrackInfo/TrackInfo.dart';
+import "package:kikoeru/class/TrackInfo/TrackInfo.dart";
 
 Widget WorkDetailFolders(
   List<TrackInfo> workTrack,

@@ -1,27 +1,27 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:provider/provider.dart';
+import "package:provider/provider.dart";
 
 // config
-import 'package:kikoeru/core/config/provider/AudioProvider.dart';
+import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 // func
-import 'package:kikoeru/pages/AudioPlayer/logic/AudioPlayerEvent.dart';
-import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart';
-import 'package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayRouteObserver.dart';
+import "package:kikoeru/pages/AudioPlayer/logic/AudioPlayerEvent.dart";
+import "package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart";
+import "package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayRouteObserver.dart";
 
 // widgets
-import 'package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerHeader.dart';
-import 'package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerImage.dart';
-import 'package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerProgressBar.dart';
-import 'package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerText.dart';
-import 'package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerController.dart';
-import 'package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerVolumeController.dart';
+import "package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerHeader.dart";
+import "package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerImage.dart";
+import "package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerProgressBar.dart";
+import "package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerText.dart";
+import "package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerController.dart";
+import "package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerVolumeController.dart";
 
 // pages
-import 'package:kikoeru/main.dart';
+import "package:kikoeru/main.dart";
 
 class AudioPlayerScreen extends StatefulWidget {
   const AudioPlayerScreen({super.key});

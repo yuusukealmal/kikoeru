@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // config
-import 'package:kikoeru/core/config/SharedPreferences.dart';
+import "package:kikoeru/core/config/SharedPreferences.dart";
 
 Future<void> logout() async {
   await SharedPreferencesHelper.remove("USER.TOKEN");
@@ -11,7 +11,7 @@ Future<void> logout() async {
 
 Widget logoutTab(BuildContext context) {
   return ListTile(
-    title: const Text('Logout'),
+    title: const Text("Logout"),
     trailing: const Icon(Icons.logout_sharp),
     onTap: () async {
       showDialog(

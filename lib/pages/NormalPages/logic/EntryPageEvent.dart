@@ -1,11 +1,11 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd party
-import 'package:provider/provider.dart';
+import "package:provider/provider.dart";
 
 // config
-import 'package:kikoeru/core/config/provider/ThemeProvider.dart';
+import "package:kikoeru/core/config/provider/ThemeProvider.dart";
 
 // pages
 import "package:kikoeru/main.dart";
@@ -20,8 +20,8 @@ void handleTabSelection(TabController tabController) {
   final currentPage = tabIndexMap[tabController.index];
 
   if (tabController.indexIsChanging) {
-    logger.d('Tab is changing to: $currentPage');
+    logger.d("Tab is changing to: $currentPage");
   } else if (!tabController.indexIsChanging) {
-    logger.d('Tab changed to: $currentPage');
+    logger.d("Tab changed to: $currentPage");
   }
 }

@@ -1,21 +1,21 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // class
-import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
+import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 
 // card detail wodgets
-import 'package:kikoeru/class/WorkInfo/CardWidgets/WorkImage.dart';
-import 'package:kikoeru/class/WorkInfo/CardWidgets/WorkRjID.dart';
-import 'package:kikoeru/class/WorkInfo/CardWidgets/ReleaseDate.dart';
-import 'package:kikoeru/class/WorkInfo/CardWidgets/TitleCircle.dart';
-import 'package:kikoeru/class/WorkInfo/CardWidgets/Rate.dart';
-import 'package:kikoeru/class/WorkInfo/CardWidgets/Sell.dart';
-import 'package:kikoeru/class/WorkInfo/CardWidgets/Age.dart';
-import 'package:kikoeru/class/WorkInfo/CardWidgets/MutiLang.dart';
-import 'package:kikoeru/class/WorkInfo/CardWidgets/Subtitle.dart';
-import 'package:kikoeru/class/WorkInfo/CardWidgets/Tag.dart';
-import 'package:kikoeru/class/WorkInfo/CardWidgets/Va.dart';
+import "package:kikoeru/class/WorkInfo/CardWidgets/WorkImage.dart";
+import "package:kikoeru/class/WorkInfo/CardWidgets/WorkRjID.dart";
+import "package:kikoeru/class/WorkInfo/CardWidgets/ReleaseDate.dart";
+import "package:kikoeru/class/WorkInfo/CardWidgets/TitleCircle.dart";
+import "package:kikoeru/class/WorkInfo/CardWidgets/Rate.dart";
+import "package:kikoeru/class/WorkInfo/CardWidgets/Sell.dart";
+import "package:kikoeru/class/WorkInfo/CardWidgets/Age.dart";
+import "package:kikoeru/class/WorkInfo/CardWidgets/MutiLang.dart";
+import "package:kikoeru/class/WorkInfo/CardWidgets/Subtitle.dart";
+import "package:kikoeru/class/WorkInfo/CardWidgets/Tag.dart";
+import "package:kikoeru/class/WorkInfo/CardWidgets/Va.dart";
 
 class HomePageWrokCard extends StatefulWidget {
   const HomePageWrokCard({super.key, required this.work});

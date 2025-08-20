@@ -1,5 +1,5 @@
 // class
-import 'package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart';
+import "package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart";
 
 abstract class TrackInfo {
   TrackInfo(Map<String, dynamic> jsonDecode, {required this.track}) {

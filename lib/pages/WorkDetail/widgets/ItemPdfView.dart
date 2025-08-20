@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import "package:syncfusion_flutter_pdfviewer/pdfviewer.dart";
 
 Widget ItemPdfView(String title, String url) {
   return Scaffold(

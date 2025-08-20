@@ -1,12 +1,12 @@
 // flutter
-import 'dart:math';
-import 'dart:convert';
+import "dart:math";
+import "dart:convert";
 
 // config
-import 'package:kikoeru/core/config/SharedPreferences.dart';
+import "package:kikoeru/core/config/SharedPreferences.dart";
 
 // api
-import 'package:kikoeru/core/utils/httpBase.dart';
+import "package:kikoeru/core/utils/httpBase.dart";
 
 enum SearchType { STRING, VAS, Circle, Tag }
 

@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // class
-import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
+import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 
 Widget getWorkRJID(WorkInfo work, {double top = 8, double left = 8}) {
   return Positioned(

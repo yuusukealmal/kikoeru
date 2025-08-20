@@ -1,11 +1,11 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // class
-import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
+import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 
 // pages
-import 'package:kikoeru/pages/WorkDetail/pages/WorkDetailPage.dart';
+import "package:kikoeru/pages/WorkDetail/pages/WorkDetailPage.dart";
 
 Widget HomePageCardView(
   List<WorkInfo> works,

@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // config
-import 'package:kikoeru/core/config/SharedPreferences.dart';
+import "package:kikoeru/core/config/SharedPreferences.dart";
 
 class ThemeProvider with ChangeNotifier {
   ThemeMode? _themeMode;
@@ -13,12 +13,12 @@ class ThemeProvider with ChangeNotifier {
   }
 
   Future<void> init() async {
-    String? theme = SharedPreferencesHelper.getString('theme');
+    String? theme = SharedPreferencesHelper.getString("theme");
     if (theme != null) {
-      _themeMode = theme == 'light' ? ThemeMode.light : ThemeMode.dark;
+      _themeMode = theme == "light" ? ThemeMode.light : ThemeMode.dark;
     } else {
       _themeMode = ThemeMode.light;
-      await SharedPreferencesHelper.setString('theme', 'light');
+      await SharedPreferencesHelper.setString("theme", "light");
     }
     notifyListeners();
   }
@@ -27,7 +27,7 @@ class ThemeProvider with ChangeNotifier {
     _themeMode =
         _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     await SharedPreferencesHelper.setString(
-        'theme', _themeMode == ThemeMode.light ? 'light' : 'dark');
+        "theme", _themeMode == ThemeMode.light ? "light" : "dark");
     notifyListeners();
   }
 }

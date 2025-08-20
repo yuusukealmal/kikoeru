@@ -1,15 +1,15 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:flutter/cupertino.dart';
-import 'package:url_launcher/url_launcher.dart';
+import "package:flutter/cupertino.dart";
+import "package:url_launcher/url_launcher.dart";
 
 // class
-import 'package:kikoeru/class/WorkInfo/WorkInfo.dart';
+import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 
 // utils
-import 'package:kikoeru/core/utils/CardCalc.dart';
+import "package:kikoeru/core/utils/CardCalc.dart";
 
 String getSourceType(String sourceType) {
   switch (sourceType.toLowerCase()) {

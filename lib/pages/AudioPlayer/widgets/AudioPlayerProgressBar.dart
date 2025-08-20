@@ -1,11 +1,11 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // 3rd lib
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import "package:audio_video_progress_bar/audio_video_progress_bar.dart";
 
 // config
-import 'package:kikoeru/core/config/provider/AudioProvider.dart';
+import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 StreamBuilder<Duration?> AudioPlayerProgressBar(AudioProvider audioProvider) {
   return StreamBuilder<Duration?>(

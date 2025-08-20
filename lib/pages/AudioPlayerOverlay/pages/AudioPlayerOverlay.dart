@@ -1,16 +1,16 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // config
-import 'package:kikoeru/core/config/provider/AudioProvider.dart';
+import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 // pages
-import 'package:provider/provider.dart';
+import "package:provider/provider.dart";
 
 // widgets
-import 'package:kikoeru/pages/AudioPlayerOverlay/widget/OpenFullPlayerButton.dart';
-import 'package:kikoeru/pages/AudioPlayerOverlay/widget/PreviewPlayerActionsButtom.dart';
-import 'package:kikoeru/pages/AudioPlayerOverlay/widget/PreviewPlayerText.dart';
+import "package:kikoeru/pages/AudioPlayerOverlay/widget/OpenFullPlayerButton.dart";
+import "package:kikoeru/pages/AudioPlayerOverlay/widget/PreviewPlayerActionsButtom.dart";
+import "package:kikoeru/pages/AudioPlayerOverlay/widget/PreviewPlayerText.dart";
 
 class AudioPlayerOverlay extends StatefulWidget {
   const AudioPlayerOverlay({super.key});

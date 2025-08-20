@@ -1,8 +1,8 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // api
-import 'package:kikoeru/core/utils/httpBase.dart';
+import "package:kikoeru/core/utils/httpBase.dart";
 
 Widget ItemTextView(String title, String url) {
   return FutureBuilder<String>(

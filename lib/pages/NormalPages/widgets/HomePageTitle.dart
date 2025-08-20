@@ -1,11 +1,11 @@
 // flutter
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 // api
-import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
+import "package:kikoeru/api/WorkRequest/httpRequests.dart";
 
 // pages
-import 'package:kikoeru/pages/HomePage/pages/SearchPage.dart';
+import "package:kikoeru/pages/HomePage/pages/SearchPage.dart";
 
 Widget HomePageTitle(
   BuildContext context,
@@ -31,7 +31,7 @@ Widget HomePageTitle(
           child: TextField(
             controller: searchController,
             decoration: InputDecoration(
-              hintText: 'Search...',
+              hintText: "Search...",
               prefixIcon: Icon(
                 Icons.search,
                 color: Theme.of(context).iconTheme.color,
