@@ -28,6 +28,7 @@ abstract class BasePage extends StatefulWidget {
 }
 
 abstract class BasePageState<T extends BasePage> extends State<T> {
+  bool _isLoading = false;
   List<WorkInfo> works = [];
   int totalItems = 0;
   int currentPage = 1;
@@ -72,6 +73,10 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
   }
 
   Future<void> fetchCurrentPage() async {
+    setState(() {
+      _isLoading = true;
+    });
+
     String response = await widget.fetchWorks(
         currentPage, hasLanguage, orders.indexOf(order));
     Searchresult searchresult =
@@ -83,6 +88,7 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
       totalItems = searchresult.pagination.totalCount;
       totalPages = (totalItems / itemsPerPage).ceil();
       works = searchresult.workInfoList;
+      _isLoading = false;
     });
   }
 
@@ -117,8 +123,11 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
-    if (works.isEmpty) {
+    if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
+    }
+    if (works.isEmpty) {
+      return const Center(child: Text("沒有資料可以顯示"));
     }
 
     return Column(
