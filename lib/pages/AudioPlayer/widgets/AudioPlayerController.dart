@@ -57,21 +57,24 @@ class _AudioPlayerControllerState extends State<AudioPlayerController> {
           },
         ),
         IconButton(
-            icon: Icon(
-              Icons.forward_5,
-              size: 32,
-            ),
-            onPressed: () => audioPlayerSeek(audioProvider, 5)),
+          icon: Icon(
+            Icons.forward_5,
+            size: 32,
+          ),
+          onPressed: () => audioPlayerSeek(audioProvider, 5),
+        ),
         IconButton(
-            icon: Icon(
-              Icons.skip_next,
-              size: 32,
-            ),
-            onPressed: () => onNextPress(context, audioProvider)),
+          icon: Icon(
+            Icons.skip_next,
+            size: 32,
+          ),
+          onPressed: () => onNextPress(context, audioProvider),
+        ),
         if (audioProvider.AudioInfo[AudioInfoType.Lyrics].length > 0)
           IconButton(
-              onPressed: () => EnterPip(context),
-              icon: Icon(Icons.branding_watermark))
+            onPressed: () => EnterPip(context),
+            icon: Icon(Icons.branding_watermark),
+          )
       ],
     );
   }

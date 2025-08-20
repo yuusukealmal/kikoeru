@@ -1,23 +1,34 @@
 // class
-import "package:kikoeru/class/Lyrics/VTTClass.dart";
+import "package:kikoeru/class/Lyrics/VttClass.dart";
+import "package:kikoeru/class/Lyrics/LrcClass.dart";
 
-List<VttClass> getVTTClass(String content) {
+List<dynamic> getSubTitleClass(String content) {
   final lines = content.split("\n");
-  final List<VttClass> subtitles = [];
+  final List<dynamic> subtitles = [];
 
-  for (int i = 0; i < lines.length; i++) {
-    if (lines[i].contains("-->")) {
-      final times = lines[i];
+  bool isLrcFormat = lines.any((line) => LrcClass.isLrc.hasMatch(line.trim()));
 
-      String text = "";
-      int j = i + 1;
-      while (j < lines.length && lines[j].trim().isNotEmpty) {
-        text += "${lines[j].trim()}\n";
-        j++;
+  if (isLrcFormat) {
+    for (String line in lines) {
+      final content = line.trim();
+      if (LrcClass.isLrc.hasMatch(content)) {
+        subtitles.add(LrcClass(LrcText: content));
       }
+    }
+  } else {
+    for (int i = 0; i < lines.length; i++) {
+      if (lines[i].contains("-->")) {
+        final times = lines[i];
 
-      if (text.trim().isNotEmpty) {
-        subtitles.add(VttClass(VttString: (times, text.trim())));
+        String text = "";
+        int j = i + 1;
+        while (j < lines.length && lines[j].trim().isNotEmpty) {
+          text += "${lines[j].trim()}\n";
+          j++;
+        }
+        if (text.trim().isNotEmpty) {
+          subtitles.add(VttClass(VttString: (times, text.trim())));
+        }
       }
     }
   }
@@ -25,11 +36,24 @@ List<VttClass> getVTTClass(String content) {
   return subtitles;
 }
 
-String getCurrentSubtitle(Duration currentPosition, List<VttClass> subtitles) {
+String getCurrentSubtitle(Duration currentPosition, List<dynamic> subtitles) {
   for (int i = 0; i < subtitles.length; i++) {
-    if (currentPosition >= subtitles[i].start &&
-        currentPosition <= subtitles[i].end) {
-      return subtitles[i].text;
+    final subtitle = subtitles[i];
+
+    if (subtitle is VttClass) {
+      if (currentPosition >= subtitle.start &&
+          currentPosition <= subtitle.end) {
+        return subtitle.text;
+      }
+    } else if (subtitle is LrcClass) {
+      if (currentPosition >= subtitle.time) {
+        if (i == subtitles.length - 1 ||
+            (i + 1 < subtitles.length &&
+                subtitles[i + 1] is LrcClass &&
+                currentPosition < (subtitles[i + 1] as LrcClass).time)) {
+          return subtitle.text;
+        }
+      }
     }
   }
   return "";

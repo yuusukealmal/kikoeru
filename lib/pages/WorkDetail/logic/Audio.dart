@@ -21,7 +21,9 @@ mixin WorkAudio {
           [],
       children
               ?.where((child) =>
-                  child.title.endsWith(".vtt") && child.type == "text")
+                  (child.title.endsWith(".vtt") ||
+                      child.title.endsWith(".lrc")) &&
+                  child.type == "text")
               .cast<TypeMediaClass>()
               .toList() ??
           []

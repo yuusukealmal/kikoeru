@@ -5,9 +5,6 @@ import "package:flutter/services.dart";
 // 3rd lib
 import "package:provider/provider.dart";
 
-// class
-import "package:kikoeru/class/Lyrics/VTTClass.dart";
-
 // config
 import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
@@ -26,7 +23,7 @@ class LyricsDisplay extends StatefulWidget {
 
 class _LyricsDisplayState extends State<LyricsDisplay> {
   static const MethodChannel _channel = MethodChannel("PipNotify");
-  List<VttClass> subtitles = [];
+  List<dynamic> subtitles = [];
 
   @override
   void initState() {
@@ -53,7 +50,7 @@ class _LyricsDisplayState extends State<LyricsDisplay> {
       future: sendRequest(mediaUrl),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          subtitles = getVTTClass(snapshot.data!);
+          subtitles = getSubTitleClass(snapshot.data!);
           return StreamBuilder<Duration>(
             stream:
                 provider.AudioPlayerInfo[AudioPlayerInfoType.PositionStream],
@@ -64,7 +61,7 @@ class _LyricsDisplayState extends State<LyricsDisplay> {
 
               return Center(
                 child: Text(
-                  currentText.isEmpty ? "暫無字幕" : currentText,
+                  currentText.isEmpty ? "" : currentText,
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
