@@ -3,10 +3,13 @@ import "dart:math";
 import "dart:convert";
 
 // config
-import "package:kikoeru/core/config/SharedPreferences.dart";
+import "package:kikoeru/class/Login/LoginClass.dart";
 
 // api
 import "package:kikoeru/core/utils/httpBase.dart";
+
+// class
+import "package:kikoeru/core/config/SharedPreferences.dart";
 
 enum SearchType { STRING, VAS, Circle, Tag }
 
@@ -140,14 +143,25 @@ class Request {
     String url = "https://api.asmr.one/api/auth/me";
 
     final response = await sendRequest(url, body: jsonEncode(accountInfo));
-    dynamic jsonres = jsonDecode(response);
 
-    if (jsonres["user"]["loggedIn"]) {
+    final Map<String, dynamic> responseData = jsonDecode(response);
+    if (responseData.containsKey("error")) {
+      return false;
+    }
+    if (!responseData.containsKey("user") ||
+        !responseData.containsKey("token")) {
+      return false;
+    }
+
+    LoginClass userInfo = LoginClass(loginDetail: responseData);
+
+    if (userInfo.loginUserClass.loggedIn) {
       await SharedPreferencesHelper.setString("USER.NAME", account);
       await SharedPreferencesHelper.setString("USER.PASSWORD", password);
       await SharedPreferencesHelper.setString(
-          "USER.RECOMMENDER.UUID", jsonres["user"]["recommenderUuid"]);
-      await SharedPreferencesHelper.setString("USER.TOKEN", jsonres["token"]);
+          "USER.RECOMMENDER.UUID", userInfo.loginUserClass.recommenderUuid);
+      await SharedPreferencesHelper.setString("USER.TOKEN", userInfo.token);
+
       return true;
     } else {
       return false;
