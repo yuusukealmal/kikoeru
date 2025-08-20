@@ -12,7 +12,7 @@ import "package:kikoeru/core/config/provider/AudioProvider.dart";
 import "package:kikoeru/core/utils/httpBase.dart";
 
 // pages
-import "package:kikoeru/pages/LyricsPage/logic/VTTHandler.dart";
+import "package:kikoeru/pages/LyricsPage/logic/LyricHandler.dart";
 
 class LyricsDisplay extends StatefulWidget {
   const LyricsDisplay({super.key});
