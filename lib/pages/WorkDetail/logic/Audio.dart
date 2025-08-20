@@ -11,12 +11,21 @@ import "package:kikoeru/core/config/provider/AudioProvider.dart";
 import "package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart";
 
 mixin WorkAudio {
-  List<TypeAudioClass> getAudioList(List<dynamic>? children) {
-    return children
-            ?.where((child) => child.type == "audio")
-            .cast<TypeAudioClass>()
-            .toList() ??
-        [];
+  (List<TypeAudioClass>, List<TypeMediaClass>) getAudioList(
+      List<dynamic>? children) {
+    return (
+      children
+              ?.where((child) => child.type == "audio")
+              .cast<TypeAudioClass>()
+              .toList() ??
+          [],
+      children
+              ?.where((child) =>
+                  child.title.endsWith(".vtt") && child.type == "text")
+              .cast<TypeMediaClass>()
+              .toList() ??
+          []
+    );
   }
 
   void playAudio(
@@ -26,6 +35,7 @@ mixin WorkAudio {
     int index,
     String mainCoverUrl,
     String samCoverUrl,
+    List<TypeMediaClass> subtitle,
   ) {
     Provider.of<AudioProvider>(context, listen: false).playAudioList(
       context,
@@ -34,6 +44,7 @@ mixin WorkAudio {
       rawAudioSource: dict,
       mainCoverUrl: mainCoverUrl,
       samCoverUrl: samCoverUrl,
+      subtitle: subtitle,
     );
   }
 

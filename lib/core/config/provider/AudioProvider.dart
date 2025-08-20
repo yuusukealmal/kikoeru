@@ -26,7 +26,7 @@ enum AudioPlayerInfoType {
   BufferedPosition
 }
 
-enum AudioInfoType { MainTitle, SubTitle, MainCover, SamCover }
+enum AudioInfoType { MainTitle, SubTitle, MainCover, SamCover, Lyrics }
 
 class AudioProvider extends ChangeNotifier {
   AudioProvider() {
@@ -50,6 +50,7 @@ class AudioProvider extends ChangeNotifier {
   String? _samCoverUrl;
   String? _mainCoverUrl;
   ConcatenatingAudioSource? playList;
+  List<TypeMediaClass>? _lyrics;
 
   void _setAudio(String title, String subtitle) {
     _currentAudioTitle = title;
@@ -110,6 +111,7 @@ class AudioProvider extends ChangeNotifier {
     required List<TypeAudioClass> rawAudioSource,
     required String mainCoverUrl,
     required String samCoverUrl,
+    required List<TypeMediaClass> subtitle,
   }) {
     if (title == _currentFolderTitle) {
       if (index != _audioPlayer.currentIndex) {
@@ -145,6 +147,7 @@ class AudioProvider extends ChangeNotifier {
       shuffleOrder: DefaultShuffleOrder(),
       children: audioList,
     );
+    _lyrics = subtitle;
 
     _playAudio(index);
     refreshOverlay(context, this);
@@ -187,6 +190,7 @@ class AudioProvider extends ChangeNotifier {
         AudioInfoType.MainTitle: _currentAudioTitle ?? "載入中...",
         AudioInfoType.SubTitle: _currentAudioSubTitle ?? "正在載入音樂",
         AudioInfoType.MainCover: _mainCoverUrl ?? "",
-        AudioInfoType.SamCover: _samCoverUrl ?? ""
+        AudioInfoType.SamCover: _samCoverUrl ?? "",
+        AudioInfoType.Lyrics: _lyrics ?? []
       };
 }

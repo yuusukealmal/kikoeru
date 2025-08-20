@@ -53,14 +53,16 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
         leading: Leading(item.type),
         title: Text(item.title),
         onTap: () {
-          List<TypeAudioClass> audioList = getAudioList(parentFolder);
+          (List<TypeAudioClass>, List<TypeMediaClass>) audioList =
+              getAudioList(parentFolder);
           playAudio(
             context,
             parentTitle!,
-            audioList,
-            audioList.indexOf(item),
+            audioList.$1,
+            audioList.$1.indexOf(item),
             widget.work.mainCoverUrl,
             widget.work.samCoverUrl,
+            audioList.$2,
           );
         },
       );

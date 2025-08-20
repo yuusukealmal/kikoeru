@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 
 // config
 import "package:kikoeru/core/config/provider/AudioProvider.dart";
+import "package:kikoeru/pages/AudioPlayer/logic/LyricsMethodChannel.dart";
 import "package:kikoeru/pages/AudioPlayer/logic/AudioPlayerEvent.dart";
 
 class AudioPlayerController extends StatefulWidget {
@@ -67,6 +68,9 @@ class _AudioPlayerControllerState extends State<AudioPlayerController> {
               size: 32,
             ),
             onPressed: () => onNextPress(context, audioProvider)),
+        IconButton(
+            onPressed: () => EnterPip(context),
+            icon: Icon(Icons.branding_watermark))
       ],
     );
   }

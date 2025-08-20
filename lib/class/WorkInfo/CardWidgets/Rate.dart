@@ -9,7 +9,7 @@ import "package:url_launcher/url_launcher.dart";
 import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 
 // utils
-import "package:kikoeru/core/utils/CardCalc.dart";
+import "package:kikoeru/core/utils/DurationCalc.dart";
 
 String getSourceType(String sourceType) {
   switch (sourceType.toLowerCase()) {
@@ -74,7 +74,7 @@ Widget getRate(WorkInfo work, {bool isDetail = false}) {
         // color: const Color.fromARGB(180, 255, 255, 255),
       ),
       Text(
-        calcDuration(work.duration, isDetail: isDetail),
+        duration2Display(work.duration, isDetail: isDetail),
         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
       ),
       Icon(
