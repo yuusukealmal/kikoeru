@@ -29,28 +29,15 @@ abstract class BasePage extends StatefulWidget {
 
 abstract class BasePageState<T extends BasePage> extends State<T> {
   bool _isLoading = false;
+  int sortIndex = 1;
+  bool hasLanguage = false;
   List<WorkInfo> works = [];
   int totalItems = 0;
   int currentPage = 1;
-  bool hasLanguage = false;
   final int itemsPerPage = 20;
   late int totalPages;
   final TextEditingController _textController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
-
-  String order = "最新收錄";
-  final List<String> orders = [
-    "發售日期倒序",
-    "最新收錄",
-    // "我的評價倒序",
-    "銷量倒序",
-    "價格倒序",
-    "評價倒序",
-    "評論數量倒序",
-    "RJ號倒敘",
-    "全年齡倒序",
-    "隨機"
-  ];
 
   @override
   void initState() {
@@ -77,8 +64,8 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
       _isLoading = true;
     });
 
-    String response = await widget.fetchWorks(
-        currentPage, hasLanguage, orders.indexOf(order));
+    String response =
+        await widget.fetchWorks(currentPage, hasLanguage, sortIndex);
     Searchresult searchresult =
         Searchresult(searchResultDetail: jsonDecode(response));
 
@@ -103,9 +90,9 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
     resetScroll(_scrollController);
   }
 
-  void onOrderChange(String order) {
+  void onOrderChange(int index) {
     setState(() {
-      order = order;
+      sortIndex = index;
       changePage(1);
     });
   }
@@ -134,10 +121,9 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
       children: [
         HomePageHeader(
           context,
-          runtimeType,
+          widget.runtimeType,
           totalItems,
-          order,
-          orders,
+          sortIndex,
           hasLanguage,
           onOrderChange,
           onHasLanguageChange,

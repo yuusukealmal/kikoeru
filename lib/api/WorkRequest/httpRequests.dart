@@ -10,20 +10,31 @@ import 'package:kikoeru/core/utils/httpBase.dart';
 
 enum SearchType { STRING, VAS, Circle, Tag }
 
+enum SortType {
+  ASC("asc"),
+  DESC("desc");
+
+  final String value;
+  const SortType(this.value);
+}
+
 class Request {
   static const String _API = "https://api.asmr-200.com/api/";
 
-  static const List<String> orders = [
-    "release", //發售日期倒序
-    "create_date", //最新收錄
-    // "rating", // 我的評價倒序
-    "dl_count", // 銷量倒序
-    "price", // 價格倒序
-    "rate_average_2dp", //評價倒序
-    "review_count", // 評論數量倒序
-    "id", //RJ號倒敘
-    "nsfw", // 全年齡倒序
-    "random" // 隨機
+  static const List<(String, SortType)> orders = [
+    ("release", SortType.DESC), // "發售日期倒序"
+    ("create_date", SortType.DESC), // "最新收錄"
+    // ("rating", SortType.DESC), // "我的評價倒序"
+    ("release", SortType.ASC), // "發售日期順序"
+    ("dl_count", SortType.DESC), // "銷量倒序"
+    ("price", SortType.ASC), // "價格順序"
+    ("price", SortType.DESC), // "價格倒序"
+    ("rate_average_2dp", SortType.DESC), // "評價倒序"
+    ("review_count", SortType.DESC), // "評論數量倒序"
+    ("id", SortType.DESC), // "RJ號倒序"
+    ("id", SortType.ASC), // "RJ號順序"
+    ("nsfw", SortType.ASC), // "全年齡順序"
+    ("random", SortType.DESC) // "隨機"
   ];
 
   static Future<String> getAllWorks({
@@ -31,9 +42,12 @@ class Request {
     int subtitle = 0,
     int order = 1,
   }) async {
+    String orderKey = orders[order].$1;
+    SortType sortType = orders[order].$2;
+
     String URL =
-        "${_API}works?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle";
-    if (order == 9) {
+        "${_API}works?order=$orderKey&sort=${sortType.value}&page=$index&subtitle=$subtitle";
+    if (order == orders.length - 1) {
       int rand = Random().nextInt(100);
       URL =
           "${_API}works?order=random&sort=desc&page=$index&seed=$rand&subtitle=0";
@@ -105,8 +119,11 @@ class Request {
     if (params.contains("/")) {
       params = Uri.encodeComponent(params);
     }
+    String orderKey = orders[order].$1;
+    SortType sortType = orders[order].$2;
+
     String URL =
-        "${_API}search/%20${params.replaceAll(" ", "%20")}?order=${orders[order]}&sort=desc&page=$index&subtitle=$subtitle&includeTranslationWorks=true";
+        "${_API}search/%20${params.replaceAll(" ", "%20")}?order=$orderKey&sort=${sortType.value}&page=$index&subtitle=$subtitle&includeTranslationWorks=true";
     return await sendRequest(URL);
   }
 

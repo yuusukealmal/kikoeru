@@ -5,14 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:kikoeru/pages/HomePage/pages/DefaultPages.dart';
 import 'package:kikoeru/pages/HomePage/pages/SearchPage.dart';
 
+final List<String> orders = [
+  "發售日期倒序",
+  "最新收錄",
+  // "我的評價倒序",
+  "發售日期順序",
+  "銷量倒序",
+  "價格順序",
+  "價格倒序",
+  "評價倒序",
+  "評論數量倒序",
+  "RJ號倒序",
+  "RJ號順序",
+  "全年齡順序",
+  "隨機"
+];
+
 Widget HomePageHeader(
   BuildContext context,
   Type runtimeType,
   int totalItems,
-  String order,
-  List<String> orders,
+  int sortIndex,
   bool hasLanguage,
-  void Function(String) onOrderChange,
+  void Function(int) onOrderChange,
   void Function(bool) onHasLanguageChange,
 ) {
   return Padding(
@@ -34,21 +49,21 @@ Widget HomePageHeader(
               border: Border.all(color: Colors.grey),
               borderRadius: BorderRadius.circular(80),
             ),
-            child: DropdownButton<String>(
+            child: DropdownButton<int>(
               isDense: true,
-              value: order,
-              onChanged: (String? value) {
+              value: sortIndex,
+              onChanged: (int? value) {
                 onOrderChange(value!);
               },
-              items: orders.map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
+              items: orders.map<DropdownMenuItem<int>>((String value) {
+                return DropdownMenuItem<int>(
+                  value: orders.indexOf(value),
                   child: Text(
                     value,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
-                          color: value == order
+                          color: value == orders[sortIndex]
                               ? const Color.fromARGB(255, 46, 129, 211)
                               : Theme.of(context).textTheme.bodyMedium?.color,
                         ),
