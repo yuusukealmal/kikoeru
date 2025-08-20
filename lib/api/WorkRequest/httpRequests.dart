@@ -3,13 +3,13 @@ import "dart:math";
 import "dart:convert";
 
 // config
-import "package:kikoeru/class/Login/LoginClass.dart";
+import "package:kikoeru/core/config/SharedPreferences.dart";
 
 // api
 import "package:kikoeru/core/utils/httpBase.dart";
 
 // class
-import "package:kikoeru/core/config/SharedPreferences.dart";
+import "package:kikoeru/class/Login/LoginClass.dart";
 
 enum SearchType { STRING, VAS, Circle, Tag }
 
