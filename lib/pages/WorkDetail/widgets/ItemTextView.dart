@@ -6,7 +6,7 @@ import "package:kikoeru/core/utils/httpBase.dart";
 
 Widget ItemTextView(String title, String url) {
   return FutureBuilder<String>(
-    future: sendRequest(url),
+    future: HttpBase.get(Uri.parse(url)),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return const Center(child: CircularProgressIndicator());

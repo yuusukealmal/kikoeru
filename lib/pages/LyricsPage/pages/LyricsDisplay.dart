@@ -47,7 +47,7 @@ class _LyricsDisplayState extends State<LyricsDisplay> {
 
     return FutureBuilder<String>(
       key: ValueKey(currentIndex),
-      future: sendRequest(mediaUrl),
+      future: HttpBase.get(mediaUrl),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           subtitles = getSubTitleClass(snapshot.data!);

@@ -22,8 +22,8 @@ enum SortType {
 }
 
 class Request {
-  static const String _WorkAPI = "https://api.asmr-200.com/api";
-  static const String _BaseAPI = "https://api.asmr.one/api";
+  static const String _WorkAPI = "api.asmr-200.com";
+  static const String _BaseAPI = "api.asmr.one";
 
   static const List<(String, SortType)> orders = [
     ("release", SortType.DESC), // "發售日期倒序"
@@ -49,31 +49,38 @@ class Request {
     String orderKey = orders[order].$1;
     SortType sortType = orders[order].$2;
 
-    String URL =
-        "$_WorkAPI/works?order=$orderKey&sort=${sortType.value}&page=$index&subtitle=$subtitle";
+    Map<String, String> query = {
+      "order": orderKey,
+      "sort": sortType.value,
+      "page": index.toString(),
+      "subtitle": subtitle.toString(),
+    };
+
     if (orderKey == "rating") {
-      URL +=
-          "&withPlaylistStatus[]=${SharedPreferencesHelper.getString("USER.PLAYLIST")}";
-      Map<String, String> headers = {
-        "Authorization":
-            "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
-      };
-      return await sendRequest(URL, headers: headers);
-    }
-    if (orderKey == "random") {
-      int rand = Random().nextInt(100);
-      URL =
-          "$_WorkAPI/works?order=random&sort=desc&page=$index&seed=$rand&subtitle=0";
+      query["withPlaylistStatus[]"] =
+          SharedPreferencesHelper.getString("USER.PLAYLIST") ?? "";
     }
 
-    return await sendRequest(URL);
+    if (orderKey == "random") {
+      int rand = Random().nextInt(100);
+
+      query = {
+        "order": "random",
+        "sort": "desc",
+        "page": index.toString(),
+        "seed": rand.toString(),
+        "subtitle": 0.toString(),
+      };
+    }
+
+    Uri url = Uri.https(_WorkAPI, "/api/works", query);
+    return await HttpBase.get(url);
   }
 
   static Future<String> getPopularWorks({
     int index = 1,
     int subtitle = 0,
   }) async {
-    String URL = "$_WorkAPI/recommender/popular";
     Map<String, dynamic> data = {
       "keyword": " ",
       "page": index,
@@ -84,14 +91,15 @@ class Request {
               ? [SharedPreferencesHelper.getString("USER.PLAYLIST")]
               : []
     };
-    return await sendRequest(URL, body: jsonEncode(data));
+
+    Uri url = Uri.https(_WorkAPI, "/api/recommender/popular");
+    return await HttpBase.post(url, body: jsonEncode(data));
   }
 
   static Future<String> getRecommendedWorks({
     int index = 1,
     int subtitle = 0,
   }) async {
-    String URL = "$_WorkAPI/recommender/recommend-for-user";
     Map<String, dynamic> data = {
       "keyword": " ",
       "recommenderUuid":
@@ -104,16 +112,20 @@ class Request {
               ? [SharedPreferencesHelper.getString("USER.PLAYLIST")]
               : []
     };
-    return await sendRequest(URL, body: jsonEncode(data));
+
+    Uri url = Uri.https(_WorkAPI, "/api/recommender/recommend-for-user");
+    return await HttpBase.post(url, body: jsonEncode(data));
   }
 
   static Future<String> getFavoriteWorks({int index = 1}) async {
-    String URL = "$_WorkAPI/review?order=updated_at&sort=desc&page=$index";
-    Map<String, String> headers = {
-      "Authorization":
-          "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
+    Map<String, String> query = {
+      "order": "updated_at",
+      "sort": "desc",
+      "page": index.toString(),
     };
-    return await sendRequest(URL, headers: headers);
+
+    Uri url = Uri.https(_WorkAPI, "/api/review", query);
+    return await HttpBase.get(url, tokenRequired: true);
   }
 
   static Future<String> getSearchWorks({
@@ -140,15 +152,28 @@ class Request {
     String orderKey = orders[order].$1;
     SortType sortType = orders[order].$2;
 
-    String URL =
-        "$_WorkAPI/search/%20${params.replaceAll(" ", "%20")}?order=$orderKey&sort=${sortType.value}&page=$index&subtitle=$subtitle&includeTranslationWorks=true";
+    Map<String, dynamic> query = {
+      "order": orderKey,
+      "sort": sortType.value,
+      "page": index,
+      "subtitle": subtitle,
+      "includeTranslationWorks": true,
+    };
 
-    return await sendRequest(URL);
+    Uri url = Uri.https(
+      _WorkAPI,
+      "/api/search/%20${params.replaceAll(" ", "%20")}",
+      query,
+    );
+
+    return await HttpBase.get(url);
   }
 
   static Future<String> getWorkTrack({String id = "403038"}) async {
-    String url = "$_WorkAPI/tracks/$id?v=1";
-    return await sendRequest(url);
+    Map<String, String> query = {"v": "1"};
+
+    Uri url = Uri.https(_WorkAPI, "/api/tracks/$id", query);
+    return await HttpBase.get(url);
   }
 
   static Future<bool> tryFetchToken({
@@ -156,9 +181,12 @@ class Request {
     required String password,
   }) async {
     Map<String, String> accountInfo = {"name": account, "password": password};
-    String url = "$_BaseAPI/auth/me";
 
-    final response = await sendRequest(url, body: jsonEncode(accountInfo));
+    Uri url = Uri.https(_BaseAPI, "/api/auth/me");
+    final response = await HttpBase.post(
+      url,
+      body: jsonEncode(accountInfo),
+    );
 
     final Map<String, dynamic> responseData = jsonDecode(response);
     if (responseData.containsKey("error")) {
@@ -185,31 +213,28 @@ class Request {
   }
 
   static Future<String> getPlaylist() async {
-    String url = "$_BaseAPI/playlist/get-default-mark-target-playlist";
+    Uri url =
+        Uri.https(_BaseAPI, "/api/playlist/get-default-mark-target-playlist");
 
-    Map<String, String> headers = {
-      "Authorization":
-          "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
-    };
-    String response = await sendRequest(url, headers: headers);
+    String response = await HttpBase.get(
+      url,
+      tokenRequired: true,
+    );
     return response;
   }
 
   static Future<String> updateRate(int id, int rate) async {
-    String url = "$_BaseAPI/review";
-    Map<String, String> headers = {
-      "Authorization":
-          "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
-    };
-    String response = await putRequest(
+    Uri url = Uri.https(_BaseAPI, "/api/review");
+
+    String response = await HttpBase.put(
       url,
-      headers: headers,
       body: jsonEncode({
         "progress": null,
         "rating": rate,
         "review_text": null,
         "work_id": id
       }),
+      tokenRequired: true,
     );
 
     return response;
