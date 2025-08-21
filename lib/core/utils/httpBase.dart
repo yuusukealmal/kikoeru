@@ -35,3 +35,33 @@ Future<String> sendRequest(
 
   return response.body;
 }
+
+Future<String> putRequest(
+  String url, {
+  Map<String, String>? headers,
+  String? body,
+}) async {
+  headers = {
+    "Content-Type": "application/json",
+    "User-Agent":
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)",
+    ...?headers,
+  };
+
+  logger.d(
+    "requests URL: $url\nrequests headers: $headers\nrequests body: $body",
+  );
+
+  http.Response response =
+      await http.put(Uri.parse(url), headers: headers, body: body);
+
+  if (response.statusCode < 200 || response.statusCode > 299) {
+    logger.e("HTTP Error: ${response.statusCode}\nMessage: ${response.body}");
+
+    // throw Exception(
+    //   "HTTP Error: ${response.statusCode}\nMessage: ${response.body}",
+    // );
+  }
+
+  return response.body;
+}

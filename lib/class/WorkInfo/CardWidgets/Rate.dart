@@ -11,6 +11,9 @@ import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 // utils
 import "package:kikoeru/core/utils/DurationCalc.dart";
 
+// widgets
+import "package:kikoeru/class/WorkInfo/CardWidgets/Star.dart";
+
 String getSourceType(String sourceType) {
   switch (sourceType.toLowerCase()) {
     case "dlsite":
@@ -20,30 +23,13 @@ String getSourceType(String sourceType) {
   }
 }
 
-Widget starRating(double rating) {
-  return Row(
-    mainAxisSize: MainAxisSize.min,
-    children: List.generate(5, (index) {
-      if (index < rating) {
-        if (rating - index >= 1) {
-          return Icon(Icons.star, size: 22, color: Colors.amber);
-        } else {
-          return Icon(Icons.star_half, size: 22, color: Colors.amber);
-        }
-      } else {
-        return Icon(Icons.star_border, size: 22, color: Colors.amber);
-      }
-    }),
-  );
-}
-
 Widget getRate(WorkInfo work, {bool isDetail = false}) {
   return Wrap(
     spacing: 6,
     runSpacing: 6,
     children: [
       SizedBox(width: 1),
-      starRating(work.rateAverage2dp),
+      StarRating(work: work),
       Text(
         work.rateAverage2dp.toString(),
         style: const TextStyle(

@@ -74,6 +74,8 @@ class WorkInfo {
     sourceType = work["source_type"] ?? "";
     sourceID = work["source_id"] ?? "";
     sourceURL = work["source_url"] ?? "";
+    userRating = work["userRating"];
+    playlistStatus = work["playlistStatus"] as Map<String, dynamic>?;
     circle = CircleClass(circleDetail: work["circle"] ?? {});
     samCoverUrl = work["samCoverUrl"] ?? "";
     thumbnailCoverUrl = work["thumbnailCoverUrl"] ?? "";
@@ -108,6 +110,8 @@ class WorkInfo {
   late final String sourceType;
   late final String sourceID;
   late final String sourceURL;
+  late final int? userRating;
+  late final Map<String, dynamic>? playlistStatus;
   late final CircleClass circle;
   late final String samCoverUrl;
   late final String thumbnailCoverUrl;

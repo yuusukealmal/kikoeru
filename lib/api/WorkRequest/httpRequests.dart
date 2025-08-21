@@ -23,7 +23,7 @@ enum SortType {
 
 class Request {
   static const String _WorkAPI = "https://api.asmr-200.com/api";
-  static const String _UserAPI = "https://api.asmr.one/api";
+  static const String _BaseAPI = "https://api.asmr.one/api";
 
   static const List<(String, SortType)> orders = [
     ("release", SortType.DESC), // "發售日期倒序"
@@ -156,7 +156,7 @@ class Request {
     required String password,
   }) async {
     Map<String, String> accountInfo = {"name": account, "password": password};
-    String url = "$_UserAPI/auth/me";
+    String url = "$_BaseAPI/auth/me";
 
     final response = await sendRequest(url, body: jsonEncode(accountInfo));
 
@@ -185,13 +185,33 @@ class Request {
   }
 
   static Future<String> getPlaylist() async {
-    String url = "$_UserAPI/playlist/get-default-mark-target-playlist";
+    String url = "$_BaseAPI/playlist/get-default-mark-target-playlist";
 
     Map<String, String> headers = {
       "Authorization":
           "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
     };
     String response = await sendRequest(url, headers: headers);
+    return response;
+  }
+
+  static Future<String> updateRate(int id, int rate) async {
+    String url = "$_BaseAPI/review";
+    Map<String, String> headers = {
+      "Authorization":
+          "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
+    };
+    String response = await putRequest(
+      url,
+      headers: headers,
+      body: jsonEncode({
+        "progress": null,
+        "rating": rate,
+        "review_text": null,
+        "work_id": id
+      }),
+    );
+
     return response;
   }
 }
