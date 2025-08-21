@@ -1,8 +1,15 @@
 // flutter
+import "dart:convert";
 import "package:flutter/material.dart";
 
 // api
 import "package:kikoeru/api/WorkRequest/httpRequests.dart";
+
+// class
+import "package:kikoeru/class/Playlist/Playlist.dart";
+
+// config
+import "package:kikoeru/core/config/SharedPreferences.dart";
 
 Future<void> login(
   BuildContext context,
@@ -18,6 +25,12 @@ Future<void> login(
     bool success =
         await Request.tryFetchToken(account: account, password: password);
     if (success) {
+      String playlist = await Request.getPlaylist();
+
+      final Playlist playlistInfo =
+          Playlist(playlistDetail: jsonDecode(playlist));
+      SharedPreferencesHelper.setString("USER.PLAYLIST", playlistInfo.id);
+
       Navigator.of(context).pop();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

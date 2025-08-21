@@ -30,8 +30,6 @@ class WorkPage extends StatefulWidget {
 }
 
 class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
-  late Future<String> _workTrackFuture;
-
   Widget _buildWorkDetailItems(dynamic item,
       {List<dynamic>? parentFolder, String? parentTitle}) {
     if (item is TypeFolderClass) {
@@ -78,13 +76,12 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
   @override
   void initState() {
     super.initState();
-    _workTrackFuture = Request.getWorkTrack(id: widget.work.id.toString());
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-      future: _workTrackFuture,
+      future: Request.getWorkTrack(id: widget.work.id.toString()),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

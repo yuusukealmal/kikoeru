@@ -8,7 +8,7 @@ import "package:kikoeru/pages/HomePage/pages/SearchPage.dart";
 final List<String> orders = [
   "發售日期倒序",
   "最新收錄",
-  // "我的評價倒序",
+  "我的評價倒序",
   "發售日期順序",
   "銷量倒序",
   "價格順序",

@@ -22,12 +22,13 @@ enum SortType {
 }
 
 class Request {
-  static const String _API = "https://api.asmr-200.com/api/";
+  static const String _WorkAPI = "https://api.asmr-200.com/api";
+  static const String _UserAPI = "https://api.asmr.one/api";
 
   static const List<(String, SortType)> orders = [
     ("release", SortType.DESC), // "發售日期倒序"
     ("create_date", SortType.DESC), // "最新收錄"
-    // ("rating", SortType.DESC), // "我的評價倒序"
+    ("rating", SortType.DESC), // "我的評價倒序"
     ("release", SortType.ASC), // "發售日期順序"
     ("dl_count", SortType.DESC), // "銷量倒序"
     ("price", SortType.ASC), // "價格順序"
@@ -49,11 +50,20 @@ class Request {
     SortType sortType = orders[order].$2;
 
     String URL =
-        "${_API}works?order=$orderKey&sort=${sortType.value}&page=$index&subtitle=$subtitle";
-    if (order == orders.length - 1) {
+        "$_WorkAPI/works?order=$orderKey&sort=${sortType.value}&page=$index&subtitle=$subtitle";
+    if (orderKey == "rating") {
+      URL +=
+          "&withPlaylistStatus[]=${SharedPreferencesHelper.getString("USER.PLAYLIST")}";
+      Map<String, String> headers = {
+        "Authorization":
+            "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
+      };
+      return await sendRequest(URL, headers: headers);
+    }
+    if (orderKey == "random") {
       int rand = Random().nextInt(100);
       URL =
-          "${_API}works?order=random&sort=desc&page=$index&seed=$rand&subtitle=0";
+          "$_WorkAPI/works?order=random&sort=desc&page=$index&seed=$rand&subtitle=0";
     }
 
     return await sendRequest(URL);
@@ -63,13 +73,16 @@ class Request {
     int index = 1,
     int subtitle = 0,
   }) async {
-    String URL = "${_API}recommender/popular";
+    String URL = "$_WorkAPI/recommender/popular";
     Map<String, dynamic> data = {
       "keyword": " ",
       "page": index,
       "subtitle": subtitle,
       "localSubtitledWorks": [],
-      "withPlaylistStatus": []
+      "withPlaylistStatus":
+          SharedPreferencesHelper.getString("USER.PLAYLIST") != null
+              ? [SharedPreferencesHelper.getString("USER.PLAYLIST")]
+              : []
     };
     return await sendRequest(URL, body: jsonEncode(data));
   }
@@ -78,7 +91,7 @@ class Request {
     int index = 1,
     int subtitle = 0,
   }) async {
-    String URL = "${_API}recommender/recommend-for-user";
+    String URL = "$_WorkAPI/recommender/recommend-for-user";
     Map<String, dynamic> data = {
       "keyword": " ",
       "recommenderUuid":
@@ -86,15 +99,17 @@ class Request {
       "page": index,
       "subtitle": subtitle,
       "localSubtitledWorks": [],
-      "withPlaylistStatus": []
+      "withPlaylistStatus":
+          SharedPreferencesHelper.getString("USER.PLAYLIST") != null
+              ? [SharedPreferencesHelper.getString("USER.PLAYLIST")]
+              : []
     };
     return await sendRequest(URL, body: jsonEncode(data));
   }
 
   static Future<String> getFavoriteWorks({int index = 1}) async {
-    String URL = "${_API}review?order=updated_at&sort=desc&page=$index";
+    String URL = "$_WorkAPI/review?order=updated_at&sort=desc&page=$index";
     Map<String, String> headers = {
-      "Content-Type": "application/json",
       "Authorization":
           "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
     };
@@ -126,12 +141,13 @@ class Request {
     SortType sortType = orders[order].$2;
 
     String URL =
-        "${_API}search/%20${params.replaceAll(" ", "%20")}?order=$orderKey&sort=${sortType.value}&page=$index&subtitle=$subtitle&includeTranslationWorks=true";
+        "$_WorkAPI/search/%20${params.replaceAll(" ", "%20")}?order=$orderKey&sort=${sortType.value}&page=$index&subtitle=$subtitle&includeTranslationWorks=true";
+
     return await sendRequest(URL);
   }
 
   static Future<String> getWorkTrack({String id = "403038"}) async {
-    String url = "${_API}tracks/$id?v=1";
+    String url = "$_WorkAPI/tracks/$id?v=1";
     return await sendRequest(url);
   }
 
@@ -140,7 +156,7 @@ class Request {
     required String password,
   }) async {
     Map<String, String> accountInfo = {"name": account, "password": password};
-    String url = "https://api.asmr.one/api/auth/me";
+    String url = "$_UserAPI/auth/me";
 
     final response = await sendRequest(url, body: jsonEncode(accountInfo));
 
@@ -166,5 +182,16 @@ class Request {
     } else {
       return false;
     }
+  }
+
+  static Future<String> getPlaylist() async {
+    String url = "$_UserAPI/playlist/get-default-mark-target-playlist";
+
+    Map<String, String> headers = {
+      "Authorization":
+          "Bearer ${SharedPreferencesHelper.getString("USER.TOKEN")}"
+    };
+    String response = await sendRequest(url, headers: headers);
+    return response;
   }
 }

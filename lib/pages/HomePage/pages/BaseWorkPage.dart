@@ -80,7 +80,7 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
   }
 
   void changePage(int page) {
-    if (page < 1 || page > totalPages) return;
+    if (page < 1 || (totalPages > 0 && page > totalPages)) return;
     setState(() {
       currentPage = page;
       _textController.text = currentPage.toString();
@@ -113,9 +113,6 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-    if (works.isEmpty) {
-      return const Center(child: Text("沒有資料可以顯示"));
-    }
 
     return Column(
       children: [
@@ -128,14 +125,20 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
           onOrderChange,
           onHasLanguageChange,
         ),
-        HomePageCardView(works, _scrollController),
-        HomePageFooter(
-          context,
-          currentPage,
-          totalPages,
-          _textController,
-          changePage,
-        ),
+        if (works.isEmpty)
+          Expanded(
+            child: Center(child: Text("沒有資料可以顯示")),
+          )
+        else ...[
+          HomePageCardView(works, _scrollController),
+          HomePageFooter(
+            context,
+            currentPage,
+            totalPages,
+            _textController,
+            changePage,
+          ),
+        ],
       ],
     );
   }
