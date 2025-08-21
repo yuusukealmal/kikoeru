@@ -32,10 +32,8 @@ class WorkInfo {
             ?.map((e) => RatecountDetailClass(rateDetail: e))
             .toList() ??
         [];
-    rank = (work["rank"] as List?)
-            ?.map((e) => RankClass(rankDetail: e))
-            .toList() ??
-        [];
+    rank =
+        (work["rank"] as List?)?.map((e) => RankClass(rankDetail: e)).toList();
     hasSubTitle = work["has_subtitle"] ?? false;
     createData = work["create_date"] ?? "";
     vas = (work["vas"] as List?)?.map((e) => VasClass(vasDetail: e)).toList() ??
@@ -61,7 +59,7 @@ class WorkInfo {
           .map((e) => LanguageEditionsClass(languageDitionsDetail: e))
           .toList();
     }();
-    orginalWorkNo = work["original_workno"] ?? "";
+    orginalWorkNo = work["original_workno"];
     otherLangEditionsInDB = (work["other_language_editions_in_db"] as List?)
             ?.map((e) => OtherlanginDBClass(otherlanginDBDetail: e))
             .toList() ??
@@ -95,13 +93,13 @@ class WorkInfo {
   late final int rateCount;
   late final double rateAverage2dp;
   late final List<RatecountDetailClass> rateCountDetail;
-  late final List<RankClass> rank;
+  late final List<RankClass>? rank;
   late final bool hasSubTitle;
   late final String createData;
   late final List<VasClass> vas;
   late final List<TagClass> tags;
   late final List<LanguageEditionsClass> languageEditions;
-  late final String orginalWorkNo;
+  late final String? orginalWorkNo;
   late final List<OtherlanginDBClass> otherLangEditionsInDB;
   late final TranslateInfoClass translateInfo;
   late final String workAttributes;

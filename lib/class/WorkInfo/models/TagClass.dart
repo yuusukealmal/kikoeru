@@ -28,9 +28,9 @@ class LanguageContentClass {
 
 class i18nClass {
   i18nClass({required this.i18nDetail}) {
-    enUs = LanguageContentClass(languageDetail: i18nDetail["en-us"] ?? {});
-    jaJp = LanguageContentClass(languageDetail: i18nDetail["ja-jp"] ?? {});
-    zhCn = LanguageContentClass(languageDetail: i18nDetail["zh-cn"] ?? {});
+    enUs = LanguageContentClass(languageDetail: i18nDetail["en-us"]);
+    jaJp = LanguageContentClass(languageDetail: i18nDetail["ja-jp"]);
+    zhCn = LanguageContentClass(languageDetail: i18nDetail["zh-cn"]);
   }
 
   final Map<String, dynamic> i18nDetail;
