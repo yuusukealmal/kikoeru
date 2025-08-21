@@ -74,7 +74,7 @@ class Request {
     }
 
     Uri url = Uri.https(_WorkAPI, "/api/works", query);
-    return await HttpBase.get(url);
+    return await HttpBase.get(url, tokenRequired: true);
   }
 
   static Future<String> getPopularWorks({
@@ -93,7 +93,11 @@ class Request {
     };
 
     Uri url = Uri.https(_WorkAPI, "/api/recommender/popular");
-    return await HttpBase.post(url, body: jsonEncode(data));
+    return await HttpBase.post(
+      url,
+      body: jsonEncode(data),
+      tokenRequired: true,
+    );
   }
 
   static Future<String> getRecommendedWorks({
@@ -114,7 +118,11 @@ class Request {
     };
 
     Uri url = Uri.https(_WorkAPI, "/api/recommender/recommend-for-user");
-    return await HttpBase.post(url, body: jsonEncode(data));
+    return await HttpBase.post(
+      url,
+      body: jsonEncode(data),
+      tokenRequired: true,
+    );
   }
 
   static Future<String> getFavoriteWorks({int index = 1}) async {
@@ -166,7 +174,7 @@ class Request {
       query,
     );
 
-    return await HttpBase.get(url);
+    return await HttpBase.get(url, tokenRequired: true);
   }
 
   static Future<String> getWorkTrack({String id = "403038"}) async {
