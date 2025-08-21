@@ -2,7 +2,6 @@
 import "package:flutter/material.dart";
 
 // 3rd lib
-import "package:flutter/cupertino.dart";
 import "package:url_launcher/url_launcher.dart";
 
 // class
@@ -55,7 +54,7 @@ Widget getRate(WorkInfo work, {bool isDetail = false}) {
         ),
       ),
       Icon(
-        CupertinoIcons.clock_solid,
+        Icons.access_time,
         size: 16,
         // color: const Color.fromARGB(180, 255, 255, 255),
       ),
