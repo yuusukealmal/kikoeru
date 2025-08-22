@@ -21,7 +21,8 @@ class HttpBase {
   }) async {
     headers = headers ?? {...templateHeaders, ...?headers};
 
-    if (tokenRequired == true) {
+    if (tokenRequired == true &&
+        SharedPreferencesHelper.getString('USER.TOKEN') != null) {
       headers["Authorization"] =
           "Bearer ${SharedPreferencesHelper.getString('USER.TOKEN')}";
     }
@@ -51,7 +52,8 @@ class HttpBase {
   }) async {
     headers = headers ?? {...templateHeaders, ...?headers};
 
-    if (tokenRequired == true) {
+    if (tokenRequired == true &&
+        SharedPreferencesHelper.getString('USER.TOKEN') != null) {
       headers["Authorization"] =
           "Bearer ${SharedPreferencesHelper.getString('USER.TOKEN')}";
     }
@@ -81,7 +83,8 @@ class HttpBase {
   }) async {
     headers = headers ?? {...templateHeaders, ...?headers};
 
-    if (tokenRequired == true) {
+    if (tokenRequired == true &&
+        SharedPreferencesHelper.getString('USER.TOKEN') != null) {
       headers["Authorization"] =
           "Bearer ${SharedPreferencesHelper.getString('USER.TOKEN')}";
     }
