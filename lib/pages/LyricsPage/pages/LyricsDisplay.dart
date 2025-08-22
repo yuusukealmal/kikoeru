@@ -12,7 +12,7 @@ import "package:kikoeru/core/config/provider/AudioProvider.dart";
 import "package:kikoeru/core/utils/httpBase.dart";
 
 // pages
-import "package:kikoeru/pages/LyricsPage/logic/LyricHandler.dart";
+import "package:kikoeru/pages/LyricsPage/logic/LyricsHandler.dart";
 
 class LyricsDisplay extends StatefulWidget {
   const LyricsDisplay({super.key});
@@ -47,7 +47,7 @@ class _LyricsDisplayState extends State<LyricsDisplay> {
 
     return FutureBuilder<String>(
       key: ValueKey(currentIndex),
-      future: HttpBase.get(mediaUrl),
+      future: HttpBase.get(Uri.parse(mediaUrl)),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           subtitles = getSubTitleClass(snapshot.data!);
