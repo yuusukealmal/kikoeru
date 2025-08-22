@@ -8,9 +8,9 @@ import "package:provider/provider.dart";
 import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 // pages
-import "package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart";
+import "package:kikoeru/pages/AudioOverlay/logic/OverlayHandler.dart";
 
-mixin OverlayRouteAware<T extends StatefulWidget> on State<T>
+mixin AudioPlayerOverlayRouteAware<T extends StatefulWidget> on State<T>
     implements RouteAware {
   @override
   void didPush() {
@@ -22,7 +22,7 @@ mixin OverlayRouteAware<T extends StatefulWidget> on State<T>
   void didPopNext() {
     final audioProvider = Provider.of<AudioProvider>(context, listen: false);
     if (audioProvider.AudioPlayerInfo[AudioPlayerInfoType.IsPlaying]) {
-      refreshOverlay(context, audioProvider);
+      refreshAudioPlayerOverlay(context, audioProvider);
     }
   }
 

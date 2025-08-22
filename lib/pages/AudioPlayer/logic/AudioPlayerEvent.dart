@@ -5,10 +5,10 @@ import "package:flutter/material.dart";
 import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 // function
-import "package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart";
+import "package:kikoeru/pages/AudioOverlay/logic/OverlayHandler.dart";
 
 void hidePlayer(BuildContext context, AudioProvider audioProvider) {
-  refreshOverlay(context, audioProvider);
+  refreshAudioPlayerOverlay(context, audioProvider);
   Navigator.pop(context);
 }
 

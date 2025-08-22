@@ -7,7 +7,7 @@ import "package:audio_service/audio_service.dart";
 import "package:synchronized/synchronized.dart";
 
 // function
-import "package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart";
+import "package:kikoeru/pages/AudioOverlay/logic/OverlayHandler.dart";
 
 // class
 import "package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart";
@@ -42,7 +42,8 @@ class AudioProvider extends ChangeNotifier {
 
   final Lock _lock = Lock();
   final AudioPlayer _audioPlayer = AudioPlayer();
-  OverlayEntry? overlayEntry;
+  OverlayEntry? audioPlayerOverlayEntry;
+  OverlayEntry? lyricsOverlayEntry;
 
   String? _currentFolderTitle;
   String? _currentAudioTitle;
@@ -150,7 +151,7 @@ class AudioProvider extends ChangeNotifier {
     _lyrics = subtitle;
 
     _playAudio(index);
-    refreshOverlay(context, this);
+    refreshAudioPlayerOverlay(context, this);
   }
 
   Future<void> togglePlayPause() async {

@@ -8,9 +8,9 @@ import "package:kikoeru/core/config/provider/AudioProvider.dart";
 import "package:provider/provider.dart";
 
 // widgets
-import "package:kikoeru/pages/AudioPlayerOverlay/widget/OpenFullPlayerButton.dart";
-import "package:kikoeru/pages/AudioPlayerOverlay/widget/PreviewPlayerActionsButtom.dart";
-import "package:kikoeru/pages/AudioPlayerOverlay/widget/PreviewPlayerText.dart";
+import "package:kikoeru/pages/AudioOverlay/widget/OpenFullPlayerButton.dart";
+import "package:kikoeru/pages/AudioOverlay/widget/PreviewPlayerActionsButtom.dart";
+import "package:kikoeru/pages/AudioOverlay/widget/PreviewPlayerText.dart";
 
 class AudioPlayerOverlay extends StatefulWidget {
   const AudioPlayerOverlay({super.key});

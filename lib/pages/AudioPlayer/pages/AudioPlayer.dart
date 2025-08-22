@@ -9,8 +9,8 @@ import "package:kikoeru/core/config/provider/AudioProvider.dart";
 
 // func
 import "package:kikoeru/pages/AudioPlayer/logic/AudioPlayerEvent.dart";
-import "package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayLogic.dart";
-import "package:kikoeru/pages/AudioPlayerOverlay/logic/OverlayRouteObserver.dart";
+import "package:kikoeru/pages/AudioOverlay/logic/OverlayHandler.dart";
+import "package:kikoeru/pages/AudioOverlay/logic/AudioPlayerOverlayRouteObserver.dart";
 
 // widgets
 import "package:kikoeru/pages/AudioPlayer/widgets/AudioPlayerHeader.dart";
@@ -31,7 +31,7 @@ class AudioPlayerScreen extends StatefulWidget {
 }
 
 class _AudioPlayerScreenState extends State<AudioPlayerScreen>
-    with OverlayRouteAware {
+    with AudioPlayerOverlayRouteAware {
   @override
   void initState() {
     super.initState();
