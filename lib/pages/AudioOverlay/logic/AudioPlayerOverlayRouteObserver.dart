@@ -22,7 +22,7 @@ mixin AudioPlayerOverlayRouteAware<T extends StatefulWidget> on State<T>
   void didPopNext() {
     final audioProvider = Provider.of<AudioProvider>(context, listen: false);
     if (audioProvider.AudioPlayerInfo[AudioPlayerInfoType.IsPlaying]) {
-      refreshAudioPlayerOverlay(context, audioProvider);
+      refreshOverlay(context, audioProvider);
     }
   }
 

@@ -20,7 +20,7 @@ void setLyricsOverlay(BuildContext context, AudioProvider audioProvider) {
   Overlay.of(context).insert(audioProvider.lyricsOverlayEntry!);
 }
 
-void refreshAudioPlayerOverlay(
+void refreshOverlay(
   BuildContext context,
   AudioProvider audioProvider,
 ) {

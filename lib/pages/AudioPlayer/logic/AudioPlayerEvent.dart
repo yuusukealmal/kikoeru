@@ -8,7 +8,7 @@ import "package:kikoeru/core/config/provider/AudioProvider.dart";
 import "package:kikoeru/pages/AudioOverlay/logic/OverlayHandler.dart";
 
 void hidePlayer(BuildContext context, AudioProvider audioProvider) {
-  refreshAudioPlayerOverlay(context, audioProvider);
+  refreshOverlay(context, audioProvider);
   Navigator.pop(context);
 }
 

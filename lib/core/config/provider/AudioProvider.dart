@@ -151,7 +151,7 @@ class AudioProvider extends ChangeNotifier {
     _lyrics = subtitle;
 
     _playAudio(index);
-    refreshAudioPlayerOverlay(context, this);
+    refreshOverlay(context, this);
   }
 
   Future<void> togglePlayPause() async {
