@@ -24,10 +24,40 @@ class _LyricsOverlayState extends State<LyricsOverlay> {
   late Offset position;
   List<dynamic> subtitles = [];
 
+  String? _cachedSubtitle;
+  int? _cachedIndex;
+
+  bool _isLoading = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     position = Offset(0, MediaQuery.of(context).size.height - 120);
+  }
+
+  Future<void> _loadSubtitles(String mediaUrl, int currentIndex) async {
+    if (_cachedIndex == currentIndex && _cachedSubtitle != null) {
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final data = await HttpBase.get(Uri.parse(mediaUrl));
+
+      if (!mounted) return;
+      setState(() {
+        _cachedSubtitle = data;
+        _cachedIndex = currentIndex;
+        subtitles = getSubTitleClass(data);
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -38,59 +68,50 @@ class _LyricsOverlayState extends State<LyricsOverlay> {
     final mediaUrl =
         provider.AudioInfo[AudioInfoType.Lyrics][currentIndex].mediaStreamUrl;
 
-    return FutureBuilder<String>(
-      key: ValueKey(currentIndex),
-      future: HttpBase.get(Uri.parse(mediaUrl)),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          subtitles = getSubTitleClass(snapshot.data!);
+    if (_cachedIndex != currentIndex) {
+      _loadSubtitles(mediaUrl, currentIndex);
+    }
 
-          return StreamBuilder<Duration>(
-            stream:
-                provider.AudioPlayerInfo[AudioPlayerInfoType.PositionStream],
-            builder: (context, positionSnapshot) {
-              final currentPosition = positionSnapshot.data ?? Duration.zero;
-              final currentText =
-                  getCurrentSubtitle(currentPosition, subtitles);
+    if (_isLoading) {
+      return SizedBox.shrink();
+    }
 
-              return Positioned(
-                left: position.dx,
-                top: position.dy,
-                child: GestureDetector(
-                  onPanUpdate: (details) {
-                    setState(() {
-                      position += details.delta;
-                    });
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(180, 146, 146, 146),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Center(
-                      child: Text(
-                        currentText,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
-              );
+    return StreamBuilder<Duration>(
+      stream: provider.AudioPlayerInfo[AudioPlayerInfoType.PositionStream],
+      builder: (context, positionSnapshot) {
+        final currentPosition = positionSnapshot.data ?? Duration.zero;
+        final currentText = getCurrentSubtitle(currentPosition, subtitles);
+
+        return Positioned(
+          left: position.dx,
+          top: position.dy,
+          child: GestureDetector(
+            onPanUpdate: (details) {
+              setState(() {
+                position += details.delta;
+              });
             },
-          );
-        } else if (snapshot.hasError) {
-          Navigator.pop(context);
-          return const SizedBox.shrink();
-        } else {
-          return const SizedBox.shrink();
-        }
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Color.fromARGB(180, 146, 146, 146),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                child: Text(
+                  currentText,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+          ),
+        );
       },
     );
   }
