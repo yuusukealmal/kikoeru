@@ -65,15 +65,22 @@ class _LyricsOverlayState extends State<LyricsOverlay> {
     final provider = Provider.of<AudioProvider>(context);
     final currentIndex =
         provider.AudioPlayerInfo[AudioPlayerInfoType.CurrentIndex];
-    final mediaUrl =
-        provider.AudioInfo[AudioInfoType.Lyrics][currentIndex].mediaStreamUrl;
+
+    final lyricsInfo = provider.AudioInfo[AudioInfoType.Lyrics];
+    if (lyricsInfo == null ||
+        lyricsInfo.isEmpty ||
+        currentIndex >= lyricsInfo.length ||
+        currentIndex < 0) {
+      return const SizedBox.shrink();
+    }
+    final mediaUrl = lyricsInfo[currentIndex].mediaStreamUrl;
 
     if (_cachedIndex != currentIndex) {
       _loadSubtitles(mediaUrl, currentIndex);
     }
 
     if (_isLoading) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
 
     return StreamBuilder<Duration>(
