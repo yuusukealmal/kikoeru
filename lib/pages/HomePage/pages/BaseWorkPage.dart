@@ -64,19 +64,28 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
       _isLoading = true;
     });
 
-    String response =
-        await widget.fetchWorks(currentPage, hasLanguage, sortIndex);
-    Searchresult searchresult =
-        Searchresult(searchResultDetail: jsonDecode(response));
+    try {
+      String response =
+          await widget.fetchWorks(currentPage, hasLanguage, sortIndex);
+      Searchresult searchresult =
+          Searchresult(searchResultDetail: jsonDecode(response));
 
-    if (!mounted) return;
+      if (!mounted) return;
 
-    setState(() {
-      totalItems = searchresult.pagination.totalCount;
-      totalPages = (totalItems / itemsPerPage).ceil();
-      works = searchresult.workInfoList;
-      _isLoading = false;
-    });
+      setState(() {
+        totalItems = searchresult.pagination.totalCount;
+        totalPages = (totalItems / itemsPerPage).ceil();
+        works = searchresult.workInfoList;
+        _isLoading = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isLoading = false;
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("發生錯誤：$e")),
+      );
+    }
   }
 
   void changePage(int page) {
