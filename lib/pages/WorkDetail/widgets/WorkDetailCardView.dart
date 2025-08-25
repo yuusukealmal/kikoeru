@@ -19,6 +19,7 @@ import "package:kikoeru/class/WorkInfo/CardWidgets/Va.dart";
 
 class WorkDetailCardView extends StatelessWidget {
   const WorkDetailCardView({super.key, required this.work});
+
   final WorkInfo work;
 
   @override

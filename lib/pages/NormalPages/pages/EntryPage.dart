@@ -13,28 +13,41 @@ import "package:kikoeru/pages/NormalPages/logic/EntryPageEvent.dart";
 
 class EntryPage extends StatefulWidget {
   const EntryPage({super.key, required this.title});
+
   final String title;
 
   @override
   State<EntryPage> createState() => _EntryPageState();
 }
 
-class _EntryPageState extends State<EntryPage> with TickerProviderStateMixin {
-  late TabController _tabController;
+class _EntryPageState extends State<EntryPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final TextEditingController _searchController = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 4, vsync: this);
-    _tabController.addListener(() => handleTabSelection(_tabController));
+  int _selectedPageIndex = 0;
+
+  final List<Widget> _pages = [
+    PopularWorkPage(),
+    RecommandWorkPage(),
+    FavoriteWorkPage(),
+    AllWorksPage(),
+  ];
+  final List<String> _pageTitles = [
+    "🔥熱門作品",
+    "🌟 推薦作品",
+    "❤ 我的收藏",
+    "All works",
+  ];
+
+  void setPage(int index) {
+    setState(() {
+      _selectedPageIndex = index;
+    });
+    Navigator.of(context).pop();
   }
 
   @override
   void dispose() {
-    _tabController.removeListener(() => handleTabSelection(_tabController));
-    _tabController.dispose();
     _searchController.dispose();
     super.dispose();
   }
@@ -46,21 +59,13 @@ class _EntryPageState extends State<EntryPage> with TickerProviderStateMixin {
       drawerEnableOpenDragGesture: true,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: HomePageTitle(context, widget.title, _searchController),
+        title: HomePageTitle(
+            context, _pageTitles[_selectedPageIndex], _searchController),
         leading: IconButton(
           onPressed: () async {
             _scaffoldKey.currentState?.openDrawer();
           },
           icon: const Icon(Icons.menu),
-        ),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: const [
-            Tab(text: "🔥熱門作品"),
-            Tab(text: "🌟 推薦作品"),
-            Tab(text: "❤ 我的收藏"),
-            Tab(text: "All works"),
-          ],
         ),
         actions: [
           IconButton(
@@ -70,16 +75,11 @@ class _EntryPageState extends State<EntryPage> with TickerProviderStateMixin {
           ),
         ],
       ),
-      drawer: DrawerWidget(),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          PopularWorkPage(),
-          RecommandWorkPage(),
-          FavoriteWorkPage(),
-          AllWorksPage(),
-        ],
+      drawer: DrawerWidget(
+        selectedPageIndex: _selectedPageIndex,
+        setPage: setPage,
       ),
+      body: _pages[_selectedPageIndex],
     );
   }
 }
