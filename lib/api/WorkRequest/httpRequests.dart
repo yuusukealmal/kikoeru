@@ -147,30 +147,32 @@ class Request {
     switch (type) {
       case SearchType.STRING:
         params = querys;
+        break;
       case SearchType.VAS:
         params = "\$va:$querys\$";
+        break;
       case SearchType.Circle:
         params = "\$circle:$querys\$";
+        break;
       case SearchType.Tag:
         params = "\$tag:$querys\$";
+        break;
     }
-    if (params.contains("/")) {
-      params = Uri.encodeComponent(params);
-    }
+
     String orderKey = orders[order].$1;
     SortType sortType = orders[order].$2;
 
     Map<String, dynamic> query = {
       "order": orderKey,
       "sort": sortType.value,
-      "page": index,
-      "subtitle": subtitle,
-      "includeTranslationWorks": true,
+      "page": index.toString(),
+      "subtitle": subtitle.toString(),
+      "includeTranslationWorks": true.toString(),
     };
 
     Uri url = Uri.https(
-      _WorkAPI,
-      "/api/search/%20${params.replaceAll(" ", "%20")}",
+      _BaseAPI,
+      "/api/search/$params",
       query,
     );
 
