@@ -43,9 +43,12 @@ class WorkDetailCardView extends StatelessWidget {
           crossAxisAlignment: WrapCrossAlignment.end,
           children: [
             getSell(work),
-            getAgeString(work.ageCategoryString),
-            getSubtitle(work.hasSubTitle),
-            getMutiLang(work.otherLangEditionsInDB, isDetail: false),
+            if (work.ageCategoryString.isNotEmpty &&
+                work.ageCategoryString != "adult")
+              getAgeString(work.ageCategoryString),
+            if (work.hasSubTitle) getSubtitle(work.hasSubTitle),
+            if (work.otherLangEditionsInDB.isNotEmpty)
+              getMutiLang(work.otherLangEditionsInDB, isDetail: true),
           ],
         ),
         const SizedBox(height: 8),

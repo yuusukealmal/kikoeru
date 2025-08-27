@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 Widget getAgeString(String ageCategory) {
   switch (ageCategory) {
     case "general":
-      Container(
+      return Container(
         padding: const EdgeInsets.all(1.5),
         decoration: BoxDecoration(
           border: Border.all(
@@ -22,7 +22,7 @@ Widget getAgeString(String ageCategory) {
         ),
       );
     case "r15":
-      Container(
+      return Container(
         padding: const EdgeInsets.all(1.5),
         decoration: BoxDecoration(
           border: Border.all(
@@ -42,6 +42,4 @@ Widget getAgeString(String ageCategory) {
     default:
       return SizedBox.shrink();
   }
-
-  return SizedBox.shrink();
 }

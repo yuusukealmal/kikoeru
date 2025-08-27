@@ -2,8 +2,6 @@
 import "package:flutter/material.dart";
 
 Widget getSubtitle(bool hasSubtitle) {
-  if (!hasSubtitle) return SizedBox.shrink();
-
   return Container(
     padding: const EdgeInsets.all(1.5),
     decoration: BoxDecoration(

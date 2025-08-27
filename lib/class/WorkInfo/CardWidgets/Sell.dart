@@ -6,6 +6,7 @@ import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 
 Widget getSell(WorkInfo work) {
   return Row(
+    mainAxisSize: MainAxisSize.min,
     spacing: 8.0,
     children: [
       SizedBox(width: 1),
