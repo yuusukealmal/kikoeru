@@ -19,15 +19,28 @@ Widget getTagWidget(BuildContext context, TagClass tag) {
         color: Colors.grey.shade800,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Text(
-        tag.i18n.zhCn.name,
-        style: tag.voteStatus == 0
-            ? TextStyle(
-                color: Color.fromARGB(140, 255, 255, 255),
-                decoration: TextDecoration.underline,
-              )
-            : TextStyle(color: Colors.white, fontSize: 15),
-      ),
+      child: tag.voteStatus == 0
+          ? Container(
+              padding: EdgeInsets.only(bottom: 1),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color.fromARGB(140, 255, 255, 255),
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: Text(
+                tag.i18n.zhCn.name,
+                style: TextStyle(
+                  color: Color.fromARGB(140, 255, 255, 255),
+                ),
+              ),
+            )
+          : Text(
+              tag.i18n.zhCn.name,
+              style: TextStyle(color: Colors.white, fontSize: 15),
+            ),
     ),
     onTap: () {
       Navigator.push(

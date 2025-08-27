@@ -29,11 +29,22 @@ Widget getMutiLang(List<OtherlanginDBClass> langs, {bool isDetail = false}) {
       if (isDetail)
         ...langs.map(
           (lang) {
-            return Text(
-              lang.lang,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Color.fromARGB(255, 11, 155, 244),
+            return Container(
+              padding: EdgeInsets.only(bottom: 1.0),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color.fromARGB(255, 11, 155, 244),
+                    width: 1.0,
+                  ),
+                ),
+              ),
+              child: Text(
+                lang.lang,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color.fromARGB(255, 11, 155, 244),
+                ),
               ),
             );
           },
