@@ -60,6 +60,7 @@ class _EntryPageState extends State<EntryPage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         titleSpacing: 0,
+        actionsPadding: EdgeInsets.only(right: 4),
         title: HomePageTitle(
             context, _pageTitles[_selectedPageIndex], _searchController),
         leading: IconButton(

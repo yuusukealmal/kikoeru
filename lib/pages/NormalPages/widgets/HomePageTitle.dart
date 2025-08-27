@@ -21,7 +21,7 @@ Widget HomePageTitle(
           fontWeight: FontWeight.bold,
         ),
       ),
-      SizedBox(width: 10),
+      SizedBox(width: 16),
       Expanded(
         child: Container(
           decoration: BoxDecoration(
