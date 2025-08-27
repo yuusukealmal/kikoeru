@@ -63,6 +63,8 @@ class _LyricsDisplayState extends State<LyricsDisplay> {
                 child: Text(
                   currentText.isEmpty ? "" : currentText,
                   style: TextStyle(
+                    color: Colors.white,
+                    decoration: TextDecoration.none,
                     fontSize: 18,
                     fontWeight: FontWeight.w500,
                   ),

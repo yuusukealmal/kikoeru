@@ -110,6 +110,7 @@ class _LyricsOverlayState extends State<LyricsOverlay> {
                   currentText,
                   style: TextStyle(
                     color: Colors.white,
+                    decoration: TextDecoration.none,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
