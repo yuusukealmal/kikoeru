@@ -30,6 +30,7 @@ Widget HomePageTitle(
           ),
           child: TextField(
             controller: searchController,
+            autofocus: false,
             decoration: InputDecoration(
               hintText: "Search...",
               prefixIcon: Icon(
