@@ -138,7 +138,7 @@ class AudioProvider extends ChangeNotifier {
               id: item.hash,
               album: item.workTitle,
               title: item.title,
-              artUri: Uri.parse(samCoverUrl),
+              artUri: Uri.parse(mainCoverUrl),
             ),
           ),
         )
