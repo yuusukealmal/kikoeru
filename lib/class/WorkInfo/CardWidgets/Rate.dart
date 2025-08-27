@@ -67,7 +67,7 @@ Widget getRate(WorkInfo work, {bool isDetail = false}) {
         size: 16,
         // color: const Color.fromARGB(180, 255, 255, 255),
       ),
-      InkWell(
+      GestureDetector(
         onTap: () {
           launchUrl(
             Uri.parse(work.sourceURL),

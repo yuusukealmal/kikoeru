@@ -48,7 +48,7 @@ class WorkDetailCardView extends StatelessWidget {
               getAgeString(work.ageCategoryString),
             if (work.hasSubTitle) getSubtitle(work.hasSubTitle),
             if (work.otherLangEditionsInDB.isNotEmpty)
-              getMutiLang(work.otherLangEditionsInDB, isDetail: true),
+              getMutiLang(context, work.otherLangEditionsInDB, isDetail: true),
           ],
         ),
         const SizedBox(height: 8),

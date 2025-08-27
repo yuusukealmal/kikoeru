@@ -81,7 +81,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-      future: Request.getWorkTrack(id: widget.work.id.toString()),
+      future: Request.getWorkTrack(widget.work.id.toString()),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

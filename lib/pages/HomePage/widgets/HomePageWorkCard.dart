@@ -71,7 +71,7 @@ class _HomePageWrokCardState extends State<HomePageWrokCard> {
                 getAgeString(work.ageCategoryString),
               if (work.hasSubTitle) getSubtitle(work.hasSubTitle),
               if (work.otherLangEditionsInDB.isNotEmpty)
-                getMutiLang(work.otherLangEditionsInDB),
+                getMutiLang(context, work.otherLangEditionsInDB),
             ],
           ),
 

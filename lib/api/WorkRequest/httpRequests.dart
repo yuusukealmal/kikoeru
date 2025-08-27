@@ -177,10 +177,20 @@ class Request {
     return await HttpBase.get(url, tokenRequired: true);
   }
 
-  static Future<String> getWorkTrack({String id = "403038"}) async {
+  static Future<String> getWorkTrack(String id) async {
     Map<String, String> query = {"v": "1"};
 
     Uri url = Uri.https(_WorkAPI, "/api/tracks/$id", query);
+
+    return await HttpBase.get(url);
+  }
+
+  static Future<String> getWorkInfo(String id) async {
+    Uri url = Uri.https(
+      _BaseAPI,
+      "/api/workInfo/$id",
+    );
+
     return await HttpBase.get(url);
   }
 
