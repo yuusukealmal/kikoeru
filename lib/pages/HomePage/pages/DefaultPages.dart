@@ -61,7 +61,10 @@ class _RecommandWorkPageState extends BasePageState<RecommandWorkPage> {
               onPressed: () async {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                    fullscreenDialog: true,
+                  ),
                 );
                 setState(() {
                   if (checkLogin()) {
@@ -114,7 +117,10 @@ class _FavoriteWorkPageState extends BasePageState<FavoriteWorkPage> {
               onPressed: () async {
                 await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                    fullscreenDialog: true,
+                  ),
                 );
                 setState(() {
                   if (checkLogin()) {

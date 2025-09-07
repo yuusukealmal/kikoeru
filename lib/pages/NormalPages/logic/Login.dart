@@ -11,6 +11,9 @@ import "package:kikoeru/class/Playlist/Playlist.dart";
 // config
 import "package:kikoeru/core/config/SharedPreferences.dart";
 
+// pages
+import "package:kikoeru/pages/NormalPages/pages/EntryPage.dart";
+
 Future<void> login(
   BuildContext context,
   String account,
@@ -31,7 +34,10 @@ Future<void> login(
           Playlist(playlistDetail: jsonDecode(playlist));
       SharedPreferencesHelper.setString("USER.PLAYLIST", playlistInfo.id);
 
-      Navigator.of(context).pop();
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => EntryPage(title: "Kikoeru")),
+      );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("帳號或是密碼有誤")),

@@ -4,9 +4,17 @@ import "package:flutter/material.dart";
 // config
 import "package:kikoeru/core/config/SharedPreferences.dart";
 
-Future<void> logout() async {
+// pages
+import "package:kikoeru/pages/NormalPages/pages/EntryPage.dart";
+
+Future<void> logout(BuildContext context) async {
   await SharedPreferencesHelper.remove("USER.TOKEN");
   await SharedPreferencesHelper.remove("USER.RECOMMENDER.UUID");
+
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(builder: (context) => EntryPage(title: "Kikoeru")),
+  );
 }
 
 Widget logoutTab(BuildContext context) {
@@ -53,8 +61,7 @@ Widget logoutTab(BuildContext context) {
                         const SizedBox(width: 8),
                         TextButton(
                           onPressed: () async {
-                            await logout();
-                            Navigator.of(context).pop();
+                            await logout(context);
                           },
                           child: const Text(
                             "Logout",

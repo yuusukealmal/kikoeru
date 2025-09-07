@@ -5,8 +5,9 @@ import "package:flutter/material.dart";
 import "package:kikoeru/core/config/SharedPreferences.dart";
 
 // widget
-import "package:kikoeru/pages/NormalPages/widgets/LogoutTab.dart";
 import "package:kikoeru/pages/NormalPages/widgets/ResetShardTab.dart";
+import "package:kikoeru/pages/NormalPages/widgets/LogoutTab.dart";
+import "package:kikoeru/pages/NormalPages/widgets/LoginTab.dart";
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget(
@@ -54,8 +55,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           }),
           const Divider(),
           resetShardTab(context),
-          if (SharedPreferencesHelper.getString("USER.TOKEN") != null)
-            logoutTab(context),
+          SharedPreferencesHelper.getString("USER.TOKEN") != null
+              ? logoutTab(context)
+              : loginTab(context),
         ],
       ),
     );
