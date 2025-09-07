@@ -30,6 +30,8 @@ class WorkPage extends StatefulWidget {
 }
 
 class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
+  late List<TrackInfo> _workTrack;
+
   Widget _buildWorkDetailItems(dynamic item,
       {List<dynamic>? parentFolder, String? parentTitle}) {
     if (item is TypeFolderClass) {
@@ -52,10 +54,10 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
         title: Text(item.title),
         onTap: () {
           (List<TypeAudioClass>, List<TypeMediaClass>) audioList =
-              getAudioList(parentFolder);
+              getAudioList(parentFolder ?? _workTrack);
           playAudio(
             context,
-            parentTitle!,
+            parentTitle ?? "root",
             audioList.$1,
             audioList.$1.indexOf(item),
             widget.work.mainCoverUrl,
@@ -92,7 +94,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
         if (!snapshot.hasData) {
           return const Center(child: Text("No Data Available"));
         }
-        final List<TrackInfo> workTrack = (jsonDecode(snapshot.data!) as List)
+        _workTrack = (jsonDecode(snapshot.data!) as List)
             .map((e) => TrackInfo.create(e as Map<String, dynamic>))
             .toList();
 
@@ -106,7 +108,7 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 widget.work.DetailWorkCard(),
-                WorkDetailFolders(workTrack, _buildWorkDetailItems),
+                WorkDetailFolders(_workTrack, _buildWorkDetailItems),
                 const SizedBox(height: 75),
               ],
             ),
