@@ -108,7 +108,7 @@ class WorkInfo {
   late final String sourceType;
   late final String sourceID;
   late final String sourceURL;
-  late final int? userRating;
+  late int? userRating;
   late final Map<String, dynamic>? playlistStatus;
   late final CircleClass circle;
   late final String samCoverUrl;

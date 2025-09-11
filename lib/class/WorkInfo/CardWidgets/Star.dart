@@ -74,11 +74,14 @@ class _StarRatingState extends State<StarRating> {
               );
 
               if (jsonDecode(response)["message"] == "更新成功") {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text("更新成功"),
-                  ),
-                );
+                setState(() {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text("更新成功"),
+                    ),
+                  );
+                  widget.work.userRating = index + 1;
+                });
               }
             },
             child: AnimatedContainer(
