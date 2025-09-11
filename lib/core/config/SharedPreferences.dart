@@ -4,6 +4,9 @@ import "package:flutter/material.dart";
 // 3rd lib
 import "package:shared_preferences/shared_preferences.dart";
 
+// logger
+import "package:kikoeru/main.dart";
+
 class SharedPreferencesHelper with ChangeNotifier {
   static final SharedPreferencesHelper _instance =
       SharedPreferencesHelper._internal();
@@ -16,24 +19,37 @@ class SharedPreferencesHelper with ChangeNotifier {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  static Future<bool> setString(String key, String value) async {
-    return _prefs?.setString(key, value) ?? Future.value(false);
+  static void log(String type, String key, dynamic value) {
+    logger.i("SharedPreferences $type\nkey: $key\nvalue: $value");
   }
 
-  static Future<bool> setInt(String key, int value) async {
-    return _prefs?.setInt(key, value) ?? Future.value(false);
+  static Future<void> setString(String key, String value) async {
+    await _prefs?.setString(key, value);
+    log("setString", key, value);
   }
 
-  static Future<bool> setDouble(String key, double value) async {
-    return _prefs?.setDouble(key, value) ?? Future.value(false);
+  static Future<void> setInt(String key, int value) async {
+    await _prefs?.setInt(key, value).then((value) {
+      log("setInt", key, value);
+    });
   }
 
-  static Future<bool> setBool(String key, bool value) async {
-    return _prefs?.setBool(key, value) ?? Future.value(false);
+  static Future<void> setDouble(String key, double value) async {
+    await _prefs?.setDouble(key, value).then((value) {
+      log("setDouble", key, value);
+    });
   }
 
-  static Future<bool> setStringList(String key, List<String> value) async {
-    return _prefs?.setStringList(key, value) ?? Future.value(false);
+  static Future<void> setBool(String key, bool value) async {
+    await _prefs?.setBool(key, value).then((value) {
+      log("setBool", key, value);
+    });
+  }
+
+  static Future<void> setStringList(String key, List<String> value) async {
+    await _prefs?.setStringList(key, value).then((value) {
+      log("setStringList", key, value);
+    });
   }
 
   static String? getString(String key) {
