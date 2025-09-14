@@ -15,6 +15,10 @@ void setAudioPlayerOverlay(BuildContext context, AudioProvider audioProvider) {
 }
 
 void setLyricsOverlay(BuildContext context, AudioProvider audioProvider) {
+  if (audioProvider.lyricsOverlayEntry != null) {
+    return;
+  }
+
   audioProvider.lyricsOverlayEntry =
       OverlayEntry(builder: (context) => LyricsOverlay());
   Overlay.of(context).insert(audioProvider.lyricsOverlayEntry!);
@@ -25,7 +29,7 @@ void refreshOverlay(
   AudioProvider audioProvider,
 ) {
   WidgetsBinding.instance.addPostFrameCallback((_) {
-    hideOverlay(audioProvider);
+    hideOverlay(audioProvider, isClose: false);
     setAudioPlayerOverlay(context, audioProvider);
 
     if (audioProvider.AudioInfo[AudioInfoType.Lyrics] != null &&
@@ -35,12 +39,14 @@ void refreshOverlay(
   });
 }
 
-void hideOverlay(AudioProvider audioProvider) {
+void hideOverlay(AudioProvider audioProvider, {bool isClose = true}) {
   audioProvider.audioPlayerOverlayEntry?.remove();
   audioProvider.audioPlayerOverlayEntry = null;
 
-  audioProvider.lyricsOverlayEntry?.remove();
-  audioProvider.lyricsOverlayEntry = null;
+  if (isClose == true) {
+    audioProvider.lyricsOverlayEntry?.remove();
+    audioProvider.lyricsOverlayEntry = null;
+  }
 }
 
 void updateOverlay(AudioProvider audioProvider) {

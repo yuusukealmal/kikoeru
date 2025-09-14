@@ -15,7 +15,7 @@ mixin AudioPlayerOverlayRouteAware<T extends StatefulWidget> on State<T>
   @override
   void didPush() {
     final audioProvider = Provider.of<AudioProvider>(context, listen: false);
-    hideOverlay(audioProvider);
+    hideOverlay(audioProvider, isClose: false);
   }
 
   @override
