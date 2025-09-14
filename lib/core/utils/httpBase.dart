@@ -34,7 +34,8 @@ class HttpBase {
     http.Response response = await http.get(url, headers: headers);
 
     if (response.statusCode < 200 || response.statusCode > 299) {
-      logger.e("HTTP Error: ${response.statusCode}\nMessage: ${response.body}");
+      logger.e(
+          "URL: $url\nHTTP Error: ${response.statusCode}\nMessage: ${response.body}");
 
       // throw Exception(
       //   "HTTP Error: ${response.statusCode}\nMessage: ${response.body}",
