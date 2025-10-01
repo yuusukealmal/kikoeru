@@ -1,6 +1,7 @@
 // flutter
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
+import "package:kikoeru/pages/AudioOverlay/logic/OverlayHandler.dart";
 
 // 3rd lib
 import "package:provider/provider.dart";
@@ -31,6 +32,8 @@ class _LyricsDisplayState extends State<LyricsDisplay> {
     _channel.setMethodCallHandler((call) async {
       if (call.method == "onExitPiP") {
         if (mounted) {
+          final provider = Provider.of<AudioProvider>(context, listen: false);
+          provider.isFromPiP = true;
           Navigator.of(context).pop();
         }
       }

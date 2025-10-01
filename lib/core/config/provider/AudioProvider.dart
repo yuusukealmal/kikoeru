@@ -44,6 +44,7 @@ class AudioProvider extends ChangeNotifier {
   final AudioPlayer _audioPlayer = AudioPlayer();
   OverlayEntry? audioPlayerOverlayEntry;
   OverlayEntry? lyricsOverlayEntry;
+  bool isFromPiP = false;
 
   String? _currentFolderTitle;
   String? _currentAudioTitle;
