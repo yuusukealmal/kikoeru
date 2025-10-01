@@ -26,6 +26,7 @@ class _LyricsOverlayState extends State<LyricsOverlay> {
 
   String? _cachedSubtitle;
   int? _cachedIndex;
+  String? _cachedMediaUrl;
 
   bool _isLoading = false;
 
@@ -36,20 +37,43 @@ class _LyricsOverlayState extends State<LyricsOverlay> {
   }
 
   Future<void> _loadSubtitles(String mediaUrl, int currentIndex) async {
-    if (_cachedIndex == currentIndex && _cachedSubtitle != null) {
+    if (_cachedIndex == currentIndex &&
+        _cachedMediaUrl == mediaUrl &&
+        _cachedSubtitle != null) {
       return;
     }
     setState(() {
       _isLoading = true;
     });
 
-    try {
-      final data = await HttpBase.get(Uri.parse(mediaUrl));
+    final requestedUrl = mediaUrl;
+    final requestedIndex = currentIndex;
 
+    try {
+      final data = await HttpBase.get(Uri.parse(requestedUrl));
       if (!mounted) return;
+
+      final provider = Provider.of<AudioProvider>(context, listen: false);
+      final latestIndex =
+          provider.AudioPlayerInfo[AudioPlayerInfoType.CurrentIndex];
+      final lyricsInfo = provider.AudioInfo[AudioInfoType.Lyrics];
+      final latestUrl = (lyricsInfo != null &&
+              latestIndex >= 0 &&
+              latestIndex < lyricsInfo.length)
+          ? lyricsInfo[latestIndex].mediaStreamUrl
+          : null;
+
+      if (latestUrl != requestedUrl || latestIndex != requestedIndex) {
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+
       setState(() {
         _cachedSubtitle = data;
-        _cachedIndex = currentIndex;
+        _cachedIndex = requestedIndex;
+        _cachedMediaUrl = requestedUrl;
         subtitles = getSubTitleClass(data);
         _isLoading = false;
       });
@@ -75,7 +99,7 @@ class _LyricsOverlayState extends State<LyricsOverlay> {
     }
     final mediaUrl = lyricsInfo[currentIndex].mediaStreamUrl;
 
-    if (_cachedIndex != currentIndex) {
+    if (_cachedIndex != currentIndex || _cachedMediaUrl != mediaUrl) {
       _loadSubtitles(mediaUrl, currentIndex);
     }
 
