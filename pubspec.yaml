@@ -23,6 +23,7 @@ dependencies:
   logger: ^2.6.1
   synchronized: ^3.3.1
   audio_service: ^0.18.18
+  waterfall_flow: ^3.1.1
 
 dev_dependencies:
   flutter_test:

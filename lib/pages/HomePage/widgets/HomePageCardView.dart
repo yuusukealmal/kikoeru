@@ -1,6 +1,9 @@
 // flutter
 import "package:flutter/material.dart";
 
+// 3rd lib
+import "package:waterfall_flow/waterfall_flow.dart";
+
 // class
 import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 
@@ -12,7 +15,12 @@ Widget HomePageCardView(
   ScrollController scrollController,
 ) {
   return Expanded(
-    child: ListView.builder(
+    child: WaterfallFlow.builder(
+      gridDelegate: const SliverWaterfallFlowDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        crossAxisSpacing: 10,
+      ),
       controller: scrollController,
       itemCount: works.length,
       itemBuilder: (context, index) {
