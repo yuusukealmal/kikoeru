@@ -5,11 +5,9 @@
 *.swp
 .DS_Store
 .atom/
-.build/
 .buildlog/
 .history
 .svn/
-.swiftpm/
 migrate_working_dir/
 
 # IntelliJ related
@@ -32,6 +30,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+.cxx/
 
 # Symbolication related
 app.*.symbols
@@ -43,3 +42,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+.dart_tool/
+
+json/

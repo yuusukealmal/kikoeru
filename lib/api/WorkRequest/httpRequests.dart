@@ -1,0 +1,262 @@
+// flutter
+import "dart:math";
+import "dart:convert";
+
+// config
+import "package:kikoeru/core/config/SharedPreferences.dart";
+
+// api
+import "package:kikoeru/core/utils/httpBase.dart";
+
+// class
+import "package:kikoeru/class/Login/LoginClass.dart";
+
+enum SearchType { STRING, VAS, Circle, Tag }
+
+enum SortType {
+  ASC("asc"),
+  DESC("desc");
+
+  final String value;
+  const SortType(this.value);
+}
+
+class Request {
+  static const String _WorkAPI = "api.asmr-200.com";
+  static const String _BaseAPI = "api.asmr.one";
+
+  static const List<(String, SortType)> orders = [
+    ("release", SortType.DESC), // "發售日期倒序"
+    ("create_date", SortType.DESC), // "最新收錄"
+    ("rating", SortType.DESC), // "我的評價倒序"
+    ("release", SortType.ASC), // "發售日期順序"
+    ("dl_count", SortType.DESC), // "銷量倒序"
+    ("price", SortType.ASC), // "價格順序"
+    ("price", SortType.DESC), // "價格倒序"
+    ("rate_average_2dp", SortType.DESC), // "評價倒序"
+    ("review_count", SortType.DESC), // "評論數量倒序"
+    ("id", SortType.DESC), // "RJ號倒序"
+    ("id", SortType.ASC), // "RJ號順序"
+    ("nsfw", SortType.ASC), // "全年齡順序"
+    ("random", SortType.DESC) // "隨機"
+  ];
+
+  static Future<String> getAllWorks({
+    int index = 1,
+    int subtitle = 0,
+    int order = 1,
+  }) async {
+    String orderKey = orders[order].$1;
+    SortType sortType = orders[order].$2;
+
+    Map<String, String> query = {
+      "order": orderKey,
+      "sort": sortType.value,
+      "page": index.toString(),
+      "subtitle": subtitle.toString(),
+    };
+
+    if (orderKey == "rating") {
+      query["withPlaylistStatus[]"] =
+          SharedPreferencesHelper.getString("USER.PLAYLIST") ?? "";
+    }
+
+    if (orderKey == "random") {
+      int rand = Random().nextInt(100);
+
+      query = {
+        "order": "random",
+        "sort": "desc",
+        "page": index.toString(),
+        "seed": rand.toString(),
+        "subtitle": 0.toString(),
+      };
+    }
+
+    Uri url = Uri.https(_WorkAPI, "/api/works", query);
+    return await HttpBase.get(url, tokenRequired: true);
+  }
+
+  static Future<String> getPopularWorks({
+    int index = 1,
+    int subtitle = 0,
+  }) async {
+    Map<String, dynamic> data = {
+      "keyword": " ",
+      "page": index,
+      "subtitle": subtitle,
+      "localSubtitledWorks": [],
+      "withPlaylistStatus":
+          SharedPreferencesHelper.getString("USER.PLAYLIST") != null
+              ? [SharedPreferencesHelper.getString("USER.PLAYLIST")]
+              : []
+    };
+
+    Uri url = Uri.https(_WorkAPI, "/api/recommender/popular");
+    return await HttpBase.post(
+      url,
+      body: jsonEncode(data),
+      tokenRequired: true,
+    );
+  }
+
+  static Future<String> getRecommendedWorks({
+    int index = 1,
+    int subtitle = 0,
+  }) async {
+    Map<String, dynamic> data = {
+      "keyword": " ",
+      "recommenderUuid":
+          SharedPreferencesHelper.getString("USER.RECOMMENDER.UUID"),
+      "page": index,
+      "subtitle": subtitle,
+      "localSubtitledWorks": [],
+      "withPlaylistStatus":
+          SharedPreferencesHelper.getString("USER.PLAYLIST") != null
+              ? [SharedPreferencesHelper.getString("USER.PLAYLIST")]
+              : []
+    };
+
+    Uri url = Uri.https(_WorkAPI, "/api/recommender/recommend-for-user");
+    return await HttpBase.post(
+      url,
+      body: jsonEncode(data),
+      tokenRequired: true,
+    );
+  }
+
+  static Future<String> getFavoriteWorks({int index = 1}) async {
+    Map<String, String> query = {
+      "order": "updated_at",
+      "sort": "desc",
+      "page": index.toString(),
+    };
+
+    Uri url = Uri.https(_WorkAPI, "/api/review", query);
+    return await HttpBase.get(url, tokenRequired: true);
+  }
+
+  static Future<String> getSearchWorks({
+    required SearchType type,
+    String querys = " ",
+    int index = 1,
+    int subtitle = 0,
+    int order = 1,
+  }) async {
+    String params;
+    switch (type) {
+      case SearchType.STRING:
+        params = querys;
+        break;
+      case SearchType.VAS:
+        params = "\$va:$querys\$";
+        break;
+      case SearchType.Circle:
+        params = "\$circle:$querys\$";
+        break;
+      case SearchType.Tag:
+        params = "\$tag:$querys\$";
+        break;
+    }
+
+    String orderKey = orders[order].$1;
+    SortType sortType = orders[order].$2;
+
+    Map<String, dynamic> query = {
+      "order": orderKey,
+      "sort": sortType.value,
+      "page": index.toString(),
+      "subtitle": subtitle.toString(),
+      "includeTranslationWorks": true.toString(),
+    };
+
+    Uri url = Uri.https(
+      _BaseAPI,
+      "/api/search/$params",
+      query,
+    );
+
+    return await HttpBase.get(url, tokenRequired: true);
+  }
+
+  static Future<String> getWorkTrack(String id) async {
+    Map<String, String> query = {"v": "1"};
+
+    Uri url = Uri.https(_WorkAPI, "/api/tracks/$id", query);
+
+    return await HttpBase.get(url);
+  }
+
+  static Future<String> getWorkInfo(String id) async {
+    Uri url = Uri.https(
+      _BaseAPI,
+      "/api/workInfo/$id",
+    );
+
+    return await HttpBase.get(url);
+  }
+
+  static Future<bool> tryFetchToken({
+    required String account,
+    required String password,
+  }) async {
+    Map<String, String> accountInfo = {"name": account, "password": password};
+
+    Uri url = Uri.https(_BaseAPI, "/api/auth/me");
+    final response = await HttpBase.post(
+      url,
+      body: jsonEncode(accountInfo),
+    );
+
+    final Map<String, dynamic> responseData = jsonDecode(response);
+    if (responseData.containsKey("error")) {
+      return false;
+    }
+    if (!responseData.containsKey("user") ||
+        !responseData.containsKey("token")) {
+      return false;
+    }
+
+    LoginClass userInfo = LoginClass(loginDetail: responseData);
+
+    if (userInfo.loginUserClass.loggedIn) {
+      await SharedPreferencesHelper.setString("USER.NAME", account);
+      await SharedPreferencesHelper.setString("USER.PASSWORD", password);
+      await SharedPreferencesHelper.setString(
+          "USER.RECOMMENDER.UUID", userInfo.loginUserClass.recommenderUuid);
+      await SharedPreferencesHelper.setString("USER.TOKEN", userInfo.token);
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<String> getPlaylist() async {
+    Uri url =
+        Uri.https(_BaseAPI, "/api/playlist/get-default-mark-target-playlist");
+
+    String response = await HttpBase.get(
+      url,
+      tokenRequired: true,
+    );
+    return response;
+  }
+
+  static Future<String> updateRate(int id, int rate) async {
+    Uri url = Uri.https(_BaseAPI, "/api/review");
+
+    String response = await HttpBase.put(
+      url,
+      body: jsonEncode({
+        "progress": null,
+        "rating": rate,
+        "review_text": null,
+        "work_id": id
+      }),
+      tokenRequired: true,
+    );
+
+    return response;
+  }
+}
