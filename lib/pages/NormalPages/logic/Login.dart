@@ -2,6 +2,9 @@
 import "dart:convert";
 import "package:flutter/material.dart";
 
+// frb
+import "package:kikoeru/src/rust/api/requests/interface.dart";
+
 // api
 import "package:kikoeru/api/WorkRequest/httpRequests.dart";
 
@@ -20,18 +23,21 @@ Future<void> login(
   String password,
 ) async {
   if (account.isEmpty || password.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("請輸入帳號和密碼")),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text("請輸入帳號和密碼")));
     return;
   } else {
-    bool success =
-        await Request.tryFetchToken(account: account, password: password);
+    bool success = await Request.tryFetchToken(
+      account: account,
+      password: password,
+    );
     if (success) {
-      String playlist = await Request.getPlaylist();
+      String playlist = await getPlayList();
 
-      final Playlist playlistInfo =
-          Playlist(playlistDetail: jsonDecode(playlist));
+      final Playlist playlistInfo = Playlist(
+        playlistDetail: jsonDecode(playlist),
+      );
       SharedPreferencesHelper.setString("USER.PLAYLIST", playlistInfo.id);
 
       Navigator.pushReplacement(
@@ -39,9 +45,9 @@ Future<void> login(
         MaterialPageRoute(builder: (context) => EntryPage(title: "Kikoeru")),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("帳號或是密碼有誤")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("帳號或是密碼有誤")));
     }
   }
 }

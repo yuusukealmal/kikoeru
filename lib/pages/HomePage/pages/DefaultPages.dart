@@ -1,8 +1,8 @@
 // flutter
 import "package:flutter/material.dart";
 
-// api
-import "package:kikoeru/api/WorkRequest/httpRequests.dart";
+// frb
+import "package:kikoeru/src/rust/api/requests/interface.dart";
 
 // config
 import "package:kikoeru/core/config/SharedPreferences.dart";
@@ -14,12 +14,11 @@ import "package:kikoeru/pages/HomePage/pages/BaseWorkPage.dart";
 // PopularWorks
 class PopularWorkPage extends BasePage {
   PopularWorkPage({super.key})
-      : super(
-          fetchWorks: (page, hasLanguage, order) => Request.getPopularWorks(
-            index: page,
-            subtitle: hasLanguage ? 1 : 0,
-          ),
-        );
+    : super(
+        fetchWorks:
+            (page, hasLanguage, order) =>
+                getPopularWorks(index: page, subtitle: hasLanguage ? 1 : 0),
+      );
 
   @override
   State<PopularWorkPage> createState() => _PopularWorkPageState();
@@ -30,12 +29,11 @@ class _PopularWorkPageState extends BasePageState<PopularWorkPage> {}
 // RecommendedWorks
 class RecommandWorkPage extends BasePage {
   RecommandWorkPage({super.key})
-      : super(
-          fetchWorks: (page, hasLanguage, order) => Request.getRecommendedWorks(
-            index: page,
-            subtitle: hasLanguage ? 1 : 0,
-          ),
-        );
+    : super(
+        fetchWorks:
+            (page, hasLanguage, order) =>
+                getRecommendedWorks(index: page, subtitle: hasLanguage ? 1 : 0),
+      );
 
   @override
   State<RecommandWorkPage> createState() => _RecommandWorkPageState();
@@ -68,9 +66,9 @@ class _RecommandWorkPageState extends BasePageState<RecommandWorkPage> {
                 );
                 setState(() {
                   if (checkLogin()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("成功登入")),
-                    );
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(const SnackBar(content: Text("成功登入")));
                     fetchCurrentPage();
                   }
                 });
@@ -88,10 +86,9 @@ class _RecommandWorkPageState extends BasePageState<RecommandWorkPage> {
 // MyFavoriteWorks
 class FavoriteWorkPage extends BasePage {
   FavoriteWorkPage({super.key})
-      : super(
-          fetchWorks: (page, hasLanguage, order) =>
-              Request.getFavoriteWorks(index: page),
-        );
+    : super(
+        fetchWorks: (page, hasLanguage, order) => getFavoriteWorks(index: page),
+      );
 
   @override
   State<FavoriteWorkPage> createState() => _FavoriteWorkPageState();
@@ -124,9 +121,9 @@ class _FavoriteWorkPageState extends BasePageState<FavoriteWorkPage> {
                 );
                 setState(() {
                   if (checkLogin()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("成功登入")),
-                    );
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(const SnackBar(content: Text("成功登入")));
                     fetchCurrentPage();
                   }
                 });
@@ -144,13 +141,14 @@ class _FavoriteWorkPageState extends BasePageState<FavoriteWorkPage> {
 // AllWorks
 class AllWorksPage extends BasePage {
   AllWorksPage({super.key})
-      : super(
-          fetchWorks: (page, hasLanguage, order) => Request.getAllWorks(
-            index: page,
-            subtitle: hasLanguage ? 1 : 0,
-            order: order,
-          ),
-        );
+    : super(
+        fetchWorks:
+            (page, hasLanguage, order) => getAllWorks(
+              index: page,
+              subtitle: hasLanguage ? 1 : 0,
+              order: order,
+            ),
+      );
 
   @override
   State<AllWorksPage> createState() => _AllWorksPageState();
