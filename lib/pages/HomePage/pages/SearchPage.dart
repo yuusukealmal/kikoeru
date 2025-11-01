@@ -1,23 +1,25 @@
 // flutter
 import "package:flutter/material.dart";
 
-// api
-import "package:kikoeru/api/WorkRequest/httpRequests.dart";
+// frb
+import "package:kikoeru/src/rust/api/requests/config/types.dart";
+import "package:kikoeru/src/rust/api/requests/interface.dart";
 
 // pages
 import "package:kikoeru/pages/HomePage/pages/BaseWorkPage.dart";
 
 class SearchWorksPage extends BasePage {
   SearchWorksPage({super.key, required this.type, required this.query})
-      : super(
-          fetchWorks: (page, hasLanguage, order) => Request.getSearchWorks(
-            type: type,
-            querys: query,
-            index: page,
-            subtitle: hasLanguage ? 1 : 0,
-            order: order,
-          ),
-        );
+    : super(
+        fetchWorks:
+            (page, hasLanguage, order) => getSearchWorks(
+              searchType: type,
+              query: query,
+              index: page,
+              subtitle: hasLanguage ? 1 : 0,
+              order: order,
+            ),
+      );
 
   final SearchType type;
   final String query;

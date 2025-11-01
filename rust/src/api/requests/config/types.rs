@@ -80,3 +80,70 @@ pub const ORDERS: &[Orders] = &[
         sort: SortType::Dsc,
     }, //隨機
 ];
+
+pub enum SearchType {
+    String,
+    Vas,
+    Circle,
+    Tag,
+}
+
+impl SearchType {
+    pub fn to_params(&self, query: String) -> String {
+        match self {
+            SearchType::String => query,
+            SearchType::Vas => format!("$va:{}$", query),
+            SearchType::Circle => format!("$circle:{}$", query),
+            SearchType::Tag => format!("$tag:{}s$", query),
+        }
+    }
+}
+
+pub struct User {
+    pub logged_in: bool,
+    pub name: String,
+    pub group: String,
+    pub email: Option<String>,
+    pub recommender_uuid: String,
+}
+
+impl User {
+    pub fn from_str(s: &str) -> Self {
+        let json: serde_json::Value = serde_json::from_str(s).unwrap();
+        let logged_in = json["loggedIn"].as_bool().unwrap().to_owned();
+        let name = json["name"].as_str().unwrap().to_owned();
+        let group = json["group"].as_str().unwrap().to_owned();
+        let email = json["email"].as_str().map(|s| s.to_owned());
+        let recommend_uuid = json["recommenderUuid"].as_str().unwrap().to_owned();
+        Self {
+            logged_in,
+            name,
+            group,
+            email,
+            recommender_uuid: recommend_uuid,
+        }
+    }
+}
+
+pub struct LoginClass {
+    pub user: User,
+    pub token: String,
+}
+
+impl LoginClass {
+    pub fn from_str(s: &str) -> Self {
+        let json: serde_json::Value = serde_json::from_str(s).unwrap();
+        let user = json["user"].as_object().unwrap().clone();
+        println!("{:?}", user);
+        let token = json["token"].as_str().unwrap().to_string();
+        Self {
+            user: User::from_str(&serde_json::to_string(&user).unwrap()),
+            token,
+        }
+    }
+}
+
+pub struct Env {
+    pub recommender_uuid: String,
+    pub token: String,
+}

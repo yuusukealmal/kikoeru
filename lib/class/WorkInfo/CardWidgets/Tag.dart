@@ -1,12 +1,12 @@
 // flutter
 import "package:flutter/material.dart";
 
+// frb
+import "package:kikoeru/src/rust/api/requests/config/types.dart";
+
 // class
 import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 import "package:kikoeru/class/WorkInfo/models/TagClass.dart";
-
-// api
-import "package:kikoeru/api/WorkRequest/httpRequests.dart";
 
 // pages
 import "package:kikoeru/pages/HomePage/pages/SearchPage.dart";
@@ -19,37 +19,37 @@ Widget getTagWidget(BuildContext context, TagClass tag) {
         color: Colors.grey.shade800,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: tag.voteStatus == 0
-          ? Container(
-              padding: EdgeInsets.only(bottom: 1),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color.fromARGB(140, 255, 255, 255),
-                    width: 1,
+      child:
+          tag.voteStatus == 0
+              ? Container(
+                padding: EdgeInsets.only(bottom: 1),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Color.fromARGB(140, 255, 255, 255),
+                      width: 1,
+                    ),
                   ),
                 ),
-              ),
-              child: Text(
-                tag.i18n.zhCn.name,
-                style: TextStyle(
-                  color: Color.fromARGB(140, 255, 255, 255),
+                child: Text(
+                  tag.i18n.zhCn.name,
+                  style: TextStyle(color: Color.fromARGB(140, 255, 255, 255)),
                 ),
+              )
+              : Text(
+                tag.i18n.zhCn.name,
+                style: TextStyle(color: Colors.white, fontSize: 15),
               ),
-            )
-          : Text(
-              tag.i18n.zhCn.name,
-              style: TextStyle(color: Colors.white, fontSize: 15),
-            ),
     ),
     onTap: () {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => SearchWorksPage(
-            type: SearchType.Tag,
-            query: tag.i18n.zhCn.name,
-          ),
+          builder:
+              (context) => SearchWorksPage(
+                type: SearchType.tag,
+                query: tag.i18n.zhCn.name,
+              ),
         ),
       );
     },
@@ -62,10 +62,11 @@ Widget getTag(BuildContext context, WorkInfo work) {
     child: Wrap(
       spacing: 6,
       runSpacing: 4,
-      children: work.tags
-          .where((tag) => tag.i18n.zhCn.name.isNotEmpty)
-          .map((tag) => getTagWidget(context, tag))
-          .toList(),
+      children:
+          work.tags
+              .where((tag) => tag.i18n.zhCn.name.isNotEmpty)
+              .map((tag) => getTagWidget(context, tag))
+              .toList(),
     ),
   );
 }

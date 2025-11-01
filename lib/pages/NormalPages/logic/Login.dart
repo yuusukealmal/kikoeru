@@ -4,9 +4,7 @@ import "package:flutter/material.dart";
 
 // frb
 import "package:kikoeru/src/rust/api/requests/interface.dart";
-
-// api
-import "package:kikoeru/api/WorkRequest/httpRequests.dart";
+import "package:kikoeru/src/rust/api/requests/config/types.dart";
 
 // class
 import "package:kikoeru/class/Playlist/Playlist.dart";
@@ -28,11 +26,24 @@ Future<void> login(
     ).showSnackBar(SnackBar(content: Text("請輸入帳號和密碼")));
     return;
   } else {
-    bool success = await Request.tryFetchToken(
-      account: account,
-      password: password,
-    );
-    if (success) {
+    try {
+      Env env = await tryFetchToken(account: account, password: password);
+
+      await SharedPreferencesHelper.setString("USER.NAME", account);
+      await SharedPreferencesHelper.setString("USER.PASSWORD", password);
+      await SharedPreferencesHelper.setString(
+        "USER.RECOMMENDER.UUID",
+        env.recommenderUuid,
+      );
+      await SharedPreferencesHelper.setString("USER.TOKEN", env.token);
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
+      return;
+    }
+
+    try {
       String playlist = await getPlayList();
 
       final Playlist playlistInfo = Playlist(
@@ -44,10 +55,11 @@ Future<void> login(
         context,
         MaterialPageRoute(builder: (context) => EntryPage(title: "Kikoeru")),
       );
-    } else {
+    } catch (e) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("帳號或是密碼有誤")));
+      ).showSnackBar(SnackBar(content: Text(e.toString())));
+      return;
     }
   }
 }

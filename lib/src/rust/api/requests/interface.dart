@@ -4,6 +4,7 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../../frb_generated.dart';
+import 'config/types.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 Future<String> getAllWorks({int? index, int? subtitle, int? order}) =>
@@ -33,6 +34,20 @@ Future<String> getWorkTrack({required String id}) =>
 Future<String> getWorkInfo({required String id}) =>
     RustLib.instance.api.crateApiRequestsInterfaceGetWorkInfo(id: id);
 
+Future<String> getSearchWorks({
+  required SearchType searchType,
+  String? query,
+  int? index,
+  int? subtitle,
+  int? order,
+}) => RustLib.instance.api.crateApiRequestsInterfaceGetSearchWorks(
+  searchType: searchType,
+  query: query,
+  index: index,
+  subtitle: subtitle,
+  order: order,
+);
+
 Future<String> getPlayList() =>
     RustLib.instance.api.crateApiRequestsInterfaceGetPlayList();
 
@@ -40,3 +55,11 @@ Future<String> updateRate({required String id, required int rate}) => RustLib
     .instance
     .api
     .crateApiRequestsInterfaceUpdateRate(id: id, rate: rate);
+
+Future<Env> tryFetchToken({
+  required String account,
+  required String password,
+}) => RustLib.instance.api.crateApiRequestsInterfaceTryFetchToken(
+  account: account,
+  password: password,
+);

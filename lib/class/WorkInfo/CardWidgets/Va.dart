@@ -1,8 +1,8 @@
 // flutter
 import "package:flutter/material.dart";
 
-// api
-import "package:kikoeru/api/WorkRequest/httpRequests.dart";
+// frb
+import "package:kikoeru/src/rust/api/requests/config/types.dart";
 
 // class
 import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
@@ -41,7 +41,7 @@ Widget getVas(BuildContext context, WorkInfo work) {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SearchWorksPage(
-                      type: SearchType.VAS,
+                      type: SearchType.vas,
                       query: cv,
                     ),
                   ),

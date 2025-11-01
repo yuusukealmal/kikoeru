@@ -6,7 +6,6 @@
 import '../../../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-// These types are ignored because they are neither used by any `pub` functions nor (for structs and enums) marked `#[frb(unignore)]`: `SearchType`
 // These function are ignored because they are on traits that is not defined in current crate (put an empty `#[frb]` on it to unignore): `clone`
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner<Orders>>
@@ -14,6 +13,55 @@ abstract class Orders implements RustOpaqueInterface {
   SortType get sort;
 
   set sort(SortType sort);
+}
+
+class Env {
+  final String recommenderUuid;
+  final String token;
+
+  const Env({required this.recommenderUuid, required this.token});
+
+  @override
+  int get hashCode => recommenderUuid.hashCode ^ token.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Env &&
+          runtimeType == other.runtimeType &&
+          recommenderUuid == other.recommenderUuid &&
+          token == other.token;
+}
+
+class LoginClass {
+  final User user;
+  final String token;
+
+  const LoginClass({required this.user, required this.token});
+
+  static Future<LoginClass> fromStr({required String s}) =>
+      RustLib.instance.api.crateApiRequestsConfigTypesLoginClassFromStr(s: s);
+
+  @override
+  int get hashCode => user.hashCode ^ token.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is LoginClass &&
+          runtimeType == other.runtimeType &&
+          user == other.user &&
+          token == other.token;
+}
+
+enum SearchType {
+  string,
+  vas,
+  circle,
+  tag;
+
+  Future<String> toParams({required String query}) => RustLib.instance.api
+      .crateApiRequestsConfigTypesSearchTypeToParams(that: this, query: query);
 }
 
 enum SortType {
@@ -25,4 +73,42 @@ enum SortType {
 
   Future<String> toStrings() => RustLib.instance.api
       .crateApiRequestsConfigTypesSortTypeToStrings(that: this);
+}
+
+class User {
+  final bool loggedIn;
+  final String name;
+  final String group;
+  final String? email;
+  final String recommenderUuid;
+
+  const User({
+    required this.loggedIn,
+    required this.name,
+    required this.group,
+    this.email,
+    required this.recommenderUuid,
+  });
+
+  static Future<User> fromStr({required String s}) =>
+      RustLib.instance.api.crateApiRequestsConfigTypesUserFromStr(s: s);
+
+  @override
+  int get hashCode =>
+      loggedIn.hashCode ^
+      name.hashCode ^
+      group.hashCode ^
+      email.hashCode ^
+      recommenderUuid.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is User &&
+          runtimeType == other.runtimeType &&
+          loggedIn == other.loggedIn &&
+          name == other.name &&
+          group == other.group &&
+          email == other.email &&
+          recommenderUuid == other.recommenderUuid;
 }
