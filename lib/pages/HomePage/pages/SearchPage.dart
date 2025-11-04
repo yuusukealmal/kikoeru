@@ -1,6 +1,9 @@
 // flutter
 import "package:flutter/material.dart";
 
+// config
+import "package:kikoeru/core/utils/Auth.dart";
+
 // frb
 import "package:kikoeru/src/rust/api/requests/config/types.dart";
 import "package:kikoeru/src/rust/api/requests/interface.dart";
@@ -18,6 +21,7 @@ class SearchWorksPage extends BasePage {
               index: page,
               subtitle: hasLanguage ? 1 : 0,
               order: order,
+              authHeader: getAuthHeader(),
             ),
       );
 

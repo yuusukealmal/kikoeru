@@ -27,77 +27,14 @@ class HttpBase {
           "Bearer ${SharedPreferencesHelper.getString('USER.TOKEN')}";
     }
 
-    logger.d(
-      "requests URL: $url\nrequests headers: $headers",
-    );
+    logger.d("requests URL: $url\nrequests headers: $headers");
 
     http.Response response = await http.get(url, headers: headers);
 
     if (response.statusCode < 200 || response.statusCode > 299) {
       logger.e(
-          "URL: $url\nHTTP Error: ${response.statusCode}\nMessage: ${response.body}");
-
-      // throw Exception(
-      //   "HTTP Error: ${response.statusCode}\nMessage: ${response.body}",
-      // );
-    }
-
-    return response.body;
-  }
-
-  static Future<String> post(
-    Uri url, {
-    Map<String, String>? headers,
-    String? body,
-    bool? tokenRequired,
-  }) async {
-    headers = headers ?? {...templateHeaders, ...?headers};
-
-    if (tokenRequired == true &&
-        SharedPreferencesHelper.getString('USER.TOKEN') != null) {
-      headers["Authorization"] =
-          "Bearer ${SharedPreferencesHelper.getString('USER.TOKEN')}";
-    }
-
-    logger.d(
-      "requests URL: $url\nrequests headers: $headers\nrequests body: $body",
-    );
-
-    http.Response response = await http.post(url, headers: headers, body: body);
-
-    if (response.statusCode < 200 || response.statusCode > 299) {
-      logger.e("HTTP Error: ${response.statusCode}\nMessage: ${response.body}");
-
-      // throw Exception(
-      //   "HTTP Error: ${response.statusCode}\nMessage: ${response.body}",
-      // );
-    }
-
-    return response.body;
-  }
-
-  static Future<String> put(
-    Uri url, {
-    Map<String, String>? headers,
-    String? body,
-    bool? tokenRequired,
-  }) async {
-    headers = headers ?? {...templateHeaders, ...?headers};
-
-    if (tokenRequired == true &&
-        SharedPreferencesHelper.getString('USER.TOKEN') != null) {
-      headers["Authorization"] =
-          "Bearer ${SharedPreferencesHelper.getString('USER.TOKEN')}";
-    }
-
-    logger.d(
-      "requests URL: $url\nrequests headers: $headers\nrequests body: $body",
-    );
-
-    http.Response response = await http.put(url, headers: headers, body: body);
-
-    if (response.statusCode < 200 || response.statusCode > 299) {
-      logger.e("HTTP Error: ${response.statusCode}\nMessage: ${response.body}");
+        "URL: $url\nHTTP Error: ${response.statusCode}\nMessage: ${response.body}",
+      );
 
       // throw Exception(
       //   "HTTP Error: ${response.statusCode}\nMessage: ${response.body}",

@@ -6,13 +6,8 @@
 import '../../../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-Future<HeaderMap> getDefaultHeaders() =>
-    RustLib.instance.api.crateApiRequestsConfigUtilsGetDefaultHeaders();
-
-Future<HeaderMap> mergeHeaders({required Map<String, String> headers}) =>
-    RustLib.instance.api.crateApiRequestsConfigUtilsMergeHeaders(
-      headers: headers,
-    );
+Future<HeaderMap> getHeaders({String? token}) =>
+    RustLib.instance.api.crateApiRequestsConfigUtilsGetHeaders(token: token);
 
 Future<String> queryToString({required Map<String, String> query}) =>
     RustLib.instance.api.crateApiRequestsConfigUtilsQueryToString(query: query);

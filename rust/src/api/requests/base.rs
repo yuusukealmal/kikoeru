@@ -1,20 +1,13 @@
-use std::collections::HashMap;
-
 use super::config::err::err_msg;
-use super::config::utils::{get_default_headers, merge_headers};
+use super::config::utils::get_headers;
+use crate::api::requests::config::types::AuthHeader;
 
 pub async fn http_get(
     url: String,
-    header: Option<HashMap<String, String>>,
     query: Option<serde_json::Value>,
-    // token_required: Option<bool>,
+    header: Option<AuthHeader>,
 ) -> Result<String, String> {
-    let headers = if let Some(h) = header {
-        merge_headers(h)
-    } else {
-        get_default_headers()
-    };
-
+    let headers = get_headers(header.and_then(|h| h.token));
     let client = reqwest::Client::new();
 
     let res = client
@@ -35,15 +28,10 @@ pub async fn http_get(
 
 pub async fn http_post(
     url: String,
-    header: Option<HashMap<String, String>>,
     body: serde_json::Value,
+    header: Option<AuthHeader>,
 ) -> Result<String, String> {
-    let headers = if let Some(h) = header {
-        merge_headers(h)
-    } else {
-        get_default_headers()
-    };
-
+    let headers = get_headers(header.and_then(|h| h.token));
     let client = reqwest::Client::new();
 
     let res = client
@@ -67,15 +55,10 @@ pub async fn http_post(
 
 pub async fn http_put(
     url: String,
-    header: Option<HashMap<String, String>>,
     body: serde_json::Value,
+    header: Option<AuthHeader>,
 ) -> Result<String, String> {
-    let headers = if let Some(h) = header {
-        merge_headers(h)
-    } else {
-        get_default_headers()
-    };
-
+    let headers = get_headers(header.and_then(|h| h.token));
     let client = reqwest::Client::new();
 
     let res = client

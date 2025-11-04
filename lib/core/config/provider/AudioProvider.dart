@@ -23,7 +23,7 @@ enum AudioPlayerInfoType {
   Speed,
   Position,
   Duration,
-  BufferedPosition
+  BufferedPosition,
 }
 
 enum AudioInfoType { MainTitle, SubTitle, MainCover, SamCover, Lyrics }
@@ -90,7 +90,7 @@ class AudioProvider extends ChangeNotifier {
   Future<void> _playAudio(int index) async {
     final needReload =
         _audioPlayer.sequenceState?.sequence != playList?.sequence ||
-            _audioPlayer.currentIndex != index;
+        _audioPlayer.currentIndex != index;
 
     if (needReload) {
       await _lock.synchronized(() async {
@@ -129,21 +129,24 @@ class AudioProvider extends ChangeNotifier {
     _currentFolderTitle = title;
     _mainCoverUrl = mainCoverUrl;
     _samCoverUrl = samCoverUrl;
-    List<UriAudioSource> audioList = rawAudioSource
-        .map(
-          (item) => AudioSource.uri(
-            Uri.parse(item.streamLowQualityUrl.toString().isNotEmpty
-                ? item.streamLowQualityUrl
-                : item.mediaStreamUrl),
-            tag: MediaItem(
-              id: item.hash,
-              album: item.workTitle,
-              title: item.title,
-              artUri: Uri.parse(mainCoverUrl),
-            ),
-          ),
-        )
-        .toList();
+    List<UriAudioSource> audioList =
+        rawAudioSource
+            .map(
+              (item) => AudioSource.uri(
+                Uri.parse(
+                  item.streamLowQualityUrl.toString().isNotEmpty
+                      ? item.streamLowQualityUrl
+                      : item.mediaStreamUrl,
+                ),
+                tag: MediaItem(
+                  id: item.hash,
+                  album: item.workTitle,
+                  title: item.title,
+                  artUri: Uri.parse(mainCoverUrl),
+                ),
+              ),
+            )
+            .toList();
     playList = ConcatenatingAudioSource(
       useLazyPreparation: true,
       shuffleOrder: DefaultShuffleOrder(),
@@ -173,26 +176,25 @@ class AudioProvider extends ChangeNotifier {
   bool get hasNext => _audioPlayer.nextIndex != null;
 
   Map<AudioPlayerInfoType, dynamic> get AudioPlayerInfo => {
-        AudioPlayerInfoType.PlayingStream: _audioPlayer.playingStream,
-        AudioPlayerInfoType.PositionStream: _audioPlayer.positionStream,
-        AudioPlayerInfoType.PlayerStateStream: _audioPlayer.playerStateStream,
-        AudioPlayerInfoType.SequenceStateStream:
-            _audioPlayer.sequenceStateStream,
-        AudioPlayerInfoType.CurrentIndex: _audioPlayer.currentIndex,
-        AudioPlayerInfoType.CurrentSource:
-            _audioPlayer.sequenceState?.currentSource,
-        AudioPlayerInfoType.IsPlaying: _audioPlayer.playing,
-        AudioPlayerInfoType.Speed: _audioPlayer.speed,
-        AudioPlayerInfoType.Position: _audioPlayer.position,
-        AudioPlayerInfoType.Duration: _audioPlayer.duration,
-        AudioPlayerInfoType.BufferedPosition: _audioPlayer.bufferedPosition
-      };
+    AudioPlayerInfoType.PlayingStream: _audioPlayer.playingStream,
+    AudioPlayerInfoType.PositionStream: _audioPlayer.positionStream,
+    AudioPlayerInfoType.PlayerStateStream: _audioPlayer.playerStateStream,
+    AudioPlayerInfoType.SequenceStateStream: _audioPlayer.sequenceStateStream,
+    AudioPlayerInfoType.CurrentIndex: _audioPlayer.currentIndex,
+    AudioPlayerInfoType.CurrentSource:
+        _audioPlayer.sequenceState?.currentSource,
+    AudioPlayerInfoType.IsPlaying: _audioPlayer.playing,
+    AudioPlayerInfoType.Speed: _audioPlayer.speed,
+    AudioPlayerInfoType.Position: _audioPlayer.position,
+    AudioPlayerInfoType.Duration: _audioPlayer.duration,
+    AudioPlayerInfoType.BufferedPosition: _audioPlayer.bufferedPosition,
+  };
 
   Map<AudioInfoType, dynamic> get AudioInfo => {
-        AudioInfoType.MainTitle: _currentAudioTitle ?? "載入中...",
-        AudioInfoType.SubTitle: _currentAudioSubTitle ?? "正在載入音樂",
-        AudioInfoType.MainCover: _mainCoverUrl ?? "",
-        AudioInfoType.SamCover: _samCoverUrl ?? "",
-        AudioInfoType.Lyrics: _lyrics ?? []
-      };
+    AudioInfoType.MainTitle: _currentAudioTitle ?? "載入中...",
+    AudioInfoType.SubTitle: _currentAudioSubTitle ?? "正在載入音樂",
+    AudioInfoType.MainCover: _mainCoverUrl ?? "",
+    AudioInfoType.SamCover: _samCoverUrl ?? "",
+    AudioInfoType.Lyrics: _lyrics ?? [],
+  };
 }

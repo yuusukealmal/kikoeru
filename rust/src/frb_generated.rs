@@ -42,7 +42,7 @@ flutter_rust_bridge::frb_generated_boilerplate!(
     default_rust_auto_opaque = RustAutoOpaqueMoi,
 );
 pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_VERSION: &str = "2.11.1";
-pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = 850691664;
+pub(crate) const FLUTTER_RUST_BRIDGE_CODEGEN_CONTENT_HASH: i32 = -1175566529;
 
 // Section: executor
 
@@ -210,6 +210,10 @@ fn wire__crate__api__requests__interface__get_all_works_impl(
             let api_index = <Option<u32>>::sse_decode(&mut deserializer);
             let api_subtitle = <Option<u32>>::sse_decode(&mut deserializer);
             let api_order = <Option<u32>>::sse_decode(&mut deserializer);
+            let api_auth_header =
+                <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                    &mut deserializer,
+                );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
@@ -218,46 +222,13 @@ fn wire__crate__api__requests__interface__get_all_works_impl(
                             api_index,
                             api_subtitle,
                             api_order,
+                            api_auth_header,
                         )
                         .await?;
                         Ok(output_ok)
                     })()
                     .await,
                 )
-            }
-        },
-    )
-}
-fn wire__crate__api__requests__config__utils__get_default_headers_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "get_default_headers",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::requests::config::utils::get_default_headers(),
-                    )?;
-                    Ok(output_ok)
-                })())
             }
         },
     )
@@ -285,16 +256,58 @@ fn wire__crate__api__requests__interface__get_favorite_works_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_index = <Option<u32>>::sse_decode(&mut deserializer);
+            let api_auth_header =
+                <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                    &mut deserializer,
+                );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
                     (move || async move {
-                        let output_ok =
-                            crate::api::requests::interface::get_favorite_works(api_index).await?;
+                        let output_ok = crate::api::requests::interface::get_favorite_works(
+                            api_index,
+                            api_auth_header,
+                        )
+                        .await?;
                         Ok(output_ok)
                     })()
                     .await,
                 )
+            }
+        },
+    )
+}
+fn wire__crate__api__requests__config__utils__get_headers_impl(
+    port_: flutter_rust_bridge::for_generated::MessagePort,
+    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
+    rust_vec_len_: i32,
+    data_len_: i32,
+) {
+    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
+        flutter_rust_bridge::for_generated::TaskInfo {
+            debug_name: "get_headers",
+            port: Some(port_),
+            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
+        },
+        move || {
+            let message = unsafe {
+                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
+                    ptr_,
+                    rust_vec_len_,
+                    data_len_,
+                )
+            };
+            let mut deserializer =
+                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_token = <Option<String>>::sse_decode(&mut deserializer);
+            deserializer.end();
+            move |context| {
+                transform_result_sse::<_, ()>((move || {
+                    let output_ok = Result::<_, ()>::Ok(
+                        crate::api::requests::config::utils::get_headers(api_token),
+                    )?;
+                    Ok(output_ok)
+                })())
             }
         },
     )
@@ -321,11 +334,16 @@ fn wire__crate__api__requests__interface__get_play_list_impl(
             };
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
+            let api_auth_header =
+                <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                    &mut deserializer,
+                );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
                     (move || async move {
-                        let output_ok = crate::api::requests::interface::get_play_list().await?;
+                        let output_ok =
+                            crate::api::requests::interface::get_play_list(api_auth_header).await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -358,6 +376,10 @@ fn wire__crate__api__requests__interface__get_popular_works_impl(
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_index = <Option<u32>>::sse_decode(&mut deserializer);
             let api_subtitle = <Option<u32>>::sse_decode(&mut deserializer);
+            let api_auth_header =
+                <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                    &mut deserializer,
+                );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
@@ -365,6 +387,7 @@ fn wire__crate__api__requests__interface__get_popular_works_impl(
                         let output_ok = crate::api::requests::interface::get_popular_works(
                             api_index,
                             api_subtitle,
+                            api_auth_header,
                         )
                         .await?;
                         Ok(output_ok)
@@ -399,6 +422,10 @@ fn wire__crate__api__requests__interface__get_recommended_works_impl(
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_index = <Option<u32>>::sse_decode(&mut deserializer);
             let api_subtitle = <Option<u32>>::sse_decode(&mut deserializer);
+            let api_auth_header =
+                <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                    &mut deserializer,
+                );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
@@ -406,6 +433,7 @@ fn wire__crate__api__requests__interface__get_recommended_works_impl(
                         let output_ok = crate::api::requests::interface::get_recommended_works(
                             api_index,
                             api_subtitle,
+                            api_auth_header,
                         )
                         .await?;
                         Ok(output_ok)
@@ -444,6 +472,10 @@ fn wire__crate__api__requests__interface__get_search_works_impl(
             let api_index = <Option<u32>>::sse_decode(&mut deserializer);
             let api_subtitle = <Option<u32>>::sse_decode(&mut deserializer);
             let api_order = <Option<u32>>::sse_decode(&mut deserializer);
+            let api_auth_header =
+                <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                    &mut deserializer,
+                );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
@@ -454,6 +486,7 @@ fn wire__crate__api__requests__interface__get_search_works_impl(
                             api_index,
                             api_subtitle,
                             api_order,
+                            api_auth_header,
                         )
                         .await?;
                         Ok(output_ok)
@@ -487,12 +520,17 @@ fn wire__crate__api__requests__interface__get_work_info_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_id = <String>::sse_decode(&mut deserializer);
+            let api_auth_header =
+                <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                    &mut deserializer,
+                );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
                     (move || async move {
                         let output_ok =
-                            crate::api::requests::interface::get_work_info(api_id).await?;
+                            crate::api::requests::interface::get_work_info(api_id, api_auth_header)
+                                .await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -524,12 +562,19 @@ fn wire__crate__api__requests__interface__get_work_track_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_id = <String>::sse_decode(&mut deserializer);
+            let api_auth_header =
+                <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                    &mut deserializer,
+                );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
                     (move || async move {
-                        let output_ok =
-                            crate::api::requests::interface::get_work_track(api_id).await?;
+                        let output_ok = crate::api::requests::interface::get_work_track(
+                            api_id,
+                            api_auth_header,
+                        )
+                        .await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -561,15 +606,16 @@ fn wire__crate__api__requests__base__http_get_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_url = <String>::sse_decode(&mut deserializer);
-            let api_header =
-                <Option<std::collections::HashMap<String, String>>>::sse_decode(&mut deserializer);
             let api_query = <Option<Value>>::sse_decode(&mut deserializer);
+            let api_header = <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                &mut deserializer,
+            );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
                     (move || async move {
                         let output_ok =
-                            crate::api::requests::base::http_get(api_url, api_header, api_query)
+                            crate::api::requests::base::http_get(api_url, api_query, api_header)
                                 .await?;
                         Ok(output_ok)
                     })()
@@ -602,15 +648,16 @@ fn wire__crate__api__requests__base__http_post_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_url = <String>::sse_decode(&mut deserializer);
-            let api_header =
-                <Option<std::collections::HashMap<String, String>>>::sse_decode(&mut deserializer);
             let api_body = <Value>::sse_decode(&mut deserializer);
+            let api_header = <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                &mut deserializer,
+            );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
                     (move || async move {
                         let output_ok =
-                            crate::api::requests::base::http_post(api_url, api_header, api_body)
+                            crate::api::requests::base::http_post(api_url, api_body, api_header)
                                 .await?;
                         Ok(output_ok)
                     })()
@@ -643,15 +690,16 @@ fn wire__crate__api__requests__base__http_put_impl(
             let mut deserializer =
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_url = <String>::sse_decode(&mut deserializer);
-            let api_header =
-                <Option<std::collections::HashMap<String, String>>>::sse_decode(&mut deserializer);
             let api_body = <Value>::sse_decode(&mut deserializer);
+            let api_header = <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                &mut deserializer,
+            );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
                     (move || async move {
                         let output_ok =
-                            crate::api::requests::base::http_put(api_url, api_header, api_body)
+                            crate::api::requests::base::http_put(api_url, api_body, api_header)
                                 .await?;
                         Ok(output_ok)
                     })()
@@ -689,42 +737,6 @@ fn wire__crate__api__requests__config__types__login_class_from_str_impl(
                 transform_result_sse::<_, ()>((move || {
                     let output_ok = Result::<_, ()>::Ok(
                         crate::api::requests::config::types::LoginClass::from_str(&api_s),
-                    )?;
-                    Ok(output_ok)
-                })())
-            }
-        },
-    )
-}
-fn wire__crate__api__requests__config__utils__merge_headers_impl(
-    port_: flutter_rust_bridge::for_generated::MessagePort,
-    ptr_: flutter_rust_bridge::for_generated::PlatformGeneralizedUint8ListPtr,
-    rust_vec_len_: i32,
-    data_len_: i32,
-) {
-    FLUTTER_RUST_BRIDGE_HANDLER.wrap_normal::<flutter_rust_bridge::for_generated::SseCodec, _, _>(
-        flutter_rust_bridge::for_generated::TaskInfo {
-            debug_name: "merge_headers",
-            port: Some(port_),
-            mode: flutter_rust_bridge::for_generated::FfiCallMode::Normal,
-        },
-        move || {
-            let message = unsafe {
-                flutter_rust_bridge::for_generated::Dart2RustMessageSse::from_wire(
-                    ptr_,
-                    rust_vec_len_,
-                    data_len_,
-                )
-            };
-            let mut deserializer =
-                flutter_rust_bridge::for_generated::SseDeserializer::new(message);
-            let api_headers =
-                <std::collections::HashMap<String, String>>::sse_decode(&mut deserializer);
-            deserializer.end();
-            move |context| {
-                transform_result_sse::<_, ()>((move || {
-                    let output_ok = Result::<_, ()>::Ok(
-                        crate::api::requests::config::utils::merge_headers(api_headers),
                     )?;
                     Ok(output_ok)
                 })())
@@ -944,12 +956,20 @@ fn wire__crate__api__requests__interface__update_rate_impl(
                 flutter_rust_bridge::for_generated::SseDeserializer::new(message);
             let api_id = <String>::sse_decode(&mut deserializer);
             let api_rate = <u32>::sse_decode(&mut deserializer);
+            let api_auth_header =
+                <Option<crate::api::requests::config::types::AuthHeader>>::sse_decode(
+                    &mut deserializer,
+                );
             deserializer.end();
             move |context| async move {
                 transform_result_sse::<_, String>(
                     (move || async move {
-                        let output_ok =
-                            crate::api::requests::interface::update_rate(api_id, api_rate).await?;
+                        let output_ok = crate::api::requests::interface::update_rate(
+                            api_id,
+                            api_rate,
+                            api_auth_header,
+                        )
+                        .await?;
                         Ok(output_ok)
                     })()
                     .await,
@@ -1080,6 +1100,20 @@ impl SseDecode for String {
     }
 }
 
+impl SseDecode for crate::api::requests::config::types::AuthHeader {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        let mut var_recommenderUuid = <Option<String>>::sse_decode(deserializer);
+        let mut var_playlistId = <Option<String>>::sse_decode(deserializer);
+        let mut var_token = <Option<String>>::sse_decode(deserializer);
+        return crate::api::requests::config::types::AuthHeader {
+            recommender_uuid: var_recommenderUuid,
+            playlist_id: var_playlistId,
+            token: var_token,
+        };
+    }
+}
+
 impl SseDecode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1142,19 +1176,6 @@ impl SseDecode for crate::api::requests::config::types::LoginClass {
     }
 }
 
-impl SseDecode for Option<std::collections::HashMap<String, String>> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
-        if (<bool>::sse_decode(deserializer)) {
-            return Some(<std::collections::HashMap<String, String>>::sse_decode(
-                deserializer,
-            ));
-        } else {
-            return None;
-        }
-    }
-}
-
 impl SseDecode for Option<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
@@ -1171,6 +1192,19 @@ impl SseDecode for Option<Value> {
     fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
         if (<bool>::sse_decode(deserializer)) {
             return Some(<Value>::sse_decode(deserializer));
+        } else {
+            return None;
+        }
+    }
+}
+
+impl SseDecode for Option<crate::api::requests::config::types::AuthHeader> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_decode(deserializer: &mut flutter_rust_bridge::for_generated::SseDeserializer) -> Self {
+        if (<bool>::sse_decode(deserializer)) {
+            return Some(
+                <crate::api::requests::config::types::AuthHeader>::sse_decode(deserializer),
+            );
         } else {
             return None;
         }
@@ -1292,13 +1326,13 @@ fn pde_ffi_dispatcher_primary_impl(
             rust_vec_len,
             data_len,
         ),
-        5 => wire__crate__api__requests__config__utils__get_default_headers_impl(
+        5 => wire__crate__api__requests__interface__get_favorite_works_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        6 => wire__crate__api__requests__interface__get_favorite_works_impl(
+        6 => wire__crate__api__requests__config__utils__get_headers_impl(
             port,
             ptr,
             rust_vec_len,
@@ -1349,49 +1383,43 @@ fn pde_ffi_dispatcher_primary_impl(
             rust_vec_len,
             data_len,
         ),
-        17 => wire__crate__api__requests__config__utils__merge_headers_impl(
+        17 => wire__crate__api__requests__config__utils__query_to_string_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        18 => wire__crate__api__requests__config__utils__query_to_string_impl(
+        18 => wire__crate__api__requests__config__types__search_type_to_params_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        19 => wire__crate__api__requests__config__types__search_type_to_params_impl(
+        19 => wire__crate__api__requests__config__types__sort_type_as_str_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        20 => wire__crate__api__requests__config__types__sort_type_as_str_impl(
+        20 => wire__crate__api__requests__config__types__sort_type_to_strings_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        21 => wire__crate__api__requests__config__types__sort_type_to_strings_impl(
+        21 => wire__crate__api__requests__interface__try_fetch_token_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        22 => wire__crate__api__requests__interface__try_fetch_token_impl(
+        22 => wire__crate__api__requests__interface__update_rate_impl(
             port,
             ptr,
             rust_vec_len,
             data_len,
         ),
-        23 => wire__crate__api__requests__interface__update_rate_impl(
-            port,
-            ptr,
-            rust_vec_len,
-            data_len,
-        ),
-        24 => wire__crate__api__requests__config__types__user_from_str_impl(
+        23 => wire__crate__api__requests__config__types__user_from_str_impl(
             port,
             ptr,
             rust_vec_len,
@@ -1470,6 +1498,28 @@ impl flutter_rust_bridge::IntoIntoDart<FrbWrapper<Value>> for Value {
     }
 }
 
+// Codec=Dco (DartCObject based), see doc to use other codecs
+impl flutter_rust_bridge::IntoDart for crate::api::requests::config::types::AuthHeader {
+    fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
+        [
+            self.recommender_uuid.into_into_dart().into_dart(),
+            self.playlist_id.into_into_dart().into_dart(),
+            self.token.into_into_dart().into_dart(),
+        ]
+        .into_dart()
+    }
+}
+impl flutter_rust_bridge::for_generated::IntoDartExceptPrimitive
+    for crate::api::requests::config::types::AuthHeader
+{
+}
+impl flutter_rust_bridge::IntoIntoDart<crate::api::requests::config::types::AuthHeader>
+    for crate::api::requests::config::types::AuthHeader
+{
+    fn into_into_dart(self) -> crate::api::requests::config::types::AuthHeader {
+        self
+    }
+}
 // Codec=Dco (DartCObject based), see doc to use other codecs
 impl flutter_rust_bridge::IntoDart for crate::api::requests::config::types::Env {
     fn into_dart(self) -> flutter_rust_bridge::for_generated::DartAbi {
@@ -1648,6 +1698,15 @@ impl SseEncode for String {
     }
 }
 
+impl SseEncode for crate::api::requests::config::types::AuthHeader {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <Option<String>>::sse_encode(self.recommender_uuid, serializer);
+        <Option<String>>::sse_encode(self.playlist_id, serializer);
+        <Option<String>>::sse_encode(self.token, serializer);
+    }
+}
+
 impl SseEncode for bool {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1698,16 +1757,6 @@ impl SseEncode for crate::api::requests::config::types::LoginClass {
     }
 }
 
-impl SseEncode for Option<std::collections::HashMap<String, String>> {
-    // Codec=Sse (Serialization based), see doc to use other codecs
-    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
-        <bool>::sse_encode(self.is_some(), serializer);
-        if let Some(value) = self {
-            <std::collections::HashMap<String, String>>::sse_encode(value, serializer);
-        }
-    }
-}
-
 impl SseEncode for Option<String> {
     // Codec=Sse (Serialization based), see doc to use other codecs
     fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
@@ -1724,6 +1773,16 @@ impl SseEncode for Option<Value> {
         <bool>::sse_encode(self.is_some(), serializer);
         if let Some(value) = self {
             <Value>::sse_encode(value, serializer);
+        }
+    }
+}
+
+impl SseEncode for Option<crate::api::requests::config::types::AuthHeader> {
+    // Codec=Sse (Serialization based), see doc to use other codecs
+    fn sse_encode(self, serializer: &mut flutter_rust_bridge::for_generated::SseSerializer) {
+        <bool>::sse_encode(self.is_some(), serializer);
+        if let Some(value) = self {
+            <crate::api::requests::config::types::AuthHeader>::sse_encode(value, serializer);
         }
     }
 }

@@ -15,6 +15,27 @@ abstract class Orders implements RustOpaqueInterface {
   set sort(SortType sort);
 }
 
+class AuthHeader {
+  final String? recommenderUuid;
+  final String? playlistId;
+  final String? token;
+
+  const AuthHeader({this.recommenderUuid, this.playlistId, this.token});
+
+  @override
+  int get hashCode =>
+      recommenderUuid.hashCode ^ playlistId.hashCode ^ token.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AuthHeader &&
+          runtimeType == other.runtimeType &&
+          recommenderUuid == other.recommenderUuid &&
+          playlistId == other.playlistId &&
+          token == other.token;
+}
+
 class Env {
   final String recommenderUuid;
   final String token;

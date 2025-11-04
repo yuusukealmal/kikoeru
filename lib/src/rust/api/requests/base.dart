@@ -4,36 +4,37 @@
 // ignore_for_file: invalid_use_of_internal_member, unused_import, unnecessary_import
 
 import '../../frb_generated.dart';
+import 'config/types.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
 Future<String> httpGet({
   required String url,
-  Map<String, String>? header,
   Value? query,
+  AuthHeader? header,
 }) => RustLib.instance.api.crateApiRequestsBaseHttpGet(
   url: url,
-  header: header,
   query: query,
+  header: header,
 );
 
 Future<String> httpPost({
   required String url,
-  Map<String, String>? header,
   required Value body,
+  AuthHeader? header,
 }) => RustLib.instance.api.crateApiRequestsBaseHttpPost(
   url: url,
-  header: header,
   body: body,
+  header: header,
 );
 
 Future<String> httpPut({
   required String url,
-  Map<String, String>? header,
   required Value body,
+  AuthHeader? header,
 }) => RustLib.instance.api.crateApiRequestsBaseHttpPut(
   url: url,
-  header: header,
   body: body,
+  header: header,
 );
 
 // Rust type: RustOpaqueMoi<flutter_rust_bridge::for_generated::RustAutoOpaqueInner< Value>>

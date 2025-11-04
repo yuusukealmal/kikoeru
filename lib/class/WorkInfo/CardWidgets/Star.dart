@@ -5,6 +5,9 @@ import "package:flutter/material.dart";
 // frb
 import "package:kikoeru/src/rust/api/requests/interface.dart";
 
+// config
+import "package:kikoeru/core/utils/Auth.dart";
+
 // class
 import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 
@@ -70,6 +73,7 @@ class _StarRatingState extends State<StarRating> {
               String response = await updateRate(
                 id: widget.work.id.toString(),
                 rate: index + 1,
+                authHeader: getAuthHeader(),
               );
 
               if (jsonDecode(response)["message"] == "更新成功") {

@@ -5,6 +5,9 @@ import "package:flutter/material.dart";
 // frb
 import "package:kikoeru/src/rust/api/requests/interface.dart";
 
+// config
+import "package:kikoeru/core/utils/Auth.dart";
+
 // class
 import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 import "package:kikoeru/class/WorkInfo/models/OtherLangInDBClass.dart";
@@ -42,7 +45,10 @@ Widget getMutiLang(
         ...langs.map((lang) {
           return GestureDetector(
             onTap: () async {
-              final workInfo = await getWorkInfo(id: lang.ID.toString());
+              final workInfo = await getWorkInfo(
+                id: lang.ID.toString(),
+                authHeader: getAuthHeader(),
+              );
               Navigator.push(
                 context,
                 MaterialPageRoute(

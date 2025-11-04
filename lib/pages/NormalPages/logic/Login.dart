@@ -11,6 +11,7 @@ import "package:kikoeru/class/Playlist/Playlist.dart";
 
 // config
 import "package:kikoeru/core/config/SharedPreferences.dart";
+import "package:kikoeru/core/utils/Auth.dart";
 
 // pages
 import "package:kikoeru/pages/NormalPages/pages/EntryPage.dart";
@@ -44,7 +45,7 @@ Future<void> login(
     }
 
     try {
-      String playlist = await getPlayList();
+      String playlist = await getPlayList(authHeader: getAuthHeader());
 
       final Playlist playlistInfo = Playlist(
         playlistDetail: jsonDecode(playlist),

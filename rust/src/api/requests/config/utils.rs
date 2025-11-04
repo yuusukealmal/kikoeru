@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 use reqwest::header::{HeaderMap, HeaderName, HeaderValue};
 
-pub fn get_default_headers() -> HeaderMap {
+pub fn get_headers(token: Option<String>) -> HeaderMap {
     let mut header = HeaderMap::new();
 
     header.insert("Content-Type", "application/json".parse().unwrap());
@@ -12,32 +12,14 @@ pub fn get_default_headers() -> HeaderMap {
             .parse()
             .unwrap(),
     );
-    header.insert(
-        HeaderName::from_bytes(b"Authorization").unwrap(),
-        // TODO
-        HeaderValue::from_str("Bearer").unwrap(),
-    );
-
-    header
-}
-
-pub fn merge_headers(headers: HashMap<String, String>) -> HeaderMap {
-    let mut default = get_default_headers();
-
-    for (key, value) in headers {
-        let name = HeaderName::from_bytes(key.as_bytes()).unwrap();
-        let val = HeaderValue::from_str(&value).unwrap();
-
-        default.insert(name, val);
+    if let Some(t) = token {
+        header.insert(
+            HeaderName::from_bytes(b"Authorization").unwrap(),
+            HeaderValue::from_str(&format!("Bearer {}", t)).unwrap(),
+        );
     }
 
-    default.insert(
-        HeaderName::from_bytes(b"Authorization").unwrap(),
-        // TODO
-        HeaderValue::from_str("Bearer").unwrap(),
-    );
-
-    default
+    header
 }
 
 pub fn query_to_string(query: &HashMap<String, String>) -> String {

@@ -6,6 +6,7 @@ import "package:kikoeru/src/rust/api/requests/interface.dart";
 
 // config
 import "package:kikoeru/core/config/SharedPreferences.dart";
+import "package:kikoeru/core/utils/Auth.dart";
 
 // pages
 import "package:kikoeru/pages/NormalPages/pages/LoginPage.dart";
@@ -16,8 +17,11 @@ class PopularWorkPage extends BasePage {
   PopularWorkPage({super.key})
     : super(
         fetchWorks:
-            (page, hasLanguage, order) =>
-                getPopularWorks(index: page, subtitle: hasLanguage ? 1 : 0),
+            (page, hasLanguage, order) => getPopularWorks(
+              index: page,
+              subtitle: hasLanguage ? 1 : 0,
+              authHeader: getAuthHeader(),
+            ),
       );
 
   @override
@@ -31,8 +35,11 @@ class RecommandWorkPage extends BasePage {
   RecommandWorkPage({super.key})
     : super(
         fetchWorks:
-            (page, hasLanguage, order) =>
-                getRecommendedWorks(index: page, subtitle: hasLanguage ? 1 : 0),
+            (page, hasLanguage, order) => getRecommendedWorks(
+              index: page,
+              subtitle: hasLanguage ? 1 : 0,
+              authHeader: getAuthHeader(),
+            ),
       );
 
   @override
@@ -87,7 +94,9 @@ class _RecommandWorkPageState extends BasePageState<RecommandWorkPage> {
 class FavoriteWorkPage extends BasePage {
   FavoriteWorkPage({super.key})
     : super(
-        fetchWorks: (page, hasLanguage, order) => getFavoriteWorks(index: page),
+        fetchWorks:
+            (page, hasLanguage, order) =>
+                getFavoriteWorks(index: page, authHeader: getAuthHeader()),
       );
 
   @override
@@ -147,6 +156,7 @@ class AllWorksPage extends BasePage {
               index: page,
               subtitle: hasLanguage ? 1 : 0,
               order: order,
+              authHeader: getAuthHeader(),
             ),
       );
 

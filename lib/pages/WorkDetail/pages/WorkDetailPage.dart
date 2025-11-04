@@ -5,6 +5,9 @@ import "package:flutter/material.dart";
 // frb
 import "package:kikoeru/src/rust/api/requests/interface.dart";
 
+// config
+import "package:kikoeru/core/utils/Auth.dart";
+
 // class
 import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 import "package:kikoeru/class/TrackInfo/TrackInfo.dart";
@@ -88,7 +91,10 @@ class _WorkPageState extends State<WorkPage> with WorkAudio, ItemTap {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-      future: getWorkTrack(id: widget.work.id.toString()),
+      future: getWorkTrack(
+        id: widget.work.id.toString(),
+        authHeader: getAuthHeader(),
+      ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());

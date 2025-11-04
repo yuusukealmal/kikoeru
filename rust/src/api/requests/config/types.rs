@@ -147,3 +147,9 @@ pub struct Env {
     pub recommender_uuid: String,
     pub token: String,
 }
+
+pub struct AuthHeader {
+    pub recommender_uuid: Option<String>,
+    pub playlist_id: Option<String>,
+    pub token: Option<String>,
+}
