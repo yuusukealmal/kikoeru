@@ -1,12 +1,12 @@
 // flutter
 import "package:flutter/material.dart";
 
-// api
-import "package:kikoeru/core/utils/httpBase.dart";
+// frb
+import "package:kikoeru/src/rust/api/requests/interface.dart";
 
 Widget ItemTextView(String title, String url) {
   return FutureBuilder<String>(
-    future: HttpBase.get(Uri.parse(url)),
+    future: textFetch(url: url),
     builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         return const Center(child: CircularProgressIndicator());

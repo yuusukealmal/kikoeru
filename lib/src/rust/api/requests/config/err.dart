@@ -6,12 +6,7 @@
 import '../../../frb_generated.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-Future<String> errMsg({
-  required String url,
-  required int code,
-  required String msg,
-}) => RustLib.instance.api.crateApiRequestsConfigErrErrMsg(
-  url: url,
-  code: code,
-  msg: msg,
-);
+Future<String> errMsg(
+        {required String url, required int code, required String msg}) =>
+    RustLib.instance.api
+        .crateApiRequestsConfigErrErrMsg(url: url, code: code, msg: msg);

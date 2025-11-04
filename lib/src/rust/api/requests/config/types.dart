@@ -20,7 +20,11 @@ class AuthHeader {
   final String? playlistId;
   final String? token;
 
-  const AuthHeader({this.recommenderUuid, this.playlistId, this.token});
+  const AuthHeader({
+    this.recommenderUuid,
+    this.playlistId,
+    this.token,
+  });
 
   @override
   int get hashCode =>
@@ -40,7 +44,10 @@ class Env {
   final String recommenderUuid;
   final String token;
 
-  const Env({required this.recommenderUuid, required this.token});
+  const Env({
+    required this.recommenderUuid,
+    required this.token,
+  });
 
   @override
   int get hashCode => recommenderUuid.hashCode ^ token.hashCode;
@@ -58,7 +65,10 @@ class LoginClass {
   final User user;
   final String token;
 
-  const LoginClass({required this.user, required this.token});
+  const LoginClass({
+    required this.user,
+    required this.token,
+  });
 
   static Future<LoginClass> fromStr({required String s}) =>
       RustLib.instance.api.crateApiRequestsConfigTypesLoginClassFromStr(s: s);
@@ -79,7 +89,8 @@ enum SearchType {
   string,
   vas,
   circle,
-  tag;
+  tag,
+  ;
 
   Future<String> toParams({required String query}) => RustLib.instance.api
       .crateApiRequestsConfigTypesSearchTypeToParams(that: this, query: query);
@@ -87,13 +98,18 @@ enum SearchType {
 
 enum SortType {
   asc,
-  dsc;
+  dsc,
+  ;
 
   Future<void> asStr() =>
-      RustLib.instance.api.crateApiRequestsConfigTypesSortTypeAsStr(that: this);
+      RustLib.instance.api.crateApiRequestsConfigTypesSortTypeAsStr(
+        that: this,
+      );
 
-  Future<String> toStrings() => RustLib.instance.api
-      .crateApiRequestsConfigTypesSortTypeToStrings(that: this);
+  Future<String> toStrings() =>
+      RustLib.instance.api.crateApiRequestsConfigTypesSortTypeToStrings(
+        that: this,
+      );
 }
 
 class User {

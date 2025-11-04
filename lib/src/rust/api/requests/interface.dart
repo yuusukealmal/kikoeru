@@ -7,89 +7,61 @@ import '../../frb_generated.dart';
 import 'config/types.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge_for_generated.dart';
 
-Future<String> getAllWorks({
-  int? index,
-  int? subtitle,
-  int? order,
-  AuthHeader? authHeader,
-}) => RustLib.instance.api.crateApiRequestsInterfaceGetAllWorks(
-  index: index,
-  subtitle: subtitle,
-  order: order,
-  authHeader: authHeader,
-);
+Future<String> getAllWorks(
+        {int? index, int? subtitle, int? order, AuthHeader? authHeader}) =>
+    RustLib.instance.api.crateApiRequestsInterfaceGetAllWorks(
+        index: index, subtitle: subtitle, order: order, authHeader: authHeader);
 
-Future<String> getPopularWorks({
-  int? index,
-  int? subtitle,
-  AuthHeader? authHeader,
-}) => RustLib.instance.api.crateApiRequestsInterfaceGetPopularWorks(
-  index: index,
-  subtitle: subtitle,
-  authHeader: authHeader,
-);
+Future<String> getPopularWorks(
+        {int? index, int? subtitle, AuthHeader? authHeader}) =>
+    RustLib.instance.api.crateApiRequestsInterfaceGetPopularWorks(
+        index: index, subtitle: subtitle, authHeader: authHeader);
 
-Future<String> getRecommendedWorks({
-  int? index,
-  int? subtitle,
-  AuthHeader? authHeader,
-}) => RustLib.instance.api.crateApiRequestsInterfaceGetRecommendedWorks(
-  index: index,
-  subtitle: subtitle,
-  authHeader: authHeader,
-);
+Future<String> getRecommendedWorks(
+        {int? index, int? subtitle, AuthHeader? authHeader}) =>
+    RustLib.instance.api.crateApiRequestsInterfaceGetRecommendedWorks(
+        index: index, subtitle: subtitle, authHeader: authHeader);
 
 Future<String> getFavoriteWorks({int? index, AuthHeader? authHeader}) =>
     RustLib.instance.api.crateApiRequestsInterfaceGetFavoriteWorks(
-      index: index,
-      authHeader: authHeader,
-    );
+        index: index, authHeader: authHeader);
 
 Future<String> getWorkTrack({required String id, AuthHeader? authHeader}) =>
-    RustLib.instance.api.crateApiRequestsInterfaceGetWorkTrack(
-      id: id,
-      authHeader: authHeader,
-    );
+    RustLib.instance.api
+        .crateApiRequestsInterfaceGetWorkTrack(id: id, authHeader: authHeader);
 
 Future<String> getWorkInfo({required String id, AuthHeader? authHeader}) =>
-    RustLib.instance.api.crateApiRequestsInterfaceGetWorkInfo(
-      id: id,
-      authHeader: authHeader,
-    );
+    RustLib.instance.api
+        .crateApiRequestsInterfaceGetWorkInfo(id: id, authHeader: authHeader);
 
-Future<String> getSearchWorks({
-  required SearchType searchType,
-  String? query,
-  int? index,
-  int? subtitle,
-  int? order,
-  AuthHeader? authHeader,
-}) => RustLib.instance.api.crateApiRequestsInterfaceGetSearchWorks(
-  searchType: searchType,
-  query: query,
-  index: index,
-  subtitle: subtitle,
-  order: order,
-  authHeader: authHeader,
-);
+Future<String> getSearchWorks(
+        {required SearchType searchType,
+        String? query,
+        int? index,
+        int? subtitle,
+        int? order,
+        AuthHeader? authHeader}) =>
+    RustLib.instance.api.crateApiRequestsInterfaceGetSearchWorks(
+        searchType: searchType,
+        query: query,
+        index: index,
+        subtitle: subtitle,
+        order: order,
+        authHeader: authHeader);
 
 Future<String> getPlayList({AuthHeader? authHeader}) => RustLib.instance.api
     .crateApiRequestsInterfaceGetPlayList(authHeader: authHeader);
 
-Future<String> updateRate({
-  required String id,
-  required int rate,
-  AuthHeader? authHeader,
-}) => RustLib.instance.api.crateApiRequestsInterfaceUpdateRate(
-  id: id,
-  rate: rate,
-  authHeader: authHeader,
-);
+Future<String> textFetch({required String url, AuthHeader? authHeader}) =>
+    RustLib.instance.api
+        .crateApiRequestsInterfaceTextFetch(url: url, authHeader: authHeader);
 
-Future<Env> tryFetchToken({
-  required String account,
-  required String password,
-}) => RustLib.instance.api.crateApiRequestsInterfaceTryFetchToken(
-  account: account,
-  password: password,
-);
+Future<String> updateRate(
+        {required String id, required int rate, AuthHeader? authHeader}) =>
+    RustLib.instance.api.crateApiRequestsInterfaceUpdateRate(
+        id: id, rate: rate, authHeader: authHeader);
+
+Future<Env> tryFetchToken(
+        {required String account, required String password}) =>
+    RustLib.instance.api.crateApiRequestsInterfaceTryFetchToken(
+        account: account, password: password);

@@ -1,14 +1,14 @@
 // flutter
 import 'package:flutter/material.dart';
 
+// frb
+import "package:kikoeru/src/rust/api/requests/interface.dart";
+
 // 3rd lib
 import 'package:provider/provider.dart';
 
 // config
 import 'package:kikoeru/core/config/provider/AudioProvider.dart';
-
-// utils
-import 'package:kikoeru/core/utils/httpBase.dart';
 
 // logic
 import 'package:kikoeru/pages/LyricsPage/logic/LyricsHandler.dart';
@@ -50,7 +50,7 @@ class _LyricsOverlayState extends State<LyricsOverlay> {
     final requestedIndex = currentIndex;
 
     try {
-      final data = await HttpBase.get(Uri.parse(requestedUrl));
+      final data = await textFetch(url: mediaUrl);
       if (!mounted) return;
 
       final provider = Provider.of<AudioProvider>(context, listen: false);

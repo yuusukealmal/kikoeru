@@ -2,14 +2,14 @@
 import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 
+// frb
+import "package:kikoeru/src/rust/api/requests/interface.dart";
+
 // 3rd lib
 import "package:provider/provider.dart";
 
 // config
 import "package:kikoeru/core/config/provider/AudioProvider.dart";
-
-// utils
-import "package:kikoeru/core/utils/httpBase.dart";
 
 // pages
 import "package:kikoeru/pages/LyricsPage/logic/LyricsHandler.dart";
@@ -49,7 +49,7 @@ class _LyricsDisplayState extends State<LyricsDisplay> {
 
     return FutureBuilder<String>(
       key: ValueKey(currentIndex),
-      future: HttpBase.get(Uri.parse(mediaUrl)),
+      future: textFetch(url: mediaUrl),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           subtitles = getSubTitleClass(snapshot.data!);

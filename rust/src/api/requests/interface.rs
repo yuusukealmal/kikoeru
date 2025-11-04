@@ -150,6 +150,10 @@ pub async fn get_play_list(auth_header: Option<AuthHeader>) -> Result<String, St
     .await
 }
 
+pub async fn text_fetch(url: String, auth_header: Option<AuthHeader>) -> Result<String, String> {
+    http_get(url, None, auth_header).await
+}
+
 pub async fn update_rate(
     id: String,
     rate: u32,
