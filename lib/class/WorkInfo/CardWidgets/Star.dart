@@ -1,10 +1,12 @@
 // flutter
 import "dart:convert";
-
 import "package:flutter/material.dart";
 
-// api
-import 'package:kikoeru/api/WorkRequest/httpRequests.dart';
+// frb
+import "package:kikoeru/src/rust/api/requests/interface.dart";
+
+// config
+import "package:kikoeru/core/utils/Auth.dart";
 
 // class
 import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
@@ -68,18 +70,17 @@ class _StarRatingState extends State<StarRating> {
               });
             },
             onTap: () async {
-              String response = await Request.updateRate(
-                widget.work.id,
-                index + 1,
+              String response = await updateRate(
+                id: widget.work.id.toString(),
+                rate: index + 1,
+                authHeader: getAuthHeader(),
               );
 
               if (jsonDecode(response)["message"] == "更新成功") {
                 setState(() {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("更新成功"),
-                    ),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(const SnackBar(content: Text("更新成功")));
                   widget.work.userRating = index + 1;
                 });
               }

@@ -1,8 +1,8 @@
 // flutter
 import "package:flutter/material.dart";
 
-// api
-import "package:kikoeru/api/WorkRequest/httpRequests.dart";
+// frb
+import "package:kikoeru/src/rust/api/requests/config/types.dart";
 
 // pages
 import "package:kikoeru/pages/HomePage/pages/SearchPage.dart";
@@ -14,13 +14,7 @@ Widget HomePageTitle(
 ) {
   return Row(
     children: [
-      Text(
-        title,
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
+      Text(title, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
       SizedBox(width: 16),
       Expanded(
         child: Container(
@@ -38,17 +32,20 @@ Widget HomePageTitle(
                 color: Theme.of(context).iconTheme.color,
               ),
               border: InputBorder.none,
-              contentPadding:
-                  EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              contentPadding: EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 15,
+              ),
             ),
             onSubmitted: (value) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SearchWorksPage(
-                    type: SearchType.STRING,
-                    query: searchController.text,
-                  ),
+                  builder:
+                      (context) => SearchWorksPage(
+                        type: SearchType.string,
+                        query: searchController.text,
+                      ),
                 ),
               );
             },

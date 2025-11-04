@@ -1,10 +1,12 @@
 // flutter
 import "dart:convert";
-
 import "package:flutter/material.dart";
 
-// api
-import "package:kikoeru/api/WorkRequest/httpRequests.dart";
+// frb
+import "package:kikoeru/src/rust/api/requests/interface.dart";
+
+// config
+import "package:kikoeru/core/utils/Auth.dart";
 
 // class
 import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
@@ -13,8 +15,11 @@ import "package:kikoeru/class/WorkInfo/models/OtherLangInDBClass.dart";
 // pages
 import "package:kikoeru/pages/WorkDetail/pages/WorkDetailPage.dart";
 
-Widget getMutiLang(BuildContext context, List<OtherlanginDBClass> langs,
-    {bool isDetail = false}) {
+Widget getMutiLang(
+  BuildContext context,
+  List<OtherlanginDBClass> langs, {
+  bool isDetail = false,
+}) {
   return Wrap(
     spacing: 6,
     runSpacing: 6,
@@ -37,41 +42,42 @@ Widget getMutiLang(BuildContext context, List<OtherlanginDBClass> langs,
         ),
       ),
       if (isDetail)
-        ...langs.map(
-          (lang) {
-            return GestureDetector(
-              onTap: () async {
-                final workInfo = await Request.getWorkInfo(lang.ID.toString());
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WorkPage(
-                      work: WorkInfo(work: jsonDecode(workInfo)),
-                    ),
-                  ),
-                );
-              },
-              child: Container(
-                padding: EdgeInsets.only(bottom: 1.0),
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Color.fromARGB(255, 11, 155, 244),
-                      width: 1.0,
-                    ),
-                  ),
+        ...langs.map((lang) {
+          return GestureDetector(
+            onTap: () async {
+              final workInfo = await getWorkInfo(
+                id: lang.ID.toString(),
+                authHeader: getAuthHeader(),
+              );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) =>
+                          WorkPage(work: WorkInfo(work: jsonDecode(workInfo))),
                 ),
-                child: Text(
-                  lang.lang,
-                  style: const TextStyle(
-                    fontSize: 14,
+              );
+            },
+            child: Container(
+              padding: EdgeInsets.only(bottom: 1.0),
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
                     color: Color.fromARGB(255, 11, 155, 244),
+                    width: 1.0,
                   ),
                 ),
               ),
-            );
-          },
-        ),
+              child: Text(
+                lang.lang,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color.fromARGB(255, 11, 155, 244),
+                ),
+              ),
+            ),
+          );
+        }),
     ],
   );
 }

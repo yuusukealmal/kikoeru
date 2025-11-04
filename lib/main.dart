@@ -1,6 +1,9 @@
 // flutter
 import "package:flutter/material.dart";
 
+// frb
+import 'package:kikoeru/src/rust/frb_generated.dart';
+
 // 3rd lib
 import "package:provider/provider.dart";
 import "package:logger/web.dart";
@@ -20,6 +23,7 @@ final routeObserver = RouteObserver<ModalRoute<void>>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await RustLib.init();
   await SharedPreferencesHelper.init();
 
   final audioProvider = AudioProvider();
