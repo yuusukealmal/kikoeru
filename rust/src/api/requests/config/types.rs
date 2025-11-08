@@ -134,7 +134,6 @@ impl LoginClass {
     pub fn from_str(s: &str) -> Self {
         let json: serde_json::Value = serde_json::from_str(s).unwrap();
         let user = json["user"].as_object().unwrap().clone();
-        println!("{:?}", user);
         let token = json["token"].as_str().unwrap().to_string();
         Self {
             user: User::from_str(&serde_json::to_string(&user).unwrap()),
