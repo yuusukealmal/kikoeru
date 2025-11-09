@@ -94,7 +94,7 @@ impl SearchType {
             SearchType::String => query,
             SearchType::Vas => format!("$va:{}$", query),
             SearchType::Circle => format!("$circle:{}$", query),
-            SearchType::Tag => format!("$tag:{}s$", query),
+            SearchType::Tag => format!("$tag:{}$", query),
         }
     }
 }
