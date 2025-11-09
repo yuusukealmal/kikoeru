@@ -1,12 +1,11 @@
 class CircleClass {
-  CircleClass({required this.circleDetail}) {
-    id = circleDetail["id"] ?? 0;
-    name = circleDetail["name"] ?? "";
-    sourceID = circleDetail["source_id"] ?? "";
-    srouceType = circleDetail["source_type"] ?? "";
+  CircleClass.fromMap(Map<String, dynamic> map) {
+    id = map["id"] ?? 0;
+    name = map["name"] ?? "";
+    sourceID = map["source_id"] ?? "";
+    srouceType = map["source_type"] ?? "";
   }
 
-  final Map<String, dynamic> circleDetail;
   late final int id;
   late final String name;
   late final String sourceID;

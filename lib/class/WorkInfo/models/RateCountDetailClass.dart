@@ -1,11 +1,10 @@
 class RatecountDetailClass {
-  RatecountDetailClass({required this.rateDetail}) {
-    reviewCount = rateDetail["review_point"] ?? 0;
-    count = rateDetail["count"] ?? 0;
-    ratio = rateDetail["ratio"] ?? 0;
+  RatecountDetailClass.fromMap(Map<String, dynamic> map) {
+    reviewCount = map["review_point"] ?? 0;
+    count = map["count"] ?? 0;
+    ratio = map["ratio"] ?? 0;
   }
 
-  final Map<String, dynamic> rateDetail;
   late final int reviewCount;
   late final int count;
   late final int ratio;

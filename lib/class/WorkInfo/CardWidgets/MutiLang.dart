@@ -53,8 +53,9 @@ Widget getMutiLang(
                 context,
                 MaterialPageRoute(
                   builder:
-                      (context) =>
-                          WorkPage(work: WorkInfo(work: jsonDecode(workInfo))),
+                      (context) => WorkPage(
+                        work: WorkInfo.fromMap(jsonDecode(workInfo)),
+                      ),
                 ),
               );
             },

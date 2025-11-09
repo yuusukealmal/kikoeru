@@ -15,11 +15,8 @@ import "package:kikoeru/class/WorkInfo/WorkInfo.dart";
 import "package:kikoeru/class/SearchResult/SearchResult.dart";
 
 abstract class BasePage extends StatefulWidget {
-  final Future<String> Function(
-    int page,
-    bool hasLanguage,
-    int order,
-  ) fetchWorks;
+  final Future<String> Function(int page, bool hasLanguage, int order)
+  fetchWorks;
 
   const BasePage({super.key, required this.fetchWorks});
 
@@ -65,10 +62,12 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
     });
 
     try {
-      String response =
-          await widget.fetchWorks(currentPage, hasLanguage, sortIndex);
-      Searchresult searchresult =
-          Searchresult(searchResultDetail: jsonDecode(response));
+      String response = await widget.fetchWorks(
+        currentPage,
+        hasLanguage,
+        sortIndex,
+      );
+      Searchresult searchresult = Searchresult.fromMap(jsonDecode(response));
 
       if (!mounted) return;
 
@@ -82,9 +81,9 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
       setState(() {
         _isLoading = false;
       });
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("發生錯誤：$e")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("發生錯誤：$e")));
     }
   }
 
@@ -135,9 +134,7 @@ abstract class BasePageState<T extends BasePage> extends State<T> {
           onHasLanguageChange,
         ),
         if (works.isEmpty)
-          Expanded(
-            child: Center(child: Text("沒有資料可以顯示")),
-          )
+          Expanded(child: Center(child: Text("沒有資料可以顯示")))
         else ...[
           HomePageCardView(works, _scrollController),
           HomePageFooter(

@@ -1,16 +1,14 @@
-class Translatebonuslangsclass {
-  Translatebonuslangsclass({required this.translateBonusLangsDetail}) {
-    price = translateBonusLangsDetail["price"] ?? 0;
-    status = translateBonusLangsDetail["status"] ?? "";
-    priceTax = translateBonusLangsDetail["price_tax"] ?? 0;
-    childCount = translateBonusLangsDetail["child_count"] ?? 0;
-    priceInTax = translateBonusLangsDetail["price_in_tax"] ?? 0;
-    recipientMax = translateBonusLangsDetail["recipient_max"] ?? 0;
-    recipientAvailableCount =
-        translateBonusLangsDetail["recipient_available_count"] ?? 0;
+class TranslatebonuslangsClass {
+  TranslatebonuslangsClass.fromMap(Map<String, dynamic> map) {
+    price = map["price"] ?? 0;
+    status = map["status"] ?? "";
+    priceTax = map["price_tax"] ?? 0;
+    childCount = map["child_count"] ?? 0;
+    priceInTax = map["price_in_tax"] ?? 0;
+    recipientMax = map["recipient_max"] ?? 0;
+    recipientAvailableCount = map["recipient_available_count"] ?? 0;
   }
 
-  final Map<String, dynamic> translateBonusLangsDetail;
   late final int price;
   late final String status;
   late final int priceTax;

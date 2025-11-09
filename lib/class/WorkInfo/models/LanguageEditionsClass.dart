@@ -1,14 +1,13 @@
 class LanguageEditionsClass {
-  LanguageEditionsClass({required this.languageDitionsDetail}) {
-    lang = languageDitionsDetail["lang"] ?? "";
-    lable = languageDitionsDetail["lable"] ?? "";
-    workno = languageDitionsDetail["workno"] ?? "";
-    editionID = languageDitionsDetail["edition_id"] ?? 0;
-    editionType = languageDitionsDetail["edition_type"] ?? "";
-    displayOrder = languageDitionsDetail["display_order"] ?? 0;
+  LanguageEditionsClass.fromMap(Map<String, dynamic> map) {
+    lang = map["lang"] ?? "";
+    lable = map["lable"] ?? "";
+    workno = map["workno"] ?? "";
+    editionID = map["edition_id"] ?? 0;
+    editionType = map["edition_type"] ?? "";
+    displayOrder = map["display_order"] ?? 0;
   }
 
-  final Map<String, dynamic> languageDitionsDetail;
   late final String lang;
   late final String lable;
   late final String workno;

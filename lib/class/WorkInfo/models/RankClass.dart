@@ -1,12 +1,11 @@
 class RankClass {
-  RankClass({required this.rankDetail}) {
-    term = rankDetail["term"] ?? "";
-    category = rankDetail["category"] ?? "";
-    rank = rankDetail["rank"] ?? 0;
-    rankDate = rankDetail["rank_date"] ?? "";
+  RankClass.fromMap(Map<String, dynamic> map) {
+    term = map["term"] ?? "";
+    category = map["category"] ?? "";
+    rank = map["rank"] ?? 0;
+    rankDate = map["rank_date"] ?? "";
   }
 
-  final Map<String, dynamic> rankDetail;
   late final String term;
   late final String category;
   late final int rank;

@@ -6,13 +6,15 @@ List<dynamic> getSubTitleClass(String content) {
   final lines = content.split("\n");
   final List<dynamic> subtitles = [];
 
-  bool isLrcFormat = lines.any((line) => LrcClass.isLrc.hasMatch(line.trim()));
+  bool isLrcFormat = lines.any(
+    (line) => LrcClass.isLrcRegex.hasMatch(line.trim()),
+  );
 
   if (isLrcFormat) {
     for (String line in lines) {
       final content = line.trim();
-      if (LrcClass.isLrc.hasMatch(content)) {
-        subtitles.add(LrcClass(LrcText: content));
+      if (LrcClass.isLrcRegex.hasMatch(content)) {
+        subtitles.add(LrcClass.fromString(content));
       }
     }
   } else {
@@ -27,7 +29,7 @@ List<dynamic> getSubTitleClass(String content) {
           j++;
         }
         if (text.trim().isNotEmpty) {
-          subtitles.add(VttClass(VttString: (times, text.trim())));
+          subtitles.add(VttClass.fromTuple((times, text.trim())));
         }
       }
     }
@@ -43,7 +45,7 @@ String getCurrentSubtitle(Duration currentPosition, List<dynamic> subtitles) {
     if (subtitle is VttClass) {
       if (currentPosition >= subtitle.start &&
           currentPosition <= subtitle.end) {
-        return subtitle.text;
+        return subtitle.lyric;
       }
     } else if (subtitle is LrcClass) {
       if (currentPosition >= subtitle.time) {

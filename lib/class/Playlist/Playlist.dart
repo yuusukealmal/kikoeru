@@ -1,5 +1,5 @@
 class Playlist {
-  Playlist({required this.playlistDetail}) {
+  Playlist.fromMap(Map<String, dynamic> playlistDetail) {
     id = playlistDetail["id"];
     userName = playlistDetail["user_name"];
     privacy = playlistDetail["privacy"];
@@ -11,7 +11,6 @@ class Playlist {
     updatedAt = playlistDetail["updated_at"];
   }
 
-  final Map<String, dynamic> playlistDetail;
   late final String id;
   late final String userName;
   late final int privacy;

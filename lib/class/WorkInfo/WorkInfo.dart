@@ -16,33 +16,32 @@ import "package:kikoeru/class/WorkInfo/models/TranslateInfoClass.dart";
 import "package:kikoeru/class/WorkInfo/models/CircleClass.dart";
 
 class WorkInfo {
-  WorkInfo({required this.work}) {
-    id = work["id"] ?? 0;
-    title = work["title"] ?? "";
-    circleID = work["circle_id"] ?? 0;
-    name = work["name"] ?? "";
-    NFSW = work["nsfw"] ?? false;
-    release = work["release"] ?? "";
-    dlCount = work["dl_count"] ?? 0;
-    price = work["price"] ?? 0;
-    reviewCount = work["review_count"] ?? 0;
-    rateCount = work["rate_count"] ?? 0;
-    rateAverage2dp = (work["rate_average_2dp"]?.toDouble()) ?? 0.0;
-    rateCountDetail = (work["rate_count_detail"] as List?)
-            ?.map((e) => RatecountDetailClass(rateDetail: e))
+  WorkInfo.fromMap(Map<String, dynamic> map) {
+    id = map["id"] ?? 0;
+    title = map["title"] ?? "";
+    circleID = map["circle_id"] ?? 0;
+    name = map["name"] ?? "";
+    NFSW = map["nsfw"] ?? false;
+    release = map["release"] ?? "";
+    dlCount = map["dl_count"] ?? 0;
+    price = map["price"] ?? 0;
+    reviewCount = map["review_count"] ?? 0;
+    rateCount = map["rate_count"] ?? 0;
+    rateAverage2dp = (map["rate_average_2dp"]?.toDouble()) ?? 0.0;
+    rateCountDetail =
+        (map["rate_count_detail"] as List?)
+            ?.map((e) => RatecountDetailClass.fromMap(e))
             .toList() ??
         [];
     rank =
-        (work["rank"] as List?)?.map((e) => RankClass(rankDetail: e)).toList();
-    hasSubTitle = work["has_subtitle"] ?? false;
-    createData = work["create_date"] ?? "";
-    vas = (work["vas"] as List?)?.map((e) => VasClass(vasDetail: e)).toList() ??
-        [];
+        (map["rank"] as List?)?.map((e) => RankClass.fromMap(e)).toList() ?? [];
+    hasSubTitle = map["has_subtitle"] ?? false;
+    createData = map["create_date"] ?? "";
+    vas = (map["vas"] as List?)?.map((e) => VasClass.fromMap(e)).toList() ?? [];
     tags =
-        (work["tags"] as List?)?.map((e) => TagClass(tagDetail: e)).toList() ??
-            [];
+        (map["tags"] as List?)?.map((e) => TagClass.fromMap(e)).toList() ?? [];
     languageEditions = () {
-      final langEditions = work["language_editions"];
+      final langEditions = map["language_editions"];
       if (langEditions == null) return <LanguageEditionsClass>[];
 
       final List<Map<String, dynamic>> editionsList;
@@ -55,32 +54,29 @@ class WorkInfo {
         return <LanguageEditionsClass>[];
       }
 
-      return editionsList
-          .map((e) => LanguageEditionsClass(languageDitionsDetail: e))
-          .toList();
+      return editionsList.map((e) => LanguageEditionsClass.fromMap(e)).toList();
     }();
-    orginalWorkNo = work["original_workno"];
-    otherLangEditionsInDB = (work["other_language_editions_in_db"] as List?)
-            ?.map((e) => OtherlanginDBClass(otherlanginDBDetail: e))
+    orginalWorkNo = map["original_workno"];
+    otherLangEditionsInDB =
+        (map["other_language_editions_in_db"] as List?)
+            ?.map((e) => OtherlanginDBClass.fromMap(e))
             .toList() ??
         [];
-    translateInfo =
-        TranslateInfoClass(translateInfoDetail: work["translation_info"]);
-    workAttributes = work["work_attributes"] ?? "";
-    ageCategoryString = work["age_category_string"] ?? "";
-    duration = work["duration"] ?? 0;
-    sourceType = work["source_type"] ?? "";
-    sourceID = work["source_id"] ?? "";
-    sourceURL = work["source_url"] ?? "";
-    userRating = work["userRating"];
-    playlistStatus = work["playlistStatus"] as Map<String, dynamic>?;
-    circle = CircleClass(circleDetail: work["circle"] ?? {});
-    samCoverUrl = work["samCoverUrl"] ?? "";
-    thumbnailCoverUrl = work["thumbnailCoverUrl"] ?? "";
-    mainCoverUrl = work["mainCoverUrl"] ?? "";
+    translateInfo = TranslateInfoClass.fromMap(map["translation_info"]);
+    workAttributes = map["work_attributes"] ?? "";
+    ageCategoryString = map["age_category_string"] ?? "";
+    duration = map["duration"] ?? 0;
+    sourceType = map["source_type"] ?? "";
+    sourceID = map["source_id"] ?? "";
+    sourceURL = map["source_url"] ?? "";
+    userRating = map["userRating"];
+    playlistStatus = map["playlistStatus"] as Map<String, dynamic>?;
+    circle = CircleClass.fromMap(map["circle"] ?? {});
+    samCoverUrl = map["samCoverUrl"] ?? "";
+    thumbnailCoverUrl = map["thumbnailCoverUrl"] ?? "";
+    mainCoverUrl = map["mainCoverUrl"] ?? "";
   }
 
-  final Map<String, dynamic> work;
   late final int id;
   late final String title;
   late final int circleID;

@@ -2,30 +2,27 @@
 import "package:kikoeru/class/TrackInfo/models/TrackInfoMediaClass.dart";
 
 abstract class TrackInfo {
-  TrackInfo(Map<String, dynamic> jsonDecode, {required this.track}) {
-    type = track["type"];
-    title = track["title"];
+  TrackInfo.fromMap(Map<String, dynamic> map) {
+    type = map["type"];
+    title = map["title"];
   }
 
-  static TrackInfo create(Map<String, dynamic> track) {
-    final type = track["type"];
+  static TrackInfo create(Map<String, dynamic> map) {
+    final type = map["type"];
     switch (type) {
       case "text":
-        return TypeMediaClass(track: track);
       case "image":
-        return TypeMediaClass(track: track);
-      case "audio":
-        return TypeAudioClass(track: track);
-      case "folder":
-        return TypeFolderClass(track: track);
       case "other":
-        return TypeMediaClass(track: track);
+        return TypeMediaClass.fromMap(map);
+      case "audio":
+        return TypeAudioClass.fromMap(map);
+      case "folder":
+        return TypeFolderClass.fromMap(map);
       default:
         throw UnsupportedError("Unsupported track type: $type");
     }
   }
 
-  final Map<String, dynamic> track;
   late final String type;
   late final String title;
 }

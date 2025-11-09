@@ -47,9 +47,7 @@ Future<void> login(
     try {
       String playlist = await getPlayList(authHeader: getAuthHeader());
 
-      final Playlist playlistInfo = Playlist(
-        playlistDetail: jsonDecode(playlist),
-      );
+      final Playlist playlistInfo = Playlist.fromMap(jsonDecode(playlist));
       SharedPreferencesHelper.setString("USER.PLAYLIST", playlistInfo.id);
 
       Navigator.pushReplacement(

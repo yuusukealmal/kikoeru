@@ -2,42 +2,40 @@
 import "package:kikoeru/class/WorkInfo/models/TranslateBonusLangsClass.dart";
 
 class TranslateInfoClass {
-  TranslateInfoClass({required this.translateInfoDetail}) {
-    lang = translateInfoDetail["lang"];
-    isChild = translateInfoDetail["is_child"] ?? false;
-    isParent = translateInfoDetail["is_parent"] ?? false;
-    isOriginal = translateInfoDetail["is_original"] ?? false;
-    isVolunteer = translateInfoDetail["is_volunteer"] ?? false;
-    childWorknos = translateInfoDetail["child_worknos"] ?? [];
-    parentWoerkno = translateInfoDetail["parent_woerkno"];
-    originalWorkno = translateInfoDetail["original_workno"];
-    isTranslationAgree = translateInfoDetail["is_translation_agree"] ?? false;
+  TranslateInfoClass.fromMap(Map<String, dynamic> map) {
+    lang = map["lang"];
+    isChild = map["is_child"] ?? false;
+    isParent = map["is_parent"] ?? false;
+    isOriginal = map["is_original"] ?? false;
+    isVolunteer = map["is_volunteer"] ?? false;
+    childWorknos = map["child_worknos"] ?? [];
+    parentWoerkno = map["parent_woerkno"];
+    originalWorkno = map["original_workno"];
+    isTranslationAgree = map["is_translation_agree"] ?? false;
     translationBonusLangs = () {
-      final translationBonusLangsDetail =
-          translateInfoDetail["translation_bonus_langs"];
+      final translationBonusLangsDetail = map["translation_bonus_langs"];
       if (translationBonusLangsDetail == null) {
-        return <Translatebonuslangsclass>[];
+        return <TranslatebonuslangsClass>[];
       }
       final List<Map<String, dynamic>> translateBonusLangsList;
       if (translationBonusLangsDetail is Map<String, dynamic>) {
-        translateBonusLangsList = translationBonusLangsDetail.values
-            .cast<Map<String, dynamic>>()
-            .toList();
+        translateBonusLangsList =
+            translationBonusLangsDetail.values
+                .cast<Map<String, dynamic>>()
+                .toList();
       } else if (translationBonusLangsDetail is List) {
         translateBonusLangsList =
             translationBonusLangsDetail.cast<Map<String, dynamic>>();
       } else {
-        return <Translatebonuslangsclass>[];
+        return <TranslatebonuslangsClass>[];
       }
       return translateBonusLangsList
-          .map((e) => Translatebonuslangsclass(translateBonusLangsDetail: e))
+          .map((e) => TranslatebonuslangsClass.fromMap(e))
           .toList();
     }();
-    isTranslationBonusParent =
-        translateInfoDetail["is_translation_bonus_parent"] ?? false;
+    isTranslationBonusParent = map["is_translation_bonus_parent"] ?? false;
   }
 
-  final Map<String, dynamic> translateInfoDetail;
   late final String? lang;
   late final bool isChild;
   late final bool isParent;
@@ -47,6 +45,6 @@ class TranslateInfoClass {
   late final String? parentWoerkno;
   late final String? originalWorkno;
   late final bool isTranslationAgree;
-  late final List<Translatebonuslangsclass> translationBonusLangs;
+  late final List<TranslatebonuslangsClass> translationBonusLangs;
   late final bool isTranslationBonusParent;
 }

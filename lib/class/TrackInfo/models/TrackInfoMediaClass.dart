@@ -3,14 +3,13 @@ import "package:kikoeru/class/TrackInfo/TrackInfo.dart";
 import "package:kikoeru/class/TrackInfo/models/TrackInfoWorkDetailClass.dart";
 
 class TypeMediaClass extends TrackInfo {
-  TypeMediaClass({required super.track}) : super(track) {
-    hash = track["hash"] ?? "";
-    trackInfoWorkDetail =
-        TrackInfoWorkDetailClass(trackInfoWorkDetail: track["work"]);
-    workTitle = track["workTitle"] ?? "";
-    mediaStreamUrl = track["mediaStreamUrl"] ?? "";
-    mediaDownloadUrl = track["mediaDownloadUrl"] ?? "";
-    size = track["size"] ?? 0;
+  TypeMediaClass.fromMap(Map<String, dynamic> map) : super.fromMap(map) {
+    hash = map["hash"] ?? "";
+    trackInfoWorkDetail = TrackInfoWorkDetailClass.fromMap(map["work"]);
+    workTitle = map["workTitle"] ?? "";
+    mediaStreamUrl = map["mediaStreamUrl"] ?? "";
+    mediaDownloadUrl = map["mediaDownloadUrl"] ?? "";
+    size = map["size"] ?? 0;
   }
 
   late final String hash;
@@ -22,16 +21,15 @@ class TypeMediaClass extends TrackInfo {
 }
 
 class TypeAudioClass extends TrackInfo {
-  TypeAudioClass({required super.track}) : super(track) {
-    hash = track["hash"] ?? "";
-    trackInfoWorkDetail =
-        TrackInfoWorkDetailClass(trackInfoWorkDetail: track["work"]);
-    workTitle = track["workTitle"] ?? "";
-    mediaStreamUrl = track["mediaStreamUrl"] ?? "";
-    mediaDownloadUrl = track["mediaDownloadUrl"] ?? "";
-    streamLowQualityUrl = track["streamLowQualityUrl"] ?? "";
-    duration = track["duration"].toDouble() ?? 0;
-    size = track["size"] ?? 0;
+  TypeAudioClass.fromMap(Map<String, dynamic> map) : super.fromMap(map) {
+    hash = map["hash"] ?? "";
+    trackInfoWorkDetail = TrackInfoWorkDetailClass.fromMap(map["work"]);
+    workTitle = map["workTitle"] ?? "";
+    mediaStreamUrl = map["mediaStreamUrl"] ?? "";
+    mediaDownloadUrl = map["mediaDownloadUrl"] ?? "";
+    streamLowQualityUrl = map["streamLowQualityUrl"] ?? "";
+    duration = map["duration"].toDouble() ?? 0;
+    size = map["size"] ?? 0;
   }
 
   late final String hash;
@@ -45,10 +43,11 @@ class TypeAudioClass extends TrackInfo {
 }
 
 class TypeFolderClass extends TrackInfo {
-  TypeFolderClass({required super.track}) : super(track) {
-    children = (track["children"] as List<dynamic>? ?? []).map((childTrack) {
-      return TrackInfo.create(childTrack);
-    }).toList();
+  TypeFolderClass.fromMap(Map<String, dynamic> map) : super.fromMap(map) {
+    children =
+        (map["children"] as List<dynamic>? ?? []).map((childTrack) {
+          return TrackInfo.create(childTrack);
+        }).toList();
   }
 
   late final List<TrackInfo> children;
