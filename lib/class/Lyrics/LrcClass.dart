@@ -14,7 +14,7 @@ class LrcClass {
     String lyric = lyricRegex.firstMatch(text)!.group(1)!;
 
     time = time;
-    text = lyric;
+    lyric = lyric;
   }
 
   late final Duration time;
