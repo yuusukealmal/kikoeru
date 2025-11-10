@@ -53,7 +53,7 @@ String getCurrentSubtitle(Duration currentPosition, List<dynamic> subtitles) {
             (i + 1 < subtitles.length &&
                 subtitles[i + 1] is LrcClass &&
                 currentPosition < (subtitles[i + 1] as LrcClass).time)) {
-          return subtitle.text;
+          return subtitle.lyric;
         }
       }
     }

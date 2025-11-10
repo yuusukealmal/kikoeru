@@ -18,5 +18,5 @@ class LrcClass {
   }
 
   late final Duration time;
-  late final String text;
+  late final String lyric;
 }
